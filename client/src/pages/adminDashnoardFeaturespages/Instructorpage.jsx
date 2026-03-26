@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   LineChart,
   Line,
@@ -12,9 +12,16 @@ import {
 } from "recharts";
 import Header from "../../components/home/Header";
 import AdminSidebar from "../../components/AdminDashboard.jsx/AdminSidebar";
+import axios from "axios";
+import AddInstructor from "../../components/AdminDashboard.jsx/AddInstructor";
+import ActionDisplay from "../../components/ActionDisplay";
 
 const InstructorPage = () => {
-
+ const [action,setAction]=useState({
+  show:false,
+  message:"",
+  type:""
+ })
   /* ---------------- Growth Data ---------------- */
 
   const instructorGrowth = [
@@ -32,20 +39,35 @@ const InstructorPage = () => {
     { name: "Python", instructors: 7 },
     { name: "AI", instructors: 5 },
   ];
-
+  const [onOpenAddInst,setOnOpenAddInst]=useState(false)
   /* ---------------- Table Data ---------------- */
 
-  const instructors = [
-    { id: 1, name: "Amit Sharma", email: "amit@gmail.com", course: "React" },
-    { id: 2, name: "Priya Mehta", email: "priya@gmail.com", course: "Node.js" },
-    { id: 3, name: "Rahul Verma", email: "rahul@gmail.com", course: "Python" },
-    { id: 4, name: "Sneha Reddy", email: "sneha@gmail.com", course: "AI Basics" },
-  ];
+   const [instructors,setInstructors]=useState([]);
+    const handleGetInstructors=async()=>{
+    try {
+      const res= await axios.get("http://localhost:5000/admin/instructors",{withCredentials:true});
+      setInstructors(res.data?.data || [])
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
+  useEffect(()=>{
+   handleGetInstructors();
+  },[onOpenAddInst])
 
   return (
     <>
     <Header/>
     <AdminSidebar/>
+ {action.show && (
+  <ActionDisplay
+    message={action.message}
+    type={action.type}
+    onClose={() => setAction((prev) => ({ ...prev, show: false }))}
+  />
+)}
+    {onOpenAddInst&&(
+    <AddInstructor setOnOpenAddInst={setOnOpenAddInst} setAction={setAction}/>)}
     <div className="md:mt-[66px] mt-[55px] md:ml-[280px] bg-gray-100 p-1  md:p-6">
 
       {/* Heading */}
@@ -55,7 +77,7 @@ const InstructorPage = () => {
         <p className="text-gray-500">Track instructor growth and activity.</p>
 
       </div>
-        <button className="bg-blue-600 text-white px-5 py-2 rounded-xl hover:bg-blue-700">
+        <button onClick={()=>setOnOpenAddInst(true)} className="bg-blue-600 text-white px-5 py-2 rounded-xl hover:bg-blue-700">
           + Add Instructor
         </button>
         </div>
@@ -111,15 +133,33 @@ const InstructorPage = () => {
 
           <tbody>
             {instructors.map((instructor) => (
-              <tr key={instructor.id} className="border-t hover:bg-gray-50">
+              <tr key={instructor?.instructor.id} className="border-t hover:bg-gray-50">
 
-                <td className="p-4 font-medium">{instructor.name}</td>
+                <td className="p-4 font-medium">{instructor?.instructor.name}</td>
 
-                <td className="p-4 text-gray-600">{instructor.email}</td>
+                <td className="p-4 text-gray-600">{instructor?.instructor.email}</td>
+<td className="p-4 relative group">
 
-                <td className="p-4">{instructor.course}</td>
+  {/* Show only first course */}
+  <span className="font-medium group-hover:hidden">
+    {instructor?.course[0]?.title|| "Not yet"}
+  </span>
 
-                <td className="p-4 flex gap-3">
+  {/* Hover box */}
+  <div className="absolute left-0 z-50 top-4 transition-all duration-300 hidden group-hover:block 
+                  bg-white shadow-lg rounded-lg p-3 w-40 ">
+
+    {instructor?.course.map((item, index) => (
+      <div key={index} className="text-sm py-1 border-b last:border-none">
+        {item?.title || "Not yet"}
+      </div>
+    ))}
+
+  </div>
+
+</td>
+
+  <td className="p-4 flex gap-3">
                   <button className="bg-blue-600 text-white px-3 py-1 rounded-lg hover:bg-blue-700">
                     View
                   </button>

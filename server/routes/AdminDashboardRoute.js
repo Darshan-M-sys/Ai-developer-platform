@@ -6,7 +6,7 @@ const isAdmin=require("../middlewares/adminMiddleware")
 const isAuthenticated=require("../middlewares/authMiddleware");
 const { getUsers, getSingleUser, updateUser, delateUser } = require("../controllers/adminDashboardControllers/ManageUsers");
 const { createCourse, updateCourse, getSingleCourse, getAllCourses, deleteCourse } = require("../controllers/adminDashboardControllers/courseController");
-const { getAllInstructors } = require("../controllers/instructorsControllers");
+const { getAllInstructors, addInstructors } = require("../controllers/adminDashboardControllers/instructorsControllers");
 
 adminDashboardRoute.get("/stats",isAuthenticated,isAdmin,usersStat);
 adminDashboardRoute.get("/users",isAuthenticated,isAdmin,getUsers);
@@ -21,5 +21,6 @@ adminDashboardRoute.get("/course/:courseId",isAuthenticated,isAdmin,getSingleCou
 adminDashboardRoute.delete("/course/:courseId",isAuthenticated,isAdmin,deleteCourse);
 // instructor management
 adminDashboardRoute.get("/instructors",isAuthenticated,isAdmin,getAllInstructors);
+adminDashboardRoute.post("/instructors/create",isAuthenticated,isAdmin,upload.single("image"),addInstructors);
 
 module.exports=adminDashboardRoute;

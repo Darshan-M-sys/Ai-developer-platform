@@ -35,10 +35,11 @@ const CreateCourse = () => {
   
    const handleGetCourseData=async()=>{
       try {
+        if(state){
         const res= await axios.get(`http://localhost:5000/admin/course/${state}`,{withCredentials:true});
          setFormData((prev)=>({...prev,...res.data?.data,instructor:res.data?.data?.instructor?._id}))
          setIsUpdate(true)
-         
+        }
       } catch (error) {
         console.log(error)
       }
@@ -156,7 +157,7 @@ setFormData((prev)=>({...prev,[e.target.name]:e.target.value}))
             options={instructors.map((item)=>{
               return(
                 {
-              label:item.name,value:item._id
+              label:item.instructor?.name,value:item.instructor?._id
                 }
               )
             })}

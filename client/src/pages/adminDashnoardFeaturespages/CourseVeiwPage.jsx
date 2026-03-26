@@ -2,12 +2,13 @@ import axios from "axios";
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import Header from "../../components/home/Header";
 import AdminSidebar from "../../components/AdminDashboard.jsx/AdminSidebar";
 import {Link} from "react-router-dom"
 const CourseView = () => {
+  const nav=useNavigate()
   const [course,setCourse]=useState({});
   const {id}=useParams();
   const handleGetCourseData=async()=>{
@@ -19,9 +20,20 @@ const CourseView = () => {
     }
   }
 
+
   useEffect(()=>{
   handleGetCourseData();
   },[id])
+  const HandleCourseDelete=async()=>{
+    try {
+      const res= await axios.delete(`http://localhost:5000/admin/course/${id}`,{withCredentials:true});
+    if(res.data?.success){
+      nav("/admin/courses")
+    }
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
   return (
     <>
     <Header/>
@@ -44,7 +56,7 @@ const CourseView = () => {
               Edit Course
             </button></Link>
 
-            <button className="border border-gray-300 px-6 py-2 rounded-xl text-sm font-medium hover:bg-gray-100 transition">
+            <button onClick={HandleCourseDelete} className="border border-gray-300 px-6 py-2 rounded-xl text-sm font-medium hover:bg-gray-100 transition">
               Delete Course
             </button>
           </div>

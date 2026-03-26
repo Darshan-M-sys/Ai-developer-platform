@@ -20,6 +20,8 @@ import CoursesPage from './pages/adminDashnoardFeaturespages/CoursesPage'
 import AnalyticsPage from './pages/adminDashnoardFeaturespages/AnalyticsPage'
 import CreateCourse from './pages/adminDashnoardFeaturespages/CreateCourse'
 import CourseView from './pages/adminDashnoardFeaturespages/CourseVeiwPage'
+import LessonsPage from './pages/adminDashnoardFeaturespages/LessonPage'
+import AddLessonPage from './pages/adminDashnoardFeaturespages/AddLessonPage'
 const App = () => {
   return (
     <div>
@@ -37,6 +39,8 @@ const App = () => {
         <Route path="/admin/instructors" element={<InstructorPage/>}/>
         <Route path="/admin/courses" element={<CoursesPage />}/>
         <Route path="/admin/course/:id" element={<CourseView />}/>
+        <Route path="/admin/lesson/:id" element={<LessonsPage />}/>
+        <Route path="/admin/lesson/add" element={<AddLessonPage />}/>
         <Route path="/admin/analytics" element={<AnalyticsPage />}/>
         <Route path="/courses" element={<Courses/>}/>
         <Route path="/course/player" element={<CoursePlayer/>}/>

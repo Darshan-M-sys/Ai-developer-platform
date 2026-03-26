@@ -10,12 +10,12 @@ import {
 } from "recharts";
 import Header from "../../components/home/Header";
 import AdminSidebar from "../../components/AdminDashboard.jsx/AdminSidebar";
-import {Link} from  'react-router-dom'
+import {Link, useNavigate} from  'react-router-dom'
 import axios from "axios";
 import { useState } from "react";
 
 const CoursesPage = () => {
-
+ const nav=useNavigate()
   /* ---------------- Chart Data ---------------- */
 
   const courseStudents = [
@@ -24,7 +24,7 @@ const CoursesPage = () => {
     { name: "Python", students: 410 },
     { name: "AI", students: 290 },
   ];
-
+ const [isDeleted,setIsDeleted]=useState(false)
   /* ---------------- Table Data ---------------- */
 
  
@@ -39,7 +39,19 @@ const CoursesPage = () => {
  }
  useEffect(()=>{
 handleGetAllCourses();
- },[])
+ },[isDeleted])
+
+   const HandleCourseDelete=async(id)=>{
+     try {
+       const res= await axios.delete(`http://localhost:5000/admin/course/${id}`,{withCredentials:true});
+     if(res.data?.success){
+       nav("/admin/courses")
+       setIsDeleted(true)
+     }
+     } catch (error) {
+       console.log(error.message)
+     }
+   }
 
   return (
     <>
@@ -105,7 +117,7 @@ handleGetAllCourses();
                     Edit
                   </button>
 
-                  <button className="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600">
+                  <button  onClick={()=>HandleCourseDelete(course._id)} className="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600">
                     Delete
                   </button>
                 </td>
