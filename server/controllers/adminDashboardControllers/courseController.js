@@ -1,0 +1,85 @@
+const courses = require("../../models/courses");
+
+exports.createCourse=async(req,res)=>{
+  try {
+    const creatorId=req.session.user.id;
+    const {
+      title,
+      description,
+      instructor,
+      price,
+      category,
+      level,
+      duration,
+      youWillLearn,
+    }=req.body;
+   const  thumbnail=req.file?"http://"+req.host+"/uploads/"+req.file.filename:null;
+   const data = await courses.create({
+    creatorId,
+       title,
+      description,
+      instructor,
+      price,
+      category,
+      level,
+      duration,
+      youWillLearn,
+      thumbnail:thumbnail
+   });
+   res.status(200).json({message:"Created" ,data:data,success:true})
+  } catch (error) {
+    res.status(500).json({message:error.message})
+  }
+}
+
+exports.updateCourse=async(req,res)=>{
+  try {
+    const creatorId=req.session.user.id;
+    const courseId=req.params.courseId;
+    const courseData= await courses.findOne({_id:courseId,creatorId:creatorId});
+          courseData.title=req.body.title || courseData.title;
+          courseData.description=req.body.description || courseData.description;
+          courseData.instructor=!req.body.instructor?courseData.instructor:req.body.instructor;
+          courseData.title=req.body.title || courseData.title;
+          courseData.price=req.body.price || courseData.price;
+          courseData.level=req.body.level || courseData.level;
+          courseData.category=req.body.category || courseData.category;
+          courseData.youWillLearn=req.body.youWillLearn || courseData.youWillLearn;
+          courseData.duration=req.body.duration || courseData.duration;
+          courseData.thumbnail=req.file?"http://"+req.host+"/uploads/"+req.file.filename: courseData.thumbnail;
+          await courseData.save();
+  
+   res.status(200).json({message:"updated!" ,data:courseData,success:true})
+  } catch (error) {
+    console.log(error.message)
+    res.status(500).json({message:error.message})
+  }
+}
+
+exports.getAllCourses=async(req,res)=>{
+  try {
+    const coursesData= await courses.find({}).populate("instructor");
+    res.status(200).json({data:coursesData});
+  } catch (error) {
+    res.status(500).json({message:error.message})
+  }
+}
+exports.getSingleCourse=async(req,res)=>{
+  try {
+    const courseId=req.params.courseId;
+    const coursesData= await courses.findOne({_id:courseId}).populate("instructor");
+    res.status(200).json({data:coursesData});
+  } catch (error) {
+    res.status(500).json({message:error.message})
+  }
+}
+
+exports.deleteCourse=async(req,res)=>{
+  try {
+    const courseId= req.params.courseId;
+   await courses.findOneAndDelete({_id:courseId});
+    res.status(200).json({success:true,message:"Deleted!"});
+  } catch (error) {
+    res.status(500).json({message:error.message})
+  }
+}

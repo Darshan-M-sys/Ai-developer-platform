@@ -1,0 +1,37 @@
+@tailwind utilities;
+@tailwind base;
+@tailwind components;
+
+.scrollBar {
+  scrollbar-width: none;      /* Firefox */
+  -ms-overflow-style: none;   /* Internet Explorer */
+}
+
+.scrollBar::-webkit-scrollbar {
+  display: none;              /* Chrome, Edge, Safari */
+}
+.loading-animate{
+  transition: all 0.3s ease-in;
+  animation: scaling 1s linear infinite;
+}
+
+@keyframes scaling{
+ 100%, 0%{
+   transform: scale(0.2);
+  }
+  50%{
+      transform: scale(1);
+  }
+}
+
+.zoom{
+  animation: zooming 0.3s ;
+}
+@keyframes zooming{
+  0%{
+    transform:scale(0.4);
+  }
+  100%{
+      transform: scale(1);
+  }
+}
