@@ -7,6 +7,8 @@ const isAuthenticated=require("../middlewares/authMiddleware");
 const { getUsers, getSingleUser, updateUser, delateUser } = require("../controllers/adminDashboardControllers/ManageUsers");
 const { createCourse, updateCourse, getSingleCourse, getAllCourses, deleteCourse } = require("../controllers/adminDashboardControllers/courseController");
 const { getAllInstructors, addInstructors } = require("../controllers/adminDashboardControllers/instructorsControllers");
+const uploadVideo = require("../middlewares/videoUploadMiddleware");
+const { createLesson, updateLesson, deleteLesson, getSingleLesson, getAllLesson } = require("../controllers/adminDashboardControllers/lessonController");
 
 adminDashboardRoute.get("/stats",isAuthenticated,isAdmin,usersStat);
 adminDashboardRoute.get("/users",isAuthenticated,isAdmin,getUsers);
@@ -22,5 +24,10 @@ adminDashboardRoute.delete("/course/:courseId",isAuthenticated,isAdmin,deleteCou
 // instructor management
 adminDashboardRoute.get("/instructors",isAuthenticated,isAdmin,getAllInstructors);
 adminDashboardRoute.post("/instructors/create",isAuthenticated,isAdmin,upload.single("image"),addInstructors);
-
+// lesson management
+adminDashboardRoute.post("/lesson/create/:courseId",isAuthenticated,isAdmin,uploadVideo.single("video"),createLesson);
+adminDashboardRoute.put("/lesson/:lessonId",isAuthenticated,isAdmin,uploadVideo.single("video"),updateLesson);
+adminDashboardRoute.delete("/lesson/:lessonId",isAuthenticated,isAdmin,deleteLesson);
+adminDashboardRoute.get("/lesson/:lessonId",isAuthenticated,isAdmin,getSingleLesson);
+adminDashboardRoute.get("/lessons/:courseId",isAuthenticated,isAdmin,getAllLesson);
 module.exports=adminDashboardRoute;

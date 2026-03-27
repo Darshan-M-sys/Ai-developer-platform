@@ -1,33 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
-import video from "../assets/video.mp4"
-const lesson = {
-  title: "Introduction to Python",
-  courseTitle: "Python Basics",
-  instructor: "John Doe",
-  duration: "10 min",
-  video: "/video/python-intro.mp4",
-  description: `
-## Introduction to Python
+import axios from "axios";
+import {useParams} from "react-router-dom";
 
-Python is one of the most popular programming languages in the world.
+const LessonView = ({setNavData}) => {
+  const [lesson,setLesson]=useState({})
+  const {id}=useParams();
+  const handleLesson = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:5000/admin/lesson/${id}`,
+        { withCredentials: true }
+      );
+      setNavData({
+        title:res.data?.data?.title,
+        subTitle:res.data?.data?.subDescription,
+        lessonId:res.data?.data?._id
+      })
+      setLesson(res.data?.data|| {})
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-### In this lesson you will learn:
-- What Python is
-- Why Python is used
-- Where Python is used
-
-### Topics covered
-1. Python overview
-2. Python features
-3. First Python program
-
-> This lesson is for complete beginners.
-`
-};
-const LessonView = () => {
-  if (!lesson) return <div className="p-6">Select a lesson</div>;
-
+  useEffect(()=>{
+    if(id){
+      handleLesson();
+    }
+  },[id])
+  
   return (
     <div className="flex-1 p-6 md:p-10 bg-gray-50 min-h-screen">
 
@@ -39,17 +40,17 @@ const LessonView = () => {
         <video
           controls
           className="w-full  h-full object-cover"
-          src={video}
+          src={lesson.videoUrl}
         />
       </div>
  <div className="flex flex-wrap gap-4 text-sm text-gray-600 mt-2">
-          <p><span className="font-medium">Course:</span> {"Python Programming "}</p>
-          <p><span className="font-medium">Instructor:</span> {"Darshan M"}</p>
-          <p><span className="font-medium">Duration:</span> {"30.s"}</p>
+          <p><span className="font-medium">Course:</span> {lesson.courseId?.title}</p>
+          <p><span className="font-medium">Instructor:</span> {lesson.instructor?.instructor?.name}</p>
+          <p><span className="font-medium">Duration:</span> {lesson.duration}</p>
         </div>
       {/* Description in Markdown */}
       <div className="bg-white rounded-xl shadow-sm md:p-6">
-        
+
 
         <h2 className="text-xl font-semibold mb-4">Lesson Description</h2>
 

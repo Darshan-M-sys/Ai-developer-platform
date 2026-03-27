@@ -9,21 +9,50 @@ import AdminSidebar from "../../components/AdminDashboard.jsx/AdminSidebar";
 import {Link} from "react-router-dom"
 const CourseView = () => {
   const nav=useNavigate()
-  const [course,setCourse]=useState({});
-  const {id}=useParams();
-  const handleGetCourseData=async()=>{
-    try {
-      const res= await axios.get(`http://localhost:5000/admin/course/${id}`,{withCredentials:true});
-      setCourse(res.data?.data || {})
-    } catch (error) {
-      console.log(error)
-    }
+const [course, setCourse] = useState({});
+const { id } = useParams();
+const [lessonId,setLessonId]=useState("")
+
+// Get course
+const handleGetCourseData = async () => {
+  try {
+    const res = await axios.get(
+      `http://localhost:5000/admin/course/${id}`,
+      { withCredentials: true }
+    );
+
+    setCourse(res.data?.data || {});
+  } catch (error) {
+    console.log(error);
   }
+};
 
+// Get lessons
+const handleLesson = async () => {
+  try {
+    const res = await axios.get(
+      `http://localhost:5000/admin/lessons/${course._id}`,
+      { withCredentials: true }
+    );
 
-  useEffect(()=>{
+    setLessonId(res.data?.data[0]?._id || "")
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// Load course when page loads
+useEffect(() => {
   handleGetCourseData();
-  },[id])
+}, [id]);
+
+// Load lessons AFTER course is loaded
+useEffect(() => {
+  if (!course._id) return;   // very important
+
+  handleLesson(course._id);
+}, [course._id]);
+
   const HandleCourseDelete=async()=>{
     try {
       const res= await axios.delete(`http://localhost:5000/admin/course/${id}`,{withCredentials:true});
@@ -118,9 +147,10 @@ const CourseView = () => {
         </div>
 
      <div className="flex flex-col sm:flex-row gap-4 mb-8">
-          <button className="bg-black text-white px-6 py-3 rounded-xl text-sm md:text-base font-medium hover:bg-gray-900 transition">
+        <Link to={`/admin/lesson/${course._id}/${lessonId}`}>  <button className="bg-black text-white px-6 py-3 rounded-xl text-sm md:text-base font-medium hover:bg-gray-900 transition">
+       
             View Lessons
-          </button>
+          </button> </Link>
 
           <button className="border border-gray-300 px-6 py-3 rounded-xl text-sm md:text-base font-medium hover:bg-gray-100 transition">
             Problems

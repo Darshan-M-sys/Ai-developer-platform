@@ -39,8 +39,8 @@ const App = () => {
         <Route path="/admin/instructors" element={<InstructorPage/>}/>
         <Route path="/admin/courses" element={<CoursesPage />}/>
         <Route path="/admin/course/:id" element={<CourseView />}/>
-        <Route path="/admin/lesson/:id" element={<LessonsPage />}/>
-        <Route path="/admin/lesson/add" element={<AddLessonPage />}/>
+        <Route path="/admin/lesson/:courseId/:id" element={<LessonsPage />}/>
+        <Route path="/admin/lesson/add/:courseId" element={<AddLessonPage />}/>
         <Route path="/admin/analytics" element={<AnalyticsPage />}/>
         <Route path="/courses" element={<Courses/>}/>
         <Route path="/course/player" element={<CoursePlayer/>}/>
