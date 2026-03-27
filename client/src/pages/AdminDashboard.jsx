@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Header from "../components/home/Header"
 import Navbar from '../components/AdminDashboard.jsx/Navbar'
 import AdminSidebar from '../components/AdminDashboard.jsx/AdminSidebar'
@@ -9,12 +9,13 @@ import RecentActivity from '../components/AdminDashboard.jsx/RecentActivity'
 import TopCourses from '../components/AdminDashboard.jsx/TopCourses'
 
 const AdminDashboard = () => {
+  const [profileData,setProfileData]=useState({})
   return (
     <>
-    <Header/>
+    <Header setProfileData={setProfileData} />
     <AdminSidebar/>
  <div className="md:ml-[270px] md:mt-[80px] mt-[70px]">
-  <Navbar/>
+  <Navbar profileData={profileData}/>
   <AdminStats/>
   <AdminCharts/>
   <UsersTable/>

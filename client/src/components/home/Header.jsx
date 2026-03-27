@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios"
-const Header = () => {
+const Header = ({setProfileData}) => {
   const [open, setOpen] = useState(false);
   const [user,setUser]=useState({})
   const authData=async()=>{
     try {
        const res= await axios.get("http://localhost:5000/api/auth/me",{withCredentials:true})
        setUser(res.data?.data || {})
+       setProfileData(res.data?.data || {})
     } catch (error) {
      console.log(error) 
     }

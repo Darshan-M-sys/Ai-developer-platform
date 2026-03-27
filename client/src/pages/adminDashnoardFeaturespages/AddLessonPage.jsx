@@ -13,7 +13,6 @@ const AddLessonPage = () => {
     message:"",
     type:""
   });
-
 const {state}=useLocation();
 const[open,setOpen]=useState(false);
 const [update,setUpdate]=useState(false);
