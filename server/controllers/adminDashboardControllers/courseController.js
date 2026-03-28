@@ -1,4 +1,5 @@
 const courses = require("../../models/courses");
+const enrollment = require("../../models/enrollment");
 
 exports.createCourse=async(req,res)=>{
   try {
@@ -12,6 +13,7 @@ exports.createCourse=async(req,res)=>{
       level,
       duration,
       youWillLearn,
+      language,
     }=req.body;
    const  thumbnail=req.file?"http://"+req.host+"/uploads/"+req.file.filename:null;
    const data = await courses.create({
@@ -24,6 +26,7 @@ exports.createCourse=async(req,res)=>{
       level,
       duration,
       youWillLearn,
+      language,
       thumbnail:thumbnail
    });
    res.status(200).json({message:"Created" ,data:data,success:true})
@@ -42,6 +45,7 @@ exports.updateCourse=async(req,res)=>{
           courseData.instructor=!req.body.instructor?courseData.instructor:req.body.instructor;
           courseData.title=req.body.title || courseData.title;
           courseData.price=req.body.price || courseData.price;
+          courseData.language=req.body.language || courseData.language;
           courseData.level=req.body.level || courseData.level;
           courseData.category=req.body.category || courseData.category;
           courseData.youWillLearn=req.body.youWillLearn || courseData.youWillLearn;
@@ -58,8 +62,16 @@ exports.updateCourse=async(req,res)=>{
 
 exports.getAllCourses=async(req,res)=>{
   try {
+    const data=[];
     const coursesData= await courses.find({}).populate("instructor");
-    res.status(200).json({data:coursesData});
+    
+    for(c of coursesData){
+     const studentCount= await enrollment.countDocuments({courseId:c._id});
+       data.push({courseData:c,studentCount:studentCount});
+    }
+   
+    res.status(200).json({data:data});
+   
   } catch (error) {
     res.status(500).json({message:error.message})
   }

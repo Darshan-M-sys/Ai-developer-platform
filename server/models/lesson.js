@@ -56,14 +56,13 @@ const lessonSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
-
     // Created by instructor / admin
     creatorId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
-
+  
     // Optional: attachments (PDF, code files, etc.)
     attachments: [
       {

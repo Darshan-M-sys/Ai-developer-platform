@@ -18,6 +18,7 @@ exports.createLesson=async(req,res)=>{
       subDescription,
       description,
       duration,
+      
       videoUrl:videoUrl
      })
      res.status(200).json({success:true,data:data,message:"Lesson Created"});

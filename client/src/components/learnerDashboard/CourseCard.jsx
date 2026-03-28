@@ -1,12 +1,14 @@
 import React from "react";
 
-const CourseCard = () => {
+const CourseCard = ({enrolledCourses}) => {
   return (
-
-    <div className="bg-white p-5 rounded-xl shadow">
+<>
+{enrolledCourses.map((item)=>{
+return(
+    <div key={item._id} className="bg-white p-5 rounded-xl shadow">
 
       <h3 className="font-bold text-lg">
-        JavaScript Fundamentals
+       {item.enrollmentCourses?.courseId?.title}
       </h3>
 
       <p className="text-gray-500">
@@ -17,8 +19,9 @@ const CourseCard = () => {
         Continue
       </button>
 
-    </div>
-
+    </div>)
+    })}
+</>
   );
 };
 

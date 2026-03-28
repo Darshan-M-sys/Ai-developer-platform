@@ -44,7 +44,10 @@ students:{
   thumbnail: {
     type: String,
   },
-
+  language:{
+      type:String,
+      required:true
+    },
   status: {
     type: String,
     enum: ["draft", "published"],

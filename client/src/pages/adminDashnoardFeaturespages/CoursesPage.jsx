@@ -33,6 +33,7 @@ const CoursesPage = () => {
   try {
     const res= await axios.get("http://localhost:5000/admin/course",{withCredentials:true});
     setCourses(res.data?.data || [])
+    console.log(res.data)
   } catch (error) {
     console.log(error)
   }
@@ -43,6 +44,7 @@ handleGetAllCourses();
 
    const HandleCourseDelete=async(id)=>{
      try {
+      if(!window.confirm('Are you Sure to delete this Course?')) return;
        const res= await axios.delete(`http://localhost:5000/admin/course/${id}`,{withCredentials:true});
      if(res.data?.success){
        nav("/admin/courses")
@@ -106,18 +108,18 @@ handleGetAllCourses();
             {courses.map((course) => (
               <tr key={course.id} className="border-t hover:bg-gray-50">
 
-                <td className="p-4 font-medium">{course.title}</td>
+                <td className="p-4 font-medium">{course.courseData?.title}</td>
 
-                <td className="p-4 text-gray-600">{course.instructor?.name}</td>
+                <td className="p-4 text-gray-600">{course.courseData?.instructor?.name}</td>
 
-                <td className="p-4">{course.students || 0}</td>
+                <td className="p-4">{course.studentCount || 0}</td>
 
                 <td className="p-4 flex gap-3">
-                  <button className="bg-yellow-500 text-white px-3 py-1 rounded-lg hover:bg-yellow-600">
+                  <Link to={`/admin/course/create`} state={course.courseData?._id} className="bg-yellow-500 text-white px-3 py-1 rounded-lg hover:bg-yellow-600">
                     Edit
-                  </button>
+                  </Link>
 
-                  <button  onClick={()=>HandleCourseDelete(course._id)} className="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600">
+                  <button  onClick={()=>HandleCourseDelete(course.courseData?._id)} className="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600">
                     Delete
                   </button>
                 </td>
@@ -132,13 +134,13 @@ handleGetAllCourses();
        <div className="grid grid-cols-1 mt-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {courses.map((course) => (
           <div
-            key={course.id}
+            key={course?.courseData._id}
             className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition"
           >
             {/* Image */}
             <div className="w-full h-44 overflow-hidden">
               <img
-                src={course.thumbnail}
+                src={course.courseData?.thumbnail}
                 alt={course.title}
                 className="w-full h-full object-fit"
               />
@@ -146,27 +148,27 @@ handleGetAllCourses();
 
             {/* Content */}
             <div className="p-4 bg-gray-100">
-              <p className="text-xs text-gray-500 mb-1">{course.category}</p>
+              <p className="text-xs text-gray-500 mb-1">{course.courseData?.category}</p>
              <div className="flex gap-4">
               <h3 className="text-lg font-semibold text-gray-800 leading-snug">
                 {course.title}
               </h3>
                <div className="flex items-center gap-1 ">
-                <img src={course.instructor?.avatar}  className="w-[25px] h-[25px] " alt="profile" />
-                <p className="font-semibold text-sm text-gray-900 ">{course.instructor?.name}</p>
+                <img src={course.courseData?.instructor?.avatar}  className="w-[25px] h-[25px] " alt="profile" />
+                <p className="font-semibold text-sm text-gray-900 ">{course.courseData?.instructor?.name}</p>
                 </div>
                 </div>
               <div className="flex items-center justify-between mt-4">
                 <span className="text-sm text-gray-600">
-                  {course.students} Students
+                  {course.studentCount} Students
                 </span>
                  
                 <span className="text-base font-semibold text-black">
-                  {course.price}
+                  {course.courseData?.price}
                 </span>
               </div>
 
-            <Link to={`/admin/course/${course._id}`} >    <button className="w-full mt-4 bg-black text-white py-2 rounded-xl text-sm font-medium hover:bg-gray-900 transition">
+            <Link to={`/admin/course/${course.courseData?._id}`} ><button className="w-full mt-4 bg-black text-white py-2 rounded-xl text-sm font-medium hover:bg-gray-900 transition">
                 View Course
               </button></Link>
             </div>

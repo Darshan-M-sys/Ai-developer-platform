@@ -1,34 +1,104 @@
-import React, { useState } from "react";
-// icons components
+import React from "react";
 import { IoClose } from "react-icons/io5";
-// 
+import {
+  LayoutDashboard,
+  BookOpen,
+  Code,
+  Brain,
+  FolderKanban,
+  Award,
+  LogOut
+} from "lucide-react";
 
-const Sidebar = ({setMenuShow}) => {
 
+import { Link, useLocation } from "react-router-dom";
+import Header from "../home/Header";
+
+const Sidebar = ({ menuShow, setMenuShow }) => {
+  const path=useLocation();
   return (
+    <>
 
-    <div className=" md:block w-64 fixed top-0 bg-black  mt-[64px] md:mt-[66px] z-[10] text-white min-h-screen p-2">
- <div className="flex items-center justify-between  relative md:hidden">      
-  <h1 className="text-2xl font-bold mb-8">
-        DevLearn AI 
-      </h1>
-      <span onClick={()=>setMenuShow(false)} className="text-2xl absolute top-0 right-0 bg-blue-500  p-2 rounded-full text-white  font-bold"><IoClose/></span>
+  
+      {/* Overlay for mobile */}
+      {menuShow && (
+        <div
+          onClick={() => setMenuShow(false)}
+          className="fixed inset-0 bg-black/50 z-40 md:hidden"
+        ></div>
+      )}
+
+      {/* Sidebar */}
+      <div
+        className={`fixed top-16 left-0 h-screen w-64 bg-[#0f172a] text-white shadow-xl z-30 
+        transform transition-transform duration-300
+        ${menuShow ? "translate-x-0" : "-translate-x-full"}
+        md:translate-x-0`}
+      >
+
+        {/* Mobile Header */}
+        <div className="flex items-center justify-between p-4 border-b border-gray-700 md:hidden">
+          <h1 className="text-xl font-bold text-blue-400">DevLearn AI</h1>
+          <button
+            onClick={() => setMenuShow(false)}
+            className="text-white text-2xl bg-blue-500 p-1 rounded-full"
+          >
+            <IoClose />
+          </button>
+        </div>
+
+        {/* Desktop Header */}
+        <div className="hidden md:block p-6 border-b border-gray-700">
+          <h1 className="text-2xl font-bold text-blue-400">DevLearn AI</h1>
+          <p className="text-sm text-gray-400 mt-1">Student Dashboard</p>
+        </div>
+
+        {/* Menu */}
+        <ul className="flex flex-col justify-between h-[69%] px-4 py-6 overflow-y-auto">
+
+          <div className="space-y-3">
+
+         <Link to="/dashboard">   <li className={`flex items-center gap-3 ${path.pathname==="/dashboard"?"bg-blue-500":""} p-3 rounded-lg cursor-pointer hover:bg-gray-800 transition`}>
+              <LayoutDashboard size={20} />
+              <span className="text-lg">Dashboard</span>
+            </li></Link>
+
+           <Link to="/learner/courses"> <li className={` ${path.pathname==="/learner/courses"?"bg-blue-500":""} flex items-center gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-800 transition`}>
+              <BookOpen size={20} />
+              <span className="text-lg">My Courses</span>
+            </li>
+</Link>
+            <li className="flex items-center gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-800 transition">
+              <Code size={20} />
+              <span className="text-lg">Playground</span>
+            </li>
+
+            <li className="flex items-center gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-800 transition">
+              <Brain size={20} />
+              <span className="text-lg">Practice</span>
+            </li>
+
+            <li className="flex items-center gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-800 transition">
+              <FolderKanban size={20} />
+              <span className="text-lg">Projects</span>
+            </li>
+
+            <li className="flex items-center gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-800 transition">
+              <Award size={20} />
+              <span className="text-lg">Certificates</span>
+            </li>
+
+          </div>
+
+          {/* Logout */}
+          <li className="flex items-center gap-3 p-3 rounded-lg cursor-pointer bg-red-500 hover:bg-red-600 transition">
+            <LogOut size={20} />
+            <span className="text-lg">Logout</span>
+          </li>
+
+        </ul>
       </div>
-         
-  <h1 className="text-2xl hidden md:block font-bold mb-8">
-        DevLearn AI 
-      </h1>
-      <ul className="min-h-[60vh]  flex flex-col justify-between">
-        <li className="hover:text-blue-400 text-xl p-2  cursor-pointer bg-blue-500 rounded-lg">Dashboard</li>
-        <li className="hover:text-blue-400 text-xl p-2 cursor-pointer">Courses</li>
-        <li className="hover:text-blue-400 text-xl p-2 cursor-pointer">Playground</li>
-        <li className="hover:text-blue-400 text-xl p-2 cursor-pointer">Practice</li>
-        <li className="hover:text-blue-400 text-xl p-2 cursor-pointer">Projects</li>
-        <li className="hover:text-blue-400 text-xl p-2 cursor-pointer">Certificates</li>
-        <li className="hover:text-blue-400 text-xl p-2 py-3 bg-red-500 rounded-lg cursor-pointer">Logout</li>
-      </ul>
-    </div>
-
+    </>
   );
 };
 

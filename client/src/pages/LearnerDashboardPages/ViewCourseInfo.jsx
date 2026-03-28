@@ -5,60 +5,41 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import Header from "../../components/home/Header";
-import AdminSidebar from "../../components/AdminDashboard.jsx/AdminSidebar";
+
 import {Link} from "react-router-dom"
-const CourseView = () => {
+import Sidebar from "../../components/learnerDashboard/SideBar";
+const ViewCourseInfo = () => {
   const nav=useNavigate()
 const [course, setCourse] = useState({});
-const { id } = useParams();
-const [lessonId,setLessonId]=useState("")
+const { enrollmentId } = useParams();
+
 
 // Get course
 const handleGetCourseData = async () => {
   try {
     const res = await axios.get(
-      `http://localhost:5000/admin/course/${id}`,
+      `http://localhost:5000/student/enrollment/${enrollmentId}`,
       { withCredentials: true }
     );
-
+    console.log(res.data)
     setCourse(res.data?.data || {});
   } catch (error) {
     console.log(error);
   }
 };
 
-// Get lessons
-const handleLesson = async () => {
-  try {
-    const res = await axios.get(
-      `http://localhost:5000/admin/lessons/${course._id}`,
-      { withCredentials: true }
-    );
 
-    setLessonId(res.data?.data[0]?._id || "")
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-// Load course when page loads
 useEffect(() => {
   handleGetCourseData();
-}, [id]);
+}, [enrollmentId]);
 
-// Load lessons AFTER course is loaded
-useEffect(() => {
-  if (!course._id) return;   // very important
 
-  handleLesson(course._id);
-}, [course._id]);
-
-  const HandleCourseDelete=async()=>{
+  const HandleCourseCancelEnrollment=async()=>{
     try {
-      if(!window.confirm("Are you sure to delete this course!")) return ;
-      const res= await axios.delete(`http://localhost:5000/admin/course/${id}`,{withCredentials:true});
+      if(!window.confirm("Are you sure to cancel enrollment?")) return ;
+      const res= await axios.delete(`http://localhost:5000/student/enrollment/${enrollmentId}`,{withCredentials:true});
     if(res.data?.success){
-      nav("/admin/courses")
+      nav("/learner/courses")
     }
     } catch (error) {
       console.log(error.message)
@@ -67,7 +48,7 @@ useEffect(() => {
   return (
     <>
     <Header/>
-    <AdminSidebar/>
+    <Sidebar/>
     <div className="md:ml-[280px] md:mt-[66px] mt-[55px] min-h-screen bg-gray-50 md:p-6">
       <div className="max-w-6xl mx-auto bg-white rounded-2xl border border-gray-200 shadow-sm p-3 md:p-8">
         {/* Header */}
@@ -77,18 +58,16 @@ useEffect(() => {
               {course.title}
             </h1>
             <p className="text-sm text-gray-500 mt-1">
-              Instructor: {course.instructor?.name}
+              Instructor: {course.instructorData?.name}
             </p>
           </div>
 
           <div className="flex gap-3">
-           <Link to={'/admin/course/create'} state={id}> <button className="bg-black text-white px-6 py-2 rounded-xl text-sm font-medium hover:bg-gray-900 transition">
-              Edit Course
-            </button></Link>
-
-            <button onClick={HandleCourseDelete} className="border border-gray-300 px-6 py-2 rounded-xl text-sm font-medium hover:bg-gray-100 transition">
-              Delete Course
+        <button onClick={HandleCourseCancelEnrollment} className="bg-black text-white px-6 py-2 rounded-lg text-sm font-medium hover:bg-gray-900 transition">
+              Cancel Enrollment
             </button>
+
+       
           </div>
         </div>
 
@@ -97,28 +76,28 @@ useEffect(() => {
           <div className="bg-gray-50 border border-gray-200 rounded-xl p-4">
             <p className="text-sm text-gray-500">Duration</p>
             <p className="text-lg font-semibold text-gray-800 mt-1">
-              {course.duration}
+              {course.courseId?.duration}
             </p>
           </div>
 
           <div className="bg-gray-50 border border-gray-200 rounded-xl p-4">
-            <p className="text-sm text-gray-500">Students</p>
+            <p className="text-sm text-gray-500">Lessons</p>
             <p className="text-lg font-semibold text-gray-800 mt-1">
-              {course.students}
+              {course.lessonCount}
             </p>
           </div>
 
           <div className="bg-gray-50 border border-gray-200 rounded-xl p-4">
             <p className="text-sm text-gray-500">Price</p>
             <p className="text-lg font-semibold text-gray-800 mt-1">
-              {course.price}
+              {course.courseId?.price}
             </p>
           </div>
 
           <div className="bg-gray-50 border border-gray-200 rounded-xl p-4">
             <p className="text-sm text-gray-500">Instructor</p>
             <p className="text-lg font-semibold text-gray-800 mt-1">
-              {course.instructor?.name}
+              {course.instructorData?.name}
             </p>
           </div>
         </div>
@@ -131,7 +110,7 @@ useEffect(() => {
           <div className="text-gray-600 leading-relaxed prose max-w-none text-sm md:text-base">
             <ReactMarkdown>
 
-            {course.description}
+            {course.courseId?.description}
             </ReactMarkdown>
           </div>
         </div>
@@ -141,17 +120,17 @@ useEffect(() => {
      <div className="text-gray-600 leading-relaxed prose max-w-none text-sm md:text-base">
             <ReactMarkdown>
 
-            {course.youWillLearn}
+            {course.courseId?.youWillLearn}
             </ReactMarkdown>
           </div>
          
         </div>
 
      <div className="flex flex-col sm:flex-row gap-4 mb-8">
-        <Link to={lessonId?`/admin/lesson/${course._id}/${lessonId}`:`/admin/lesson/add/${course._id}`}>  <button className="bg-black text-white px-6 py-3 rounded-xl text-sm md:text-base font-medium hover:bg-gray-900 transition">
+      <button className="bg-black text-white px-6 py-3 rounded-xl text-sm md:text-base font-medium hover:bg-gray-900 transition">
        
-            View Lessons
-          </button> </Link>
+            Continue Learning
+          </button> 
 
           <button className="border border-gray-300 px-6 py-3 rounded-xl text-sm md:text-base font-medium hover:bg-gray-100 transition">
             Problems
@@ -163,4 +142,4 @@ useEffect(() => {
   );
 };
 
-export default CourseView;
+export default ViewCourseInfo;

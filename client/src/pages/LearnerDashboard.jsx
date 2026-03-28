@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 // icons components
 import { TfiMenu } from "react-icons/tfi";
 // 
@@ -12,9 +12,38 @@ import DailyChallenge from "../components/learnerDashboard/DailyChallenge";
 import RecentActivity from "../components/learnerDashboard/RecentActivity";
 import Sidebar from "../components/learnerDashboard/SideBar";
 import Header from "../components/home/Header";
+import axios from "axios";
 const LearnerDashboard = () => {
   const [menuShow,setMenuShow]=useState(false);
   const [profileData,setProfileData]=useState({})
+  const [statsData,setStatsData]=useState({});
+  const [enrolledCourses,setEnrolledCourses]=useState([]);
+  const handleGetStatsData=async()=>{
+    try {
+      const res= await axios.get("http://localhost:5000/student/stats",{withCredentials:true});
+      setStatsData(res.data?.data || {})
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
+
+  useEffect(()=>{
+handleGetStatsData()
+  },[])
+  const handleGetEnrolledCourses=async()=>{
+    try {
+      const res= await axios.get("http://localhost:5000/student/enrollment/all",{withCredentials:true});
+      setEnrolledCourses(res.data?.data || [])
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
+
+  useEffect(()=>{
+handleGetEnrolledCourses()
+  },[])
+
+
   return (
     <>
     <Header setProfileData={setProfileData}/>
@@ -37,7 +66,7 @@ const LearnerDashboard = () => {
 
         <WelcomeCard />
 
-        <StatsCards />
+        <StatsCards statsData={statsData} />
 
         <div>
 
@@ -47,10 +76,8 @@ const LearnerDashboard = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
-            <CourseCard />
-            <CourseCard />
-            <CourseCard />
-
+            <CourseCard enrolledCourses={enrolledCourses} />
+          
           </div>
 
         </div>

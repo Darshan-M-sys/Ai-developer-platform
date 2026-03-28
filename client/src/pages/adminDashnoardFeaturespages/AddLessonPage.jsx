@@ -63,6 +63,7 @@ const handleSubmit = async(e) => {
       data.append(key,formData[key])
     });
     const  res= await axios.post(`http://localhost:5000/admin/lesson/create/${courseId}`,data,{withCredentials:true});
+    console.log(res.data)
    if (res.data?.success){
     setAction({
       show:true,

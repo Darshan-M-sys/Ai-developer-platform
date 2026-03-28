@@ -8,12 +8,16 @@ import ReactMarkdown from "react-markdown";
 import {Link} from "react-router-dom"
 import Header from "../components/home/Header";
 import EnrollPopup from "../components/EnrollPopup";
+import EnrollSuccess from "../components/EnrollSuccess";
+import ViewCourseLessonList from "../components/ViewCourseLessonList";
+
 const CourseViewPage = () => {
+  const[isOpenSuccess,setIsOpenSuccess]=useState(false)
   const nav=useNavigate()
 const [course, setCourse] = useState({});
 const { id } = useParams();
 const[isOpen,setIsOpen]=useState(false)
-
+const [isLessonListOpen,setIsLessonListOpen]=useState(false);
 
 const handleGetCourse=async()=>{
   try {
@@ -28,6 +32,10 @@ const onConfirm=async()=>{
 try {
   const  res= await axios.post(`http://localhost:5000/student/enrollment/${id}`,{},{withCredentials:true});
   console.log(res.data)
+        if(res.data.success){
+          setIsOpen(false);
+          setIsOpenSuccess(true);
+        }
 } catch (error) {
   console.log(error.response);
 }
@@ -39,8 +47,8 @@ handleGetCourse()
   return (
     <>
     <Header/>
-
-    <div className=" md:mt-[66px] mt-[55px] min-h-screen bg-gray-50 md:p-6">
+     
+    <div className=" md:mt-[66px]  mt-[55px] min-h-screen bg-gray-50 md:p-6">
       <div className="max-w-6xl mx-auto bg-white rounded-2xl border border-gray-200 shadow-sm p-3 md:p-8">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
@@ -73,7 +81,7 @@ handleGetCourse()
           <div className="bg-gray-50 border border-gray-200 rounded-xl p-4">
             <p className="text-sm text-gray-500">Students</p>
             <p className="text-lg font-semibold text-gray-800 mt-1">
-              {course.students}
+              {course.studentCount}
             </p>
           </div>
 
@@ -122,10 +130,12 @@ handleGetCourse()
             Enroll Now
           </button> 
 
-          <button className="border border-gray-300 px-6 py-3 rounded-xl text-sm md:text-base font-medium hover:bg-gray-100 transition">
+          <button onClick={()=>setIsLessonListOpen(true)} className="border border-gray-300 px-6 py-3 rounded-xl text-sm md:text-base font-medium hover:bg-gray-100 transition">
             View Lessons
           </button>
+          <ViewCourseLessonList isLessonListOpen={isLessonListOpen} setIsLessonListOpen={setIsLessonListOpen} lessons={course.lessonData || []}/>
           <EnrollPopup isOpen={isOpen} setIsOpen={setIsOpen} onConfirm={onConfirm}/>
+          <EnrollSuccess  isOpenSuccess={isOpenSuccess} setIsOpenSuccess={setIsOpenSuccess}/>
         </div>
       </div>
     </div>

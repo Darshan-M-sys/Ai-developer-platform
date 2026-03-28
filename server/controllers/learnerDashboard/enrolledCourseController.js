@@ -1,0 +1,46 @@
+const enrollment = require("../../models/enrollment");
+const User= require("../../models/User")
+const lesson= require("../../models/lesson")
+exports.getEnrolledCourses=async(req,res)=>{
+  try {
+   const dataObject=[];  
+    const studentId=req.session.user.id;
+    const enrollmentCourses=await enrollment.find({studentId}).populate(['studentId',"courseId"]);
+     for (c of enrollmentCourses){
+       const instructorData= await User.findOne({_id:c.courseId.instructor});
+       const lessonCount=await lesson.countDocuments({courseId:c.courseId._id}); 
+       dataObject.push({enrollmentCourses:c,instructorData:instructorData,lessonCount:lessonCount})
+    }
+  
+    res.status(200).json({data:dataObject});
+  } catch (error) {
+    res.status(500).json({message:error.message})
+  }
+}
+
+exports.getEnrolledSingleCourse=async(req,res)=>{
+  try {
+    const enrollmentId=req.params.enrollmentId;
+    const enrollmentCourse=await enrollment.findOne({_id:enrollmentId}).populate(['studentId',"courseId"]);
+    const objectData=enrollmentCourse.toObject();
+    const instructorData= await User.findOne({_id:enrollmentCourse.courseId.instructor});
+    const lessonCount=await lesson.countDocuments({courseId:enrollmentCourse.courseId._id}); 
+    objectData['instructorData']=instructorData;
+    objectData['lessonCount']=lessonCount;
+    res.status(200).json({data:objectData});
+  } catch (error) {
+    res.status(500).json({message:error.message})
+  }
+}
+
+exports.cancelEnrollment=async(req,res)=>{
+  try {
+      const enrollmentId=req.params.enrollmentId;
+      const studentId=req.session.user.id;
+      await enrollment.findOneAndDelete({studentId,_id:enrollmentId});
+   res.status(200).json({message:"Deleted!",success:true})
+  } catch (error) {
+   res.status(500).json({message:error.message}) 
+  }
+
+}

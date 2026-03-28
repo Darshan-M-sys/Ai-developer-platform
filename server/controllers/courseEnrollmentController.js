@@ -6,7 +6,7 @@ exports.createEnrollment=async(req,res)=>{
     const courseId=req.params.courseId;
     const existingEnrollment=await enrollment.findOne({studentId,courseId});
     if(existingEnrollment){
-      return res.status(200).json({message:"Already Enrolled"});
+      return res.status(200).json({success:true,message:"Already Enrolled"});
     }
     const data= await enrollment.create({
       studentId,

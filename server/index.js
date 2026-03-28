@@ -15,6 +15,7 @@ const {runAi} =require("./config/aiRunCommend");
 const adminDashboardRoute = require("./routes/AdminDashboardRoute");
 const publicCourseRoute = require("./routes/publicCourseRoute");
 const enrollmentRouter = require("./routes/EnrollmentRoute");
+const learnerDashboardRoute = require("./routes/LearnerDashboardRoute");
 const app = express();
 // runAi()
 app.use(cors({
@@ -72,6 +73,7 @@ app.use("/ai/playground",aiPlayground);
 app.use("/admin",adminDashboardRoute);
 app.use("/public",publicCourseRoute);
 app.use("/student",enrollmentRouter);
+app.use("/student",learnerDashboardRoute);
 
 
 // =========================

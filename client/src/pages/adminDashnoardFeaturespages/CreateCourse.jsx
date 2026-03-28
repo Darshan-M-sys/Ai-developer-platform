@@ -27,6 +27,7 @@ const CreateCourse = () => {
     level:'',
     description:"",
     youWillLearn:"",
+    language:"",
     image:null,
     thumbnail:""
   })
@@ -198,6 +199,30 @@ setFormData((prev)=>({...prev,[e.target.name]:e.target.value}))
             type="number"
             placeholder="Enter course price"
              required={true}
+          />
+          <FormField
+            label="Programming Languages"
+            name="language"
+            value={formData.language}
+            onChange={handleChange}
+            type="select"
+            select={true}
+            options={[
+              {label:"Python",value:"Python" 
+              },
+              {
+                 label:"Javascript", value:"javascript"
+              },
+              {
+               label:"C Programming", value:"C Programming"
+              },
+              {
+                label:"PHP", value:"PHP"
+              },{
+                label:"Other",value:null
+              }
+            ]}
+            required={true}
           />
 
           {/* Level */}

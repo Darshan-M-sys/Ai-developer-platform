@@ -70,7 +70,7 @@ return (
       
 
         {/* Lesson List */}
-        <div  className="flex-1 overflow-y-auto p-4">
+        <div  className="flex-1 overflow-y-auto p-4 mb-20">
           {lessons.map((lesson) => (
             <div 
 
