@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const PlaygroundCard = () => {
   return (
@@ -13,9 +14,9 @@ const PlaygroundCard = () => {
         Practice coding with AI assistance
       </p>
 
-      <button className="mt-4 bg-white text-purple-600 px-4 py-2 rounded">
+     <Link to='/playground'> <button className="mt-4 bg-white text-purple-600 px-4 py-2 rounded">
         Start Coding
-      </button>
+      </button></Link>
 
     </div>
 

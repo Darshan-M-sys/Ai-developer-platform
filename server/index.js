@@ -13,6 +13,8 @@ const codeRunner = require("./routes/codeRunnerRoute");
 const aiPlayground = require("./routes/AiPlaygroundRoute");
 const {runAi} =require("./config/aiRunCommend");
 const adminDashboardRoute = require("./routes/AdminDashboardRoute");
+const publicCourseRoute = require("./routes/publicCourseRoute");
+const enrollmentRouter = require("./routes/EnrollmentRoute");
 const app = express();
 // runAi()
 app.use(cors({
@@ -68,6 +70,8 @@ app.use("/snippets", snippetsSaveRouter);
 app.use("/code",codeRunner);
 app.use("/ai/playground",aiPlayground);
 app.use("/admin",adminDashboardRoute);
+app.use("/public",publicCourseRoute);
+app.use("/student",enrollmentRouter);
 
 
 // =========================

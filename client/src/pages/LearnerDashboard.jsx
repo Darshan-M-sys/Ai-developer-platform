@@ -14,14 +14,15 @@ import Sidebar from "../components/learnerDashboard/SideBar";
 import Header from "../components/home/Header";
 const LearnerDashboard = () => {
   const [menuShow,setMenuShow]=useState(false);
+  const [profileData,setProfileData]=useState({})
   return (
     <>
-    <Header/>
+    <Header setProfileData={setProfileData}/>
     <div className="flex bg-gray-100 mt-[66px] min-h-screen">
      <div className="hidden md:block">
       <Sidebar />
      </div>
-     <div onClick={()=>setMenuShow(!menuShow)} className={`text-xl md:hidden fixed top-16  z-[30] bg-blue-500 p-2 rounded-full text-white`}>
+     <div onClick={()=>setMenuShow(!menuShow)} className={`text-xl md:hidden fixed top-20  z-[30] bg-blue-500 p-2 rounded-full text-white`}>
       <TfiMenu/>
      </div>
   <div
@@ -32,7 +33,7 @@ const LearnerDashboard = () => {
 </div>
       <div className="flex-1 md:ml-[250px] p-4 md:p-6 space-y-6">
 
-        <Navbar />
+        <Navbar profileData={profileData} />
 
         <WelcomeCard />
 

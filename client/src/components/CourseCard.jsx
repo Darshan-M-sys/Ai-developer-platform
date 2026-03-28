@@ -1,27 +1,35 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const CourseCard = ({
   title,
   lessons,
   level,
+  _id,
   instructor,
   rating,
   students,
-  image,
+  thumbnail,
   onClick
 }) => {
+const nav=useNavigate();
+  const handleRedirect=()=>{
+    if(_id){
+     nav(`/course/${_id}`)
+    }
+  }
   return (
     <div
-      onClick={onClick}
+      onClick={handleRedirect}
       className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition duration-300 cursor-pointer group"
     >
 
       {/* Image */}
       <div className="overflow-hidden">
         <img
-          src={image}
+          src={thumbnail}
           alt={title}
-          className="w-full h-44 object-cover group-hover:scale-105 transition duration-300"
+          className="w-full h-44 object-fit group-hover:scale-105 transition duration-300"
         />
       </div>
 
@@ -35,7 +43,7 @@ const CourseCard = ({
 
         {/* Instructor */}
         <p className="text-sm text-gray-500">
-          By <span className="font-medium text-gray-700">{instructor}</span>
+          By <span className="font-medium text-gray-700">{instructor.name}</span>
         </p>
 
         {/* Lessons + Level */}
@@ -49,19 +57,18 @@ const CourseCard = ({
         {/* Rating + Students */}
         <div className="flex justify-between items-center text-sm">
           <span className="text-yellow-500 font-medium">
-            ⭐ {rating}
+            ⭐ {4}
           </span>
           <span className="text-gray-500">
-            👨‍🎓 {students}
+            👨‍🎓 {20}
           </span>
         </div>
 
         {/* Button */}
         <button
-          onClick={(e) => {
-            e.stopPropagation();
-            alert(`Enrolled in ${title}`);
-          }}
+          onClick={
+handleRedirect
+          }
           className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
         >
           Enroll Now

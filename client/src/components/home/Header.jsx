@@ -9,7 +9,9 @@ const Header = ({setProfileData}) => {
     try {
        const res= await axios.get("http://localhost:5000/api/auth/me",{withCredentials:true})
        setUser(res.data?.data || {})
+       if(setProfileData){
        setProfileData(res.data?.data || {})
+       }
     } catch (error) {
      console.log(error) 
     }

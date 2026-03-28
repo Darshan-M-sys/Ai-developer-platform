@@ -30,6 +30,7 @@ exports.registerUser = async (req, res) => {
       id: newUser._id,
       name: newUser.name,
       email: newUser.email,
+      role:newUser.role
     };
 
     res.status(201).json({
@@ -97,6 +98,7 @@ exports.loginUser = async (req, res) => {
       id: user._id,
       name: user.name,
       email: user.email,
+      role:user.role
     };
 
     res.status(200).json({

@@ -22,6 +22,7 @@ import CreateCourse from './pages/adminDashnoardFeaturespages/CreateCourse'
 import CourseView from './pages/adminDashnoardFeaturespages/CourseVeiwPage'
 import LessonsPage from './pages/adminDashnoardFeaturespages/LessonPage'
 import AddLessonPage from './pages/adminDashnoardFeaturespages/AddLessonPage'
+import CourseViewPage from './pages/CourseViewPage'
 const App = () => {
   return (
     <div>
@@ -43,6 +44,7 @@ const App = () => {
         <Route path="/admin/lesson/add/:courseId" element={<AddLessonPage />}/>
         <Route path="/admin/analytics" element={<AnalyticsPage />}/>
         <Route path="/courses" element={<Courses/>}/>
+        <Route path="/course/:id" element={<CourseViewPage/>}/>
         <Route path="/course/player" element={<CoursePlayer/>}/>
         <Route path="/playground" element={<Playground/>}/>
         <Route path="/ai/chat" element={<AIChatPage/>}/>
