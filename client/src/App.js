@@ -25,6 +25,7 @@ import AddLessonPage from './pages/adminDashnoardFeaturespages/AddLessonPage'
 import CourseViewPage from './pages/CourseViewPage'
 import EnrolledCourses from './pages/LearnerDashboardPages/EnrolledCourses'
 import ViewCourseInfo from './pages/LearnerDashboardPages/ViewCourseInfo'
+import LearningScreenPage from './pages/LearnerDashboardPages/LearningScreenPage'
 const App = () => {
   return (
     <div>
@@ -37,6 +38,7 @@ const App = () => {
         <Route path="/dashboard" element={<LearnerDashboard/>}/>
         <Route path="/learner/course/:enrollmentId" element={<ViewCourseInfo/>}/>
         <Route path="/learner/courses" element={<EnrolledCourses/>}/>
+        <Route path="/learner/course/:courseId/lesson/:lessonId" element={<LearningScreenPage/>}/>
         <Route path="/admin/dashboard" element={<AdminDashboard/>}/>
         <Route path="/admin/users" element={<ManageUsers/>}/>
         <Route path="/admin/course/create" element={<CreateCourse/>}/>

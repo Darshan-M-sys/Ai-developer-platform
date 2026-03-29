@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import VideoPlayer from "../components/coursePlayer/VideoPlayer";
+import VideoPlayer from "../components/learnerDashboard/VideoPlayer";
 import Sidebar from "../components/coursePlayer/Sidebar";
 import Navbar from "../components/coursePlayer/Navbar"
 import { FiMenu } from "react-icons/fi";
