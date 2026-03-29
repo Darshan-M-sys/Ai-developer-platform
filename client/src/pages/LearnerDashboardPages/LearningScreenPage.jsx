@@ -5,22 +5,41 @@ import LearningScreenSidebar from '../../components/learnerDashboard/LearningScr
 import { MenuIcon } from 'lucide-react';
 import LearningScreenNav from '../../components/learnerDashboard/LearningScreenNav';
 import VideoPlayer from '../../components/learnerDashboard/VideoPlayer';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import { useEffect } from 'react';
 
 const LearningScreenPage = () => {
   const [currentLessonId, setCurrentLessonId] = React.useState("1");
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(false);
-    const lessons = [
-    { _id: "1", title: "Introduction to Python", duration: "5 min" },
-    { _id: "2", title: "Installing Python", duration: "7 min" },
-    { _id: "3", title: "Variables in Python", duration: "10 min" },
-    { _id: "4", title: "Data Types", duration: "12 min" },
-  ];
+const [lessons, setLessons] = React.useState([]);
+
+
+  const {lessonId, courseId}=useParams();
+
+
+  const getAllLessons=async()=>{
+    try {
+      const res= await axios.get(`http://localhost:5000/student/lessons/all/${courseId}`,{withCredentials:true});
+      setLessons(res.data?.data || []);
+    } catch (error) {
+      console.error("Error fetching lessons:", error);
+    }
+  };
+
+  useEffect(()=>{ 
+    getAllLessons();
+  },[courseId]);
+
+  
+
 
   return (
     <>
     <Header/>
      <LearningScreenSidebar
         lessons={lessons}
+        courseId={courseId}
         isSidebarOpen={isSidebarOpen}
         setIsSidebarOpen={setIsSidebarOpen}
         currentLessonId={currentLessonId}
@@ -30,7 +49,7 @@ const LearningScreenPage = () => {
      
       <div>
       <LearningScreenNav setIsSidebarOpen={setIsSidebarOpen} />
-      <VideoPlayer/>
+      <VideoPlayer lessonId={lessonId} courseId={courseId} />
       
     
       </div>

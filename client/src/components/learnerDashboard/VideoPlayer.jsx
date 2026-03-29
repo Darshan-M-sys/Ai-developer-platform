@@ -5,8 +5,29 @@ import AiActionsInLessonPage from "./AiActionsInLessonPage";
 import AiLessonExplain from "./AiLessonExplain";
 import AiLessonQuiz from "./AiLessonQuiz";
 import AiLessonNotesGenerator from "./AiLessonNotesGenerator";
+import { useEffect } from "react";
+import axios from "axios";
 
-const VideoPlayer = ({ lessonName = "Introduction to React" }) => {
+const VideoPlayer = ({ lessonName = "Introduction to React",lessonId,courseId }) => {
+
+   const [lessonData, setLessonData] = useState({});
+
+   const handleGetLessonData=async ()=>{
+ try {     
+  const res= await axios.get(`http://localhost:5000/student/lessons/${courseId}/${lessonId}`,{withCredentials:true});
+    setLessonData(res.data?.data || {});
+  
+    }
+    catch (error) {
+      console.error("Error fetching lesson data:", error);
+    }
+   };
+
+   useEffect(()=>{
+    handleGetLessonData();
+   },[lessonId,courseId])
+
+
    const [activeTab, setActiveTab] = useState("description");
    const [activeAiToolTab, setActiveAiToolTab] = useState("explain");
 
@@ -50,7 +71,7 @@ const VideoPlayer = ({ lessonName = "Introduction to React" }) => {
       {/* Video */}
       <video
         ref={videoRef}
-        src={video}
+        src={lessonData.videoUrl || video}
         controls
         onLoadedMetadata={handleLoadedMetadata}
         onTimeUpdate={(e) => setRunningTime(e.target.currentTime)}
@@ -118,18 +139,7 @@ const VideoPlayer = ({ lessonName = "Introduction to React" }) => {
   </div>
  
   <hr className="my-6" />
-  {activeTab === "description" && <LessonDescription lesson={{
-    title: "Introduction to React",
-    description: `React is a popular JavaScript library for building user interfaces, particularly single-page applications. It allows developers to create reusable UI components and manage the state of their applications efficiently.`,
-    whatYouWillLearn: [
-      "What is React and why use it?",
-      "Understanding JSX",  
-      "Component-based architecture",
-      "State and Props",
-      "Lifecycle Methods",  
-      "Hooks and Functional Components",
-      "Building a simple React application"
-    ]}} />}
+  {activeTab === "description" && <LessonDescription  lesson={{description: lessonData.description,lessonName: lessonData.title}} />}
 
       {/* Future Tabs can be added here */}
       {activeTab === "ai-tools" && (

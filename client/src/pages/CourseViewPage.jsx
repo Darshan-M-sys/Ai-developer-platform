@@ -12,6 +12,8 @@ import EnrollSuccess from "../components/EnrollSuccess";
 import ViewCourseLessonList from "../components/ViewCourseLessonList";
 
 const CourseViewPage = () => {
+
+
   const[isOpenSuccess,setIsOpenSuccess]=useState(false)
   const nav=useNavigate()
 const [course, setCourse] = useState({});
@@ -28,10 +30,18 @@ const handleGetCourse=async()=>{
   }
 }
 
+const handleProgressCreate=async()=>{
+  try {
+    const res= await axios.post(`http://localhost:5000/student/course-progress/${id}`,{},{withCredentials:true});
+  } catch (error) {
+    console.log(error.message)
+  }
+}
+
 const onConfirm=async()=>{
 try {
   const  res= await axios.post(`http://localhost:5000/student/enrollment/${id}`,{},{withCredentials:true});
-  console.log(res.data)
+          await handleProgressCreate();
         if(res.data.success){
           setIsOpen(false);
           setIsOpenSuccess(true);

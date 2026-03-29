@@ -1,13 +1,19 @@
 import React from "react";
 import { MdClose } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 const LearningScreenSidebar = ({
+  courseId,
   lessons,
   currentLessonId,
   onSelectLesson,
   isSidebarOpen,
   setIsSidebarOpen,
 }) => {
+  const nav= useNavigate();
+  const handleNavigateToLesson = (lessonId) => {
+    nav(`/learner/course/${courseId}/lesson/${lessonId}`);
+  };
   return (
     <>
       {/* Overlay (mobile only) */}
@@ -51,8 +57,7 @@ const LearningScreenSidebar = ({
               <div
                 key={lesson._id}
                 onClick={() => {
-                  onSelectLesson(lesson._id);
-                  setIsSidebarOpen(false);
+                handleNavigateToLesson(lesson._id);
                 }}
                 className={`
                   p-3 rounded-lg cursor-pointer transition duration-200

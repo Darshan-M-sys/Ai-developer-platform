@@ -5,7 +5,6 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import Header from "../../components/home/Header";
-
 import {Link} from "react-router-dom"
 import Sidebar from "../../components/learnerDashboard/SideBar";
 const ViewCourseInfo = () => {
@@ -45,6 +44,8 @@ useEffect(() => {
       console.log(error.message)
     }
   }
+
+
   return (
     <>
     <Header/>
