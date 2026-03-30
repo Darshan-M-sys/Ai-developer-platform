@@ -1,6 +1,6 @@
-import React from "react";
+import React, { use } from "react";
 import { MdClose } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const LearningScreenSidebar = ({
   courseId,
@@ -10,9 +10,10 @@ const LearningScreenSidebar = ({
   isSidebarOpen,
   setIsSidebarOpen,
 }) => {
-  const nav= useNavigate();
+
+  const{lessonId}=useParams();
   const handleNavigateToLesson = (lessonId) => {
-    nav(`/learner/course/${courseId}/lesson/${lessonId}`);
+    window.location.href=`/learner/course/${courseId}/lesson/${lessonId}`;
   };
   return (
     <>
@@ -27,7 +28,7 @@ const LearningScreenSidebar = ({
       {/* Sidebar */}
       <div
         className={`
-        fixed  top-[55px] md:top-[66px] left-0 h-screen bg-white z-30
+        fixed  top-[55px] md:top-[66px] left-0 h-[calc(100vh-55px)] bg-white z-30
         w-[85%] sm:w-[70%] md:w-[55%] lg:w-[300px]
         border-r overflow-y-auto
         transform transition-transform duration-300
@@ -51,7 +52,7 @@ const LearningScreenSidebar = ({
         {/* Lesson List */}
         <div className="p-3 space-y-2">
           {lessons.map((lesson, index) => {
-            const active = lesson._id === currentLessonId;
+         
 
             return (
               <div
@@ -61,7 +62,7 @@ const LearningScreenSidebar = ({
                 }}
                 className={`
                   p-3 rounded-lg cursor-pointer transition duration-200
-                  ${active
+                  ${lesson._id === lessonId
                     ? "bg-blue-50 border border-blue-400"
                     : "hover:bg-gray-100"}
                 `}
@@ -70,7 +71,7 @@ const LearningScreenSidebar = ({
 
                 <h4
                   className={`text-sm font-semibold ${
-                    active ? "text-blue-600" : "text-gray-800"
+                    lesson._id === lessonId ? "text-blue-600" : "text-gray-800"
                   }`}
                 >
                   {lesson.title}

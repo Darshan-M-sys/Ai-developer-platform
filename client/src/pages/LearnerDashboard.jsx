@@ -13,6 +13,8 @@ import RecentActivity from "../components/learnerDashboard/RecentActivity";
 import Sidebar from "../components/learnerDashboard/SideBar";
 import Header from "../components/home/Header";
 import axios from "axios";
+import ProgressBarChart from "./LearnerDashboardPages/ProgressBarChart";
+
 const LearnerDashboard = () => {
   const [menuShow,setMenuShow]=useState(false);
   const [profileData,setProfileData]=useState({})
@@ -33,7 +35,10 @@ handleGetStatsData()
   const handleGetEnrolledCourses=async()=>{
     try {
       const res= await axios.get("http://localhost:5000/student/enrollment/all",{withCredentials:true});
+      // console.log(res.data)
       setEnrolledCourses(res.data?.data || [])
+      // console.log(res.data?.data || [])
+    
     } catch (error) {
       console.log(error.message)
     }
@@ -42,6 +47,38 @@ handleGetStatsData()
   useEffect(()=>{
 handleGetEnrolledCourses()
   },[])
+
+const [progressData, setProgressData] = useState([]);
+
+useEffect(() => {
+  const formattedData = enrolledCourses.map((data, index) => {
+    
+    const lessons = data.lessonData.map((l) => {
+      const lessonPresent = data.progressData?.lessonProgress?.find(
+        (ld) => ld.lessonId === l._id
+      );
+
+      return {
+        _id: l._id,
+        title: l.title,
+        progress: lessonPresent ? lessonPresent.progress : 0,
+      };
+    });
+
+    return {
+      courseId: {
+        _id: data?.enrollmentCourses?.courseId?._id || index,
+        title: data?.enrollmentCourses?.courseId?.title || "",
+        totalProgress:data?.progressData?.courseCompletion
+      },
+      lessons: lessons,
+    };
+  });
+
+  setProgressData(formattedData);
+  console.log("Formatted Progress Data:", formattedData);
+}, [enrolledCourses]);
+
 
 
   return (
@@ -68,7 +105,7 @@ handleGetEnrolledCourses()
 
         <StatsCards statsData={statsData} />
 
-        <div>
+        <div className=" bg-gray-200 shadow-lg rounded-xl p-6">
 
           <h2 className="text-xl font-bold mb-4">
             Continue Learning
@@ -76,7 +113,15 @@ handleGetEnrolledCourses()
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
-            <CourseCard enrolledCourses={enrolledCourses} />
+          
+           {progressData.map((getCourseProgress,index)=>{
+              return(
+                <div>
+   <ProgressBarChart getCourseProgress={getCourseProgress} />
+                </div>
+              )
+           })}
+           
           
           </div>
 

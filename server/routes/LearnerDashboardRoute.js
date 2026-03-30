@@ -15,10 +15,11 @@ learnerDashboardRoute.get("/lessons/all/:courseId", isAuthenticated, isStudent, 
 learnerDashboardRoute.get("/lessons/:courseId/:lessonId/", isAuthenticated, isStudent, getLessonById);
 
 // course progress routes
-const { createCourseProgress, getCourseProgress, updateLessonProgress,unMarkLessonComplete } = require("../controllers/learnerDashboard/courseProgressController");
+const { createCourseProgress, getCourseProgress, updateLessonProgress,markLessonComplete,getProgressByLesson, setCurrentLesson } = require("../controllers/learnerDashboard/courseProgressController");
 learnerDashboardRoute.post("/course-progress/:courseId", isAuthenticated, isStudent, createCourseProgress);
-learnerDashboardRoute.get("/course-progress/:courseId", isAuthenticated, isStudent, getCourseProgress);
-learnerDashboardRoute.put("/course-progress/:courseId", isAuthenticated, isStudent, updateLessonProgress);
-learnerDashboardRoute.delete("/course-progress/:courseId", isAuthenticated, isStudent, unMarkLessonComplete);
-
+learnerDashboardRoute.get("/course/progress/:courseId", isAuthenticated, isStudent, getCourseProgress);
+learnerDashboardRoute.get("/lesson/progress/:courseId/:lessonId", isAuthenticated, isStudent, getProgressByLesson);
+learnerDashboardRoute.put("/lesson/progress/:courseId/:lessonId", isAuthenticated, isStudent, updateLessonProgress);
+learnerDashboardRoute.put("/course/current/:courseId/:lessonId", isAuthenticated, isStudent, setCurrentLesson);
+learnerDashboardRoute.put("/course/progress/:courseId/:lessonId", isAuthenticated, isStudent, markLessonComplete);
 module.exports=learnerDashboardRoute;

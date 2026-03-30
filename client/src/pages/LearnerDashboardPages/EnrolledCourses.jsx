@@ -5,6 +5,7 @@ import axios from "axios";
 
 import { BsFillInfoCircleFill } from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
+import ProgressBarChart from "./ProgressBarChart";
 
 const EnrolledCourses = () => {
   const [courses, setCourses] = useState([]);
@@ -21,6 +22,7 @@ const EnrolledCourses = () => {
       );
 
       setCourses(res.data?.data || []);
+   
     } catch (error) {
       console.log(error.message);
     }
@@ -28,33 +30,84 @@ const EnrolledCourses = () => {
 
   useEffect(() => {
     handleGetEnrolledCourses();
-  }, []);
+  }, [courses.length]);
 
   /* =============================
      CONTINUE LEARNING BUTTON
   ============================= */
+
   const handleContinueLearning = async (courseId) => {
-    try {
-      const res = await axios.get(
+  try {
+    const res = await axios.get(
+      `http://localhost:5000/student/course/progress/${courseId}`,
+      { withCredentials: true }
+    );
+
+    let lessonId = res.data?.data?.currentLesson._id;
+
+    // if no progress yet, open first lesson
+    if (!lessonId) {
+      const lessonsRes = await axios.get(
         `http://localhost:5000/student/lessons/all/${courseId}`,
         { withCredentials: true }
       );
 
-      const lessons = res.data?.data || [];
+      const lessons = lessonsRes.data?.data || [];
 
       if (lessons.length > 0) {
-        nav(`/learner/course/${courseId}/lesson/${lessons[0]._id}`);
+        lessonId = lessons[0]._id;
       }
-    } catch (error) {
-      console.log(error.message);
     }
-  };
+
+    if (lessonId) {
+      nav(`/learner/course/${courseId}/lesson/${lessonId}`);
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+
+const [progressData, setProgressData] = useState([]);
+
+useEffect(() => {
+
+  const formattedData = courses.map((data, index) => {
+    
+    const lessons = data.lessonData.map((l) => {
+      const lessonPresent = data.progressData?.lessonProgress?.find(
+        (ld) => ld.lessonId === l._id
+      );
+
+      return {
+        _id: l._id,
+        title: l.title,
+        progress: lessonPresent ? lessonPresent.progress : 0,
+      };
+    });
+
+    return {
+      courseId: {
+        _id: data?.enrollmentCourses?.courseId?._id || index,
+        title: data?.enrollmentCourses?.courseId?.title || "",
+        totalProgress:data?.progressData?.courseCompletion
+      },
+      lessons: lessons,
+    };
+  });
+
+  setProgressData(formattedData);
+
+}, [courses]);
+
+
+
 
   return (
     <>
       <Header />
       <Sidebar />
-
+  
       <div className="md:p-6 p-2 md:mt-[66px] mt-[55px] md:ml-[280px] md:p-10 min-h-screen bg-gray-100">
         
         {/* TITLE */}
@@ -73,7 +126,7 @@ const EnrolledCourses = () => {
                 className="bg-white rounded-2xl relative shadow-md hover:shadow-xl transition p-4"
               >
                 {/* INFO ICON */}
-                <Link to={`/learner/course/${courseData?._id}`}>
+                <Link to={`/learner/course/${course.enrollmentCourses?._id}`}>
                   <p className="absolute right-4 p-1 bg-white rounded-full shadow-xl">
                     <BsFillInfoCircleFill fontSize={28} />
                   </p>
@@ -105,12 +158,12 @@ const EnrolledCourses = () => {
                     <div className="w-full bg-gray-200 h-2 rounded-full">
                       <div
                         className="bg-blue-500 h-2 rounded-full"
-                        style={{ width: `${course.progress || 0}%` }}
+                        style={{ width: `${course.progressData?.courseCompletion || 0}%` }}
                       ></div>
                     </div>
 
                     <p className="text-sm text-gray-600 mt-1">
-                      {course.progress || 0}% Completed
+                      {course.progressData?.courseCompletion || 0}% Completed
                     </p>
                   </div>
 
@@ -121,12 +174,30 @@ const EnrolledCourses = () => {
                   >
                     Continue Learning
                   </button>
+                  
                 </div>
               </div>
             );
           })}
         </div>
+        <div className="mt-10 bg-gray-200 shadow-lg rounded-xl p-6">
+        <h2 className="text-2xl font-bold mb-6">Course Progress Overview</h2>
+         <div className="flex items-center justify-between mb-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    
+          
+           {progressData.map((getCourseProgress,index)=>{
+              return(
+                <div>
+   <ProgressBarChart getCourseProgress={getCourseProgress} />
+                </div>
+              )
+           })}
+           </div>
       </div>
+      </div>
+        </div>
+
     </>
   );
 };

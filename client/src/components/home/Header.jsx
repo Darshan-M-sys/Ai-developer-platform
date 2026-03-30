@@ -44,7 +44,7 @@ authData();
         {/* Desktop Menu */}
         <nav className="hidden md:flex gap-8 text-sm font-medium">
           <a href="#" className="hover:text-blue-400 transition">Home</a>
-          <a href="#" className="hover:text-blue-400 transition">Courses</a>
+          <a href="/courses" className="hover:text-blue-400 transition">Courses</a>
           <a href="#" className="hover:text-blue-400 transition">Problems</a>
           <a href="#" className="hover:text-blue-400 transition">Playground</a>
           <Link to="/dashboard" className="hover:text-blue-400 transition">Dashboard</Link>

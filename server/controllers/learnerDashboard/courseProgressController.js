@@ -1,5 +1,5 @@
 const progress = require("../../models/progress");
-
+const lesson = require("../../models/lesson");
 exports.createCourseProgress = async (req, res) => {
   try {
     const courseId = req.params.courseId;
@@ -47,9 +47,10 @@ exports.getCourseProgress = async (req, res) => {
 exports.updateLessonProgress = async (req, res) => {
   try {
     const courseId = req.params.courseId;
+    const lessonId = req.params.lessonId;
     const userId = req.session.user.id;
     const totalLessons = await lesson.countDocuments({ courseId });
-    const { lessonId, progress: lessonProgress } = req.body;
+    const {  progress: lessonProgress } = req.body;
     let progressData = await progress.findOne({ userId, courseId });
     if (!progressData) {
       return res.status(404).json({ success: false, message: "Progress not found for this course" });
@@ -62,13 +63,11 @@ exports.updateLessonProgress = async (req, res) => {
       progressData.lessonProgress.push({ lessonId, progress: lessonProgress });
     } 
     // Update completed lessons and course completion
-    if (lessonProgress === 100) {
+    if (lessonProgress >= 95) {
       if (!progressData.completedLessons.includes(lessonId)) {
         progressData.completedLessons.push(lessonId);
       }
-    } else {  
-      progressData.completedLessons = progressData.completedLessons.filter(id => id.toString() !== lessonId);
-    }
+    } 
 
   
     const completedLessons = progressData.completedLessons.length;
@@ -77,16 +76,42 @@ exports.updateLessonProgress = async (req, res) => {
     await progressData.save();
     res.status(200).json({ success: true, message: "Lesson progress updated successfully" });
   } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ success: false, message: "Server Error" });
+  } 
+};
+
+
+exports.markLessonComplete = async (req, res) => {
+  try {    
+    const courseId = req.params.courseId;
+    const lessonId = req.params.lessonId;
+    const userId = req.session.user.id;
+    let progressData = await progress.findOne({ userId, courseId });
+    if (!progressData) {
+      return res.status(404).json({ success: false, message: "Progress not found for this course" });
+    }
+    if (!progressData.completedLessons.includes(lessonId)) {
+      progressData.completedLessons.push(lessonId);
+    } else {
+      progressData.completedLessons = progressData.completedLessons.filter(id => id.toString() !== lessonId);}
+    const totalLessons = await lesson.countDocuments({ courseId });
+    const completedLessons = progressData.completedLessons.length;
+    progressData.courseCompletion = totalLessons > 0 ? (completedLessons / totalLessons) * 100 : 0;
+    await progressData.save();
+    res.status(200).json({ success: true, message: "Lesson marked as complete successfully" });
+  } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, message: "Server Error" });
   } 
 };
 
+
 exports.setCurrentLesson = async (req, res) => {
   try {
     const courseId = req.params.courseId;
     const userId = req.session.user.id;
-    const { lessonId } = req.body;
+      const lessonId = req.params.lessonId;
     let progressData = await progress.findOne({ userId, courseId });  
     if (!progressData) {
       return res.status(404).json({ success: false, message: "Progress not found for this course" });
@@ -142,27 +167,6 @@ exports.getProgressByLesson = async (req, res) => {
       return res.status(404).json({ success: false, message: "Progress not found for this lesson" });
     }
     res.status(200).json({ success: true, data: lessonProgress });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ success: false, message: "Server Error" });
-  } 
-};
-
-exports.unMarkLessonComplete = async (req, res) => {
-  try {
-    const courseId = req.params.courseId;
-    const userId = req.session.user.id;
-    const { lessonId } = req.body;
-    let progressData = await progress.findOne({ userId, courseId });
-    if (!progressData) {
-      return res.status(404).json({ success: false, message: "Progress not found for this course" });
-    } 
-    progressData.completedLessons = progressData.completedLessons.filter(id => id.toString() !== lessonId);
-    const totalLessons = await lesson.countDocuments({ courseId });
-    const completedLessons = progressData.completedLessons.length;
-    progressData.courseCompletion = totalLessons > 0 ? (completedLessons / totalLessons) * 100 : 0;
-    await progressData.save();
-    res.status(200).json({ success: true, message: "Lesson marked as incomplete successfully" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, message: "Server Error" });

@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import Header from "../../components/home/Header";
-import {Link} from "react-router-dom"
+
 import Sidebar from "../../components/learnerDashboard/SideBar";
 const ViewCourseInfo = () => {
   const nav=useNavigate()
@@ -20,7 +20,7 @@ const handleGetCourseData = async () => {
       `http://localhost:5000/student/enrollment/${enrollmentId}`,
       { withCredentials: true }
     );
-    console.log(res.data)
+    console.log(res.data);
     setCourse(res.data?.data || {});
   } catch (error) {
     console.log(error);
