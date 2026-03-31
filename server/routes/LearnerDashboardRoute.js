@@ -22,4 +22,16 @@ learnerDashboardRoute.get("/lesson/progress/:courseId/:lessonId", isAuthenticate
 learnerDashboardRoute.put("/lesson/progress/:courseId/:lessonId", isAuthenticated, isStudent, updateLessonProgress);
 learnerDashboardRoute.put("/course/current/:courseId/:lessonId", isAuthenticated, isStudent, setCurrentLesson);
 learnerDashboardRoute.put("/course/progress/:courseId/:lessonId", isAuthenticated, isStudent, markLessonComplete);
+
+
+
+// certificate route
+const { getIsCreateCertificate, generateCertificate, getCertificates } = require("../controllers/learnerDashboard/CertificateController");
+const certificate_upload = require("../middlewares/CertifcateUploadMiddleWare");
+learnerDashboardRoute.get("/certificate/completed/courses", isAuthenticated, isStudent, getIsCreateCertificate);
+learnerDashboardRoute.get("/certificates/", isAuthenticated, isStudent, getCertificates);
+learnerDashboardRoute.post("/certificate/generate/:courseId", isAuthenticated, isStudent,certificate_upload.fields([
+  {name:"certificatePdf" , maxCount:1},
+  {name:"certificateThumbnail",maxCount:1}
+]), generateCertificate);
 module.exports=learnerDashboardRoute;

@@ -54,11 +54,11 @@ const Sidebar = ({ menuShow, setMenuShow }) => {
         </div>
 
         {/* Menu */}
-        <ul className="flex flex-col justify-between h-[69%] px-4 py-6 overflow-y-auto">
+        <ul className="flex flex-col justify-between h-[70%] px-4 py-6 overflow-y-auto">
 
-          <div className="space-y-3">
 
-         <Link to="/dashboard">   <li className={`flex items-center gap-3 ${path.pathname==="/dashboard"?"bg-blue-500":""} p-3 rounded-lg cursor-pointer hover:bg-gray-800 transition`}>
+       
+             <Link to="/dashboard"> <li className={` ${path.pathname==="/dashboard"?"bg-blue-500":""} flex items-center gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-800 mb-2 transition`}>
               <LayoutDashboard size={20} />
               <span className="text-lg">Dashboard</span>
             </li></Link>
@@ -88,7 +88,7 @@ const Sidebar = ({ menuShow, setMenuShow }) => {
               <span className="text-lg">Certificates</span>
             </li>
 
-          </div>
+
 
           {/* Logout */}
           <li className="flex items-center gap-3 p-3 rounded-lg cursor-pointer bg-red-500 hover:bg-red-600 transition">

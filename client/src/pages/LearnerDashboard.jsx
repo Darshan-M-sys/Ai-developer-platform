@@ -76,8 +76,20 @@ useEffect(() => {
   });
 
   setProgressData(formattedData);
-  console.log("Formatted Progress Data:", formattedData);
+
 }, [enrolledCourses]);
+
+
+const [welcomeCourse,setWelcomeCourse]=useState({});
+useEffect(() => {
+  if (enrolledCourses.length > 0) {
+    const courseWithProgress = enrolledCourses.find(
+      (course) => course.progressData?.courseCompletion > 0 && course.progressData?.courseCompletion <= 100
+    );
+    setWelcomeCourse(courseWithProgress || {});
+  }
+
+}, [enrolledCourses,enrolledCourses.length]);
 
 
 
@@ -101,7 +113,7 @@ useEffect(() => {
 
         <Navbar profileData={profileData} />
 
-        <WelcomeCard />
+        <WelcomeCard  welcomeCourse={welcomeCourse} username={profileData?.name} />
 
         <StatsCards statsData={statsData} />
 

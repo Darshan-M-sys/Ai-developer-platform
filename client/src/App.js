@@ -26,6 +26,8 @@ import CourseViewPage from './pages/CourseViewPage'
 import EnrolledCourses from './pages/LearnerDashboardPages/EnrolledCourses'
 import ViewCourseInfo from './pages/LearnerDashboardPages/ViewCourseInfo'
 import LearningScreenPage from './pages/LearnerDashboardPages/LearningScreenPage'
+import CertificateTemplate from './pages/LearnerDashboardPages/CertificateTemplate'
+import CertificatePage from './pages/LearnerDashboardPages/CertificatePage'
 const App = () => {
   return (
     <div>
@@ -45,6 +47,8 @@ const App = () => {
         <Route path="/admin/students" element={<StudentsPage/>}/>
         <Route path="/admin/instructors" element={<InstructorPage/>}/>
         <Route path="/admin/courses" element={<CoursesPage />}/>
+        <Route path="/certificate" element={<CertificateTemplate />}/>
+        <Route path="/learner/certificate" element={<CertificatePage />}/>
         <Route path="/admin/course/:id" element={<CourseView />}/>
         <Route path="/admin/lesson/:courseId/:id" element={<LessonsPage />}/>
         <Route path="/admin/lesson/add/:courseId" element={<AddLessonPage />}/>
