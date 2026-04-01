@@ -1,14 +1,34 @@
-import React from "react";
+import { Copy, CopyCheck } from "lucide-react";
+import React, { useEffect, useState } from "react";
 
 const MyCertificates = ({ myCertificate }) => {
-  if (!myCertificate || myCertificate.length === 0)return;
+
+
+  const [isCopy,setIsCopy]=useState(false);
+
+  const handleCopyCertificateIs=(id)=>{
+    setIsCopy(true)
+    navigator.clipboard.writeText(id)
+  }
+  useEffect(()=>{
+    if(isCopy){
+    const time= setTimeout(()=>{
+       setIsCopy(false)
+    },3000)
+    return()=>{
+      clearTimeout(time)
+    }
+    }
+  },[isCopy])
+    if (!myCertificate || myCertificate.length === 0)return;
   return (
-    <div className="min-h-screen bg-gray-100 md:p-8">
+    <div className="min-h-screen bg-slate-300  rounded-xl md:p-8">
       <h1 className="text-3xl font-bold text-center text-green-600 mb-8">
         🏆 My Certificates
       </h1>
+      <hr/>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+<br/>      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         {myCertificate.map((cert) => (
           <div
             key={cert._id}
@@ -31,8 +51,10 @@ const MyCertificates = ({ myCertificate }) => {
             {/* Certificate Info */}
             <div className="mt-4">
               <p className="text-sm text-gray-500">Certificate ID</p>
-              <p className="font-bold text-blue-600">{cert.certificateId}</p>
-
+              <div className="flex items-center justify-center gap-1 bg-gray-100 m-auto w-[60%] rounded-lg p-1">
+              <p className="font-bold text-blue-600">{cert.certificateId} </p>
+              <p onClick={()=>handleCopyCertificateIs(cert.certificateId)} className="text-[10px] text-gray-400 cursor-pointer hover:text-black">{isCopy?(<CopyCheck/>):(<Copy fontSize={2}/>)}</p>
+              </div>
               <p className="text-sm text-gray-500 mt-2">Course Name</p>
               <p className="text-gray-700">{cert.courseId?.title}</p>
 

@@ -28,6 +28,15 @@ import ViewCourseInfo from './pages/LearnerDashboardPages/ViewCourseInfo'
 import LearningScreenPage from './pages/LearnerDashboardPages/LearningScreenPage'
 import CertificateTemplate from './pages/LearnerDashboardPages/CertificateTemplate'
 import CertificatePage from './pages/LearnerDashboardPages/CertificatePage'
+import InstructorDashboard from './pages/InstructorDashboard'
+import MyCourses from './pages/InstructorDashbaordPages/MyCourses'
+import Students from './pages/InstructorDashbaordPages/Students'
+import AddCourses from './pages/InstructorDashbaordPages/AddCourses'
+import StudentProgressPage from './pages/InstructorDashbaordPages/StudentProgressPage'
+import CompletedCertificatesPage from './pages/InstructorDashbaordPages/CompletedCertificatesPage'
+import LessonsMainPage from './pages/InstructorDashbaordPages/LessonMainPage'
+import AddLesson from './pages/InstructorDashbaordPages/AddLesson'
+import CourseInfo from './pages/InstructorDashbaordPages/CourseInfo'
 const App = () => {
   return (
     <div>
@@ -47,6 +56,15 @@ const App = () => {
         <Route path="/admin/students" element={<StudentsPage/>}/>
         <Route path="/admin/instructors" element={<InstructorPage/>}/>
         <Route path="/admin/courses" element={<CoursesPage />}/>
+        <Route path="/instructor/dashboard" element={<InstructorDashboard/>}/>
+        <Route path="/instructor/courses" element={<MyCourses/>}/>
+        <Route path="/instructor/students" element={<Students/>}/>
+        <Route path="/instructor/add/course" element={<AddCourses/>}/>
+        <Route path="/instructor/course/info/:courseId" element={<CourseInfo/>}/>
+        <Route path="/instructor/students/progress" element={<StudentProgressPage/>}/>
+        <Route path="/instructor/students/certificates" element={<CompletedCertificatesPage/>}/>
+        <Route path="/instructor/course/:courseId/lesson/:lessonId" element={<LessonsMainPage/>}/>
+        <Route path="/instructor/lesson/:courseId/" element={<AddLesson/>}/>
         <Route path="/certificate" element={<CertificateTemplate />}/>
         <Route path="/learner/certificate" element={<CertificatePage />}/>
         <Route path="/admin/course/:id" element={<CourseView />}/>

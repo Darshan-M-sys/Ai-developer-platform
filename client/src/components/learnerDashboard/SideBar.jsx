@@ -11,11 +11,23 @@ import {
 } from "lucide-react";
 
 
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Header from "../home/Header";
+import axios from "axios";
 
 const Sidebar = ({ menuShow, setMenuShow }) => {
   const path=useLocation();
+  const nav= useNavigate();
+  const handleLogout=async()=>{
+    try {
+     const res= await axios.get("http://localhost:5000/api/auth/logout",{withCredentials:true});
+     if(res.success){
+       nav("/")
+     } 
+    } catch (error) {
+      console.log(error)
+    }
+  }
   return (
     <>
 
@@ -83,15 +95,15 @@ const Sidebar = ({ menuShow, setMenuShow }) => {
               <span className="text-lg">Projects</span>
             </li>
 
-            <li className="flex items-center gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-800 transition">
+        <Link to='/learner/certificate'>    <li className={`flex  ${path.pathname==="/learner/certificate"?"bg-blue-500":""} items-center gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-800 transition`}>
               <Award size={20} />
               <span className="text-lg">Certificates</span>
-            </li>
+            </li></Link>
 
 
 
           {/* Logout */}
-          <li className="flex items-center gap-3 p-3 rounded-lg cursor-pointer bg-red-500 hover:bg-red-600 transition">
+          <li onClick={handleLogout} className="flex items-center gap-3 p-3 rounded-lg cursor-pointer bg-red-500 hover:bg-red-600 transition">
             <LogOut size={20} />
             <span className="text-lg">Logout</span>
           </li>

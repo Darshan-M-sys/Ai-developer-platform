@@ -107,7 +107,7 @@ useEffect(() => {
     <>
       <Header />
       <Sidebar />
-  
+  {courses.length>0?(
       <div className="md:p-6 p-2 md:mt-[66px] mt-[55px] md:ml-[280px] md:p-10 min-h-screen bg-gray-100">
         
         {/* TITLE */}
@@ -196,8 +196,17 @@ useEffect(() => {
            </div>
       </div>
       </div>
-        </div>
-
+        </div>):(
+          <div className="flex  flex-col justify-center items-center min-h-screen">
+         <div className=" ">Enrolled Course Not Found</div>
+         <br/>
+   
+<Link to="/courses">
+         <button className="text-xl p-2 bg-blue-500 rounded-sm text-white">Enroll Courses Now</button>
+         </Link>
+         </div>
+        )
+}
     </>
   );
 };

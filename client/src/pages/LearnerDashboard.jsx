@@ -113,11 +113,10 @@ useEffect(() => {
 
         <Navbar profileData={profileData} />
 
-        <WelcomeCard  welcomeCourse={welcomeCourse} username={profileData?.name} />
+      {welcomeCourse?.enrollmentCourses?.courseId?.title && ( <WelcomeCard  welcomeCourse={welcomeCourse} username={profileData?.name} />)}
 
         <StatsCards statsData={statsData} />
-
-        <div className=" bg-gray-200 shadow-lg rounded-xl p-6">
+{progressData.length>0 && (        <div className=" bg-gray-200 shadow-lg rounded-xl p-6">
 
           <h2 className="text-xl font-bold mb-4">
             Continue Learning
@@ -138,6 +137,8 @@ useEffect(() => {
           </div>
 
         </div>
+        )}
+
 
         <PlaygroundCard />
 
