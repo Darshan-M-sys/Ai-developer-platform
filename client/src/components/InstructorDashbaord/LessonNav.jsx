@@ -16,7 +16,7 @@ try {
     console.log(error)
   }
 }
-console.log(navData)
+
 const {courseId}=useParams()
  return (
     <div className="bg-white border-b p-4 md:p-6 ml-2 flex flex-col md:flex-row md:items-center md:justify-between gap-4">

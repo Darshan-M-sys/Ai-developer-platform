@@ -22,7 +22,7 @@ const Sidebar = () => {
     { name: "Students", path: "/instructor/students", icon: <FiUsers /> },
     { name: "Students Progress", path: "/instructor/students/progress", icon: <FaBarsProgress /> },
     { name: "Certificates Issued", path: "/instructor/students/certificates", icon: <FaCertificate /> },
-    { name: "Add Course", path: "/instructor/add-course", icon: <FiPlusCircle /> },
+    { name: "Add Course", path: "/instructor/add/course", icon: <FiPlusCircle /> },
   ];
 
   // Logout function

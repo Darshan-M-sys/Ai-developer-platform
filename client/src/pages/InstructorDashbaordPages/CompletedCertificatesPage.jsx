@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   LineChart,
   Line,
@@ -11,16 +11,10 @@ import {
 import { FaTrash, FaEye, FaDownload } from "react-icons/fa";
 import Sidebar from "../../components/InstructorDashbaord/Sidebar";
 import Header from "../../components/home/Header";
+import axios from "axios";
 
 const CompletedCertificatesPage = () => {
-  const [certificates, setCertificates] = useState([
-    { id: 1, student: "Rahul", course: "React", date: "01 Apr" },
-    { id: 2, student: "Sneha", course: "JavaScript", date: "01 Apr" },
-    { id: 3, student: "Arjun", course: "Python", date: "02 Apr" },
-    { id: 4, student: "Kiran", course: "HTML", date: "03 Apr" },
-    { id: 5, student: "Meena", course: "CSS", date: "03 Apr" },
-    { id: 6, student: "Vikas", course: "React", date: "04 Apr" },
-  ]);
+  const [certificates, setCertificates] = useState([]);
 
   // Convert certificates into graph data (date wise count)
   const chartData = certificates.reduce((acc, cert) => {
@@ -40,6 +34,19 @@ const CompletedCertificatesPage = () => {
     setCertificates(certificates.filter((cert) => cert.id !== id));
   };
 
+
+  const handleGetCertificates=async()=>{
+    try {
+     const res= await axios.get('http://localhost:5000/instructor/certificates',{withCredentials:true});
+    setCertificates(res.data?.data)
+    console.log(res.data?.data)
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
+  useEffect(()=>{
+handleGetCertificates();
+  },[])
   return (
     <>
     <Header/>
@@ -75,23 +82,39 @@ const CompletedCertificatesPage = () => {
               <th className="p-4">Student</th>
               <th className="p-4">Course</th>
               <th className="p-4">Date Issued</th>
+              <th className="p-4">Certificate Id</th>
               <th className="p-4 text-center">Actions</th>
             </tr>
           </thead>
 
-          <tbody>
-            {certificates.map((cert) => (
-              <tr key={cert.id} className="border-t hover:bg-gray-50">
-                <td className="p-4 font-semibold">{cert.student}</td>
-                <td className="p-4">{cert.course}</td>
-                <td className="p-4">{cert.date}</td>
+          
+            {certificates.map((cert,index) => (
+              <tbody key={index}>
+              {cert.map((item,index)=>(
+              <tr key={index} className="border-t hover:bg-gray-50">
+                <td className="p-4 font-semibold">{item.userId?.name}</td>
+                <td className="p-4">{item.courseId?.title}</td>
+                <td className="p-4">{new Date(item.createdAt).toLocaleString('en-IN',{
+                  dateStyle:"medium",
+                  timeStyle:"short"
+                })}</td>
+                <td className="p-4">{item.certificateId}</td>
 
                 <td className="p-4 flex justify-center gap-4">
-                  <button className="bg-blue-500 text-white px-3 py-2 rounded-lg hover:bg-blue-600">
+                  <button  onClick={()=>window.location.href=item.
+certificateUrl
+} className="bg-blue-500 text-white px-3 py-2 rounded-lg hover:bg-blue-600">
                     <FaEye />
                   </button>
 
-                  <button className="bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-600">
+                  <button onClick={()=>{
+                    const a=document.createElement("a");
+                    a.href=window.location.href=item.
+certificateUrl;
+ a.save(item.courseId.title+"certificate.pdf")
+ a.click();
+                  }} className="bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-600">
+
                     <FaDownload />
                   </button>
 
@@ -103,8 +126,11 @@ const CompletedCertificatesPage = () => {
                   </button>
                 </td>
               </tr>
-            ))}
+              ))}
+              
           </tbody>
+            ))}
+        
         </table>
       </div>
     </div>

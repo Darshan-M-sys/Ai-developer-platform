@@ -13,6 +13,7 @@ import { useEffect } from 'react'
 import { useState } from 'react'
 
 const InstructorDashboard = () => {
+  const [isDeleted,setIsDeleted]=useState(false)
 const [statsData,setStatsData]=useState({})
   const handleGetStatsData=async()=>{
     try {
@@ -27,10 +28,11 @@ const [statsData,setStatsData]=useState({})
 handleGetStatsData();
   },[])
 
+const [courses,setCourses]=useState([])
   const handleGetMyCourses=async()=>{
 try {
   const res=await axios.get("http://localhost:5000/instructor/courses",{withCredentials:true});
-  console.log(res.data)
+ setCourses(res.data?.data || [])
 } catch (error) {
   console.log(error)
 }
@@ -38,7 +40,33 @@ try {
   
   useEffect(()=>{
 handleGetMyCourses();
-  },[])
+  },[isDeleted])
+
+     const handleDeleteCourse=async(courseId)=>{
+      try {
+        if(!window.confirm("Are you sure to delete this course!")) return;
+         const res= await axios.delete(`http://localhost:5000/instructor/course/${courseId}`,{withCredentials:true});
+         if(res.data?.success){
+  setIsDeleted(true)
+         }
+      } catch (error) {
+        console.log(error.message)
+      }
+    } 
+const [students,setStudents]=useState([])
+     const handleGetAllEnrolledStudents=async()=>{
+      try {
+      const res= await axios.get("http://localhost:5000/instructor/students",{withCredentials:true});
+   setStudents(res.data?.data || []) 
+  
+      } catch (error) {
+       console.log(error.message) 
+      }
+     }
+
+     useEffect(()=>{
+     handleGetAllEnrolledStudents();
+     },[])
   return (
     <>
    <Header/>
@@ -55,8 +83,8 @@ handleGetMyCourses();
       
       <CoursesGrowth/>
       </div>
-      <StudentsTable/>
-      <CoursesTable/>
+      <StudentsTable students={students}/>
+      <CoursesTable courses={courses} handleDeleteCourse={handleDeleteCourse}/>
       
     </div>
     </>

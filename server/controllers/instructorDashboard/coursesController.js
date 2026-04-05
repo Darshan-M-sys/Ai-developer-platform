@@ -21,10 +21,7 @@ exports.updateCourse=async(req,res)=>{
   try {
     const userId= req.session.user.id;
     const courseId=req.params.courseId;
-
     const existingCourse= await courses.findOne({$or:[{_id:courseId,creatorId:userId},{_id:courseId,instructor:userId}]});
-
-
     existingCourse.title= req.body.title ||  existingCourse.title;
     existingCourse.duration= req.body.duration ||  existingCourse.duration;
     existingCourse.price= req.body.price ||  existingCourse.price;
@@ -82,4 +79,41 @@ exports.getSingleCourseInfo=async(req,res)=>{
     res.status(500).json({message:error.message})
   }
 
+}
+
+exports.publishCourse=async(req,res)=>{
+  try {
+    const userId= req.session.user.id;
+    const courseId= req.params.courseId;
+    const existingCourse= await courses.findOne({$or:[{_id:courseId,creatorId:userId},{_id:courseId,instructor:userId}]});
+      if(existingCourse){
+           if(existingCourse.status==="published"){
+            existingCourse.status="draft";
+            await existingCourse.save();
+           }else{
+            existingCourse.status="published";
+           await existingCourse.save();
+           }
+          }else{
+            return res.status(404).json({message:'data not found'})
+          }
+
+
+   res.status(200).json({success:true,message:existingCourse.status})
+  } catch (error) {
+   res.status(500).json({message:error.message}) 
+  }
+}
+
+exports.deleteCourse=async(req,res)=>{
+  try {
+    const userId= req.session.user.id;
+    const courseId= req.params.courseId;
+    await  courses.findOneAndDelete({_id:courseId,creatorId:userId});
+    await lessons.deleteMany({courseId:courseId});
+    await enrollment.deleteMany({courseId:courseId})
+    res.status(200).json({success:true,message:"Deleted!"})
+  } catch (error) {
+    res.status(500).json({message:error.message})
+  }
 }

@@ -1,33 +1,11 @@
+import { Link } from "react-router-dom";
 import React from "react";
+
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 
-const CoursesTable = () => {
-  const courses = [
-    {
-      title: "React for Beginners",
-      category: "Web Development",
-      students: 120,
-      price: "₹999",
-      status: "Published",
-      image: "https://cdn-icons-png.flaticon.com/512/2721/2721276.png",
-    },
-    {
-      title: "JavaScript Mastery",
-      category: "Programming",
-      students: 95,
-      price: "₹799",
-      status: "Published",
-      image: "https://cdn-icons-png.flaticon.com/512/2721/2721276.png",
-    },
-    {
-      title: "Python Basics",
-      category: "Programming",
-      students: 60,
-      price: "₹699",
-      status: "Draft",
-      image: "https://cdn-icons-png.flaticon.com/512/2721/2721276.png",
-    },
-  ];
+const CoursesTable = ({courses,handleDeleteCourse}) => {
+ 
+
 
   return (
     <div className="bg-white shadow rounded-2xl p-6 mt-8">
@@ -52,37 +30,37 @@ const CoursesTable = () => {
                 {/* Course Image + Title */}
                 <td className="p-3 flex items-center gap-3">
                   <img
-                    src={course.image}
+                    src={course.course?.thumbnail}
                     alt="course"
                     className="w-12 h-12 rounded-lg"
                   />
                   <p className="font-semibold">{course.title}</p>
                 </td>
 
-                <td className="p-3">{course.category}</td>
-                <td className="p-3">{course.students}</td>
-                <td className="p-3">{course.price}</td>
+                <td className="p-3">{course.course?.category}</td>
+                <td className="p-3">{course.studentsCount}</td>
+                <td className="p-3">₹{course.course?.price}</td>
 
                 {/* Status Badge */}
                 <td className="p-3">
                   <span
                     className={`px-3 py-1 rounded-full text-sm font-semibold ${
-                      course.status === "Published"
+                      course.course?.status === "published"
                         ? "bg-green-100 text-green-600"
                         : "bg-yellow-100 text-yellow-600"
                     }`}
                   >
-                    {course.status}
+                    {course.course?.status}
                   </span>
                 </td>
 
                 {/* Action Buttons */}
                 <td className="p-3 flex gap-3">
-                  <button className="p-2 bg-blue-100 text-blue-600 rounded-lg hover:bg-blue-200">
+               <Link to={`/instructor/add/course`} state={course.course?._id}>   <button className="p-2 bg-blue-100 text-blue-600 rounded-lg hover:bg-blue-200">
                     <FiEdit />
                   </button>
-
-                  <button className="p-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200">
+</Link>
+                  <button onClick={handleDeleteCourse} className="p-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200">
                     <FiTrash2 />
                   </button>
                 </td>

@@ -13,21 +13,33 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 const MyCourses = () => {
-
+const [isDeleted,setIsDeleted]=useState(false)
   const [courses,setCourses]=useState([])
     const handleGetMyCourses=async()=>{
 try {
-  const res=await axios.get("http://localhost:5000/instructor/courses",{withCredentials:true});
- setCourses(res.data?.data || [])
- console.log(res.data.data)
+const res=await axios.get("http://localhost:5000/instructor/courses",{withCredentials:true});
+setCourses(res.data?.data || [])
+console.log(res.data.data);
 } catch (error) {
   console.log(error)
 }
   }
   
-  useEffect(()=>{
+useEffect(()=>{
 handleGetMyCourses();
-  },[])
+  },[isDeleted])
+
+  const handleDeleteCourse=async(courseId)=>{
+    try {
+      if(!window.confirm("Are you sure to delete this course!")) return;
+       const res= await axios.delete(`http://localhost:5000/instructor/course/${courseId}`,{withCredentials:true});
+       if(res.data?.success){
+setIsDeleted(true)
+       }
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
   // const courses = [
   //   {
   //     title: "React for Beginners",
@@ -71,7 +83,7 @@ handleGetMyCourses();
           >
             <div className="absolute right-0 top-0 rounded-xl flex gap-2 bg-white/40 p-1 " title="Add Lessons">
              <Link to={`/instructor/course/info/${course.course?._id}`}>  <button className="p-2 bg-white text-xl shadow  w-full rounded-full"><Info/></button></Link>
-               <Link to={course.lessonData?.length>0?`/instructor/course/${course.course?._id}/lesson/${course.lessonData[0]._id}`:""}><button className=" p-[10px] bg-white text-xl flex  w-full items-center shadow rounded-full"><MdOutlineAdd /></button></Link>
+               <Link to={course.lessonData?.length>0?`/instructor/course/${course.course?._id}/lesson/${course.lessonData[0]._id}`:`/instructor/lesson/${course.course?._id}`}><button className=" p-[10px] bg-white text-xl flex  w-full items-center shadow rounded-full"><MdOutlineAdd /></button></Link>
               <button className=" p-2 bg-white text-xl flex  w-full items-center shadow rounded-full"><Info/></button>
               </div>
             {/* Course Image */}
@@ -119,7 +131,7 @@ handleGetMyCourses();
                   Edit
                
 </Link>
-                <button disabled={!course.isCreator} className={`flex-1 ${course.isCreator?"":"opacity-[0.2] cursor-not-allowed"} bg-red-600 text-white py-2 rounded-lg hover:bg-red-700`}>
+                <button onClick={()=>handleDeleteCourse(course.course?._id)} disabled={!course.isCreator} className={`flex-1 ${course.isCreator?"":"opacity-[0.2] cursor-not-allowed"} bg-red-600 text-white py-2 rounded-lg hover:bg-red-700`}>
                   <FiTrash2 className="inline mr-2" />
                   Delete
                 </button>

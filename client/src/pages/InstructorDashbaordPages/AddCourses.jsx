@@ -18,7 +18,7 @@ const AddCourses = () => {
     type:''
   })
   const nav=useNavigate()
-
+  const [coursePublished,setCoursePublished]=useState(false)
   const [formData,setFormData]=useState({
     title:'',
     price:"",
@@ -29,7 +29,8 @@ const AddCourses = () => {
     youWillLearn:"",
     language:"",
     image:null,
-    thumbnail:""
+    thumbnail:"",
+    status:''
   })
 
   const {state}=useLocation();
@@ -72,7 +73,7 @@ const AddCourses = () => {
     if(state){
 handleGetCourseData();
     }
-    },[state])
+    },[state,coursePublished])
   const [imagePreview,setImagePreview]=useState(null);
   const handleChange=(e)=>{
 setFormData((prev)=>({...prev,[e.target.name]:e.target.value}))
@@ -104,6 +105,16 @@ setFormData((prev)=>({...prev,[e.target.name]:e.target.value}))
       console.log(error.message)
     }
   }
+  const handlePublish=async()=>{
+    try {
+     const res= await axios.put(`http://localhost:5000/instructor/course/status/${state}`,{},{withCredentials:true});
+    if(res.data?.success){
+      setCoursePublished(!coursePublished)
+    }
+    } catch (error) {
+     console.log(error.message) 
+    }
+  }
  
   return (
     <>
@@ -121,6 +132,7 @@ setFormData((prev)=>({...prev,[e.target.name]:e.target.value}))
     <div className=" md:ml-[280px] min-h-screen md:mt-[66px] bg-gray-50 mt-[55px] flex justify-center items-start p-1 md:p-6">
       <div className="w-full max-w-4xl bg-white rounded-2xl shadow-sm border border-gray-200 p-6 md:p-8">
         {/* Header */}
+        <div className="flex justify-between items-center">
         <div className="mb-6">
           <h2 className="text-2xl md:text-3xl font-semibold text-gray-800">
             Create New Course
@@ -128,6 +140,11 @@ setFormData((prev)=>({...prev,[e.target.name]:e.target.value}))
           <p className="text-sm text-gray-500 mt-1">
             Fill the course details below to publish a new course for students
           </p>
+        </div>
+        {formData.status &&(
+  <button onClick={handlePublish} className={`rounded-lg w-[30%] capitalize text-white text-xl ${formData.status==="published"?"bg-yellow-500":"bg-green-500"} p-2 `}>{formData.status==="draft"?"Publish":"Draft"}</button>
+        )}
+      
         </div>
 
         {/* Form */}

@@ -2,10 +2,12 @@ const express= require("express");
 const { getStatusData, getStatsData } = require("../controllers/instructorDashboard/statsController");
 const isInstructor = require("../middlewares/instructorMiddleware");
 const isAuthenticated=require("../middlewares/authMiddleware");
-const { getAllCourses, getSingleCourseInfo, updateCourse, createCourse } = require("../controllers/instructorDashboard/coursesController");
+const { getAllCourses, getSingleCourseInfo, updateCourse, createCourse, deleteCourse, publishCourse } = require("../controllers/instructorDashboard/coursesController");
 const upload = require("../middlewares/uploadImageMiddleware");
 const { getLessons, getSingleLesson, createLesson, updateLesson, deleteLesson } = require("../controllers/instructorDashboard/lessonController");
 const uploadVideo = require("../middlewares/videoUploadMiddleware");
+const { allEnrolledStudents, deleteEnrollment, getStudentsProgress } = require("../controllers/instructorDashboard/studentsController");
+const { getAllCertificateIssued } = require("../controllers/instructorDashboard/certificateController");
 const instructorDashboardRoute=express.Router();
 
 
@@ -22,4 +24,14 @@ instructorDashboardRoute.get('/courses',isAuthenticated,isInstructor,getAllCours
 instructorDashboardRoute.put('/course/:courseId',isAuthenticated,isInstructor,upload.single("image"),updateCourse);
 instructorDashboardRoute.post('/course/create',isAuthenticated,isInstructor,upload.single("image"),createCourse);
 instructorDashboardRoute.get('/course/:courseId',isAuthenticated,isInstructor,getSingleCourseInfo);
+instructorDashboardRoute.put('/course/status/:courseId',isAuthenticated,isInstructor,publishCourse);
+instructorDashboardRoute.delete('/course/:courseId',isAuthenticated,isInstructor,deleteCourse);
+
+// enrollment
+instructorDashboardRoute.delete('/enrollment/:enrollmentId',isAuthenticated,isInstructor,deleteEnrollment);
+// students
+instructorDashboardRoute.get('/students',isAuthenticated,isInstructor,allEnrolledStudents);
+instructorDashboardRoute.get('/students/progress',isAuthenticated,isInstructor,getStudentsProgress);
+// certificates
+instructorDashboardRoute.get('/certificates',isAuthenticated,isInstructor,getAllCertificateIssued);
 module.exports=instructorDashboardRoute;

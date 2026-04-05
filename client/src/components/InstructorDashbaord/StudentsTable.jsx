@@ -1,32 +1,6 @@
 import React from "react";
 
-const StudentsTable = () => {
-  const students = [
-    {
-      name: "Rahul Kumar",
-      email: "rahul@gmail.com",
-      course: "React Course",
-      date: "12 Mar 2025",
-      status: "Active",
-      image: "https://cdn-icons-png.flaticon.com/512/149/149071.png",
-    },
-    {
-      name: "Sneha R",
-      email: "sneha@gmail.com",
-      course: "JavaScript Course",
-      date: "15 Mar 2025",
-      status: "Active",
-      image: "https://cdn-icons-png.flaticon.com/512/149/149071.png",
-    },
-    {
-      name: "Arjun",
-      email: "arjun@gmail.com",
-      course: "Python Course",
-      date: "20 Mar 2025",
-      status: "Pending",
-      image: "https://cdn-icons-png.flaticon.com/512/149/149071.png",
-    },
-  ];
+const StudentsTable = ({students}) => {
 
   return (
     <div className="bg-white shadow rounded-2xl p-6 mt-8">
@@ -45,35 +19,46 @@ const StudentsTable = () => {
           </thead>
 
           <tbody>
-            {students.map((student, index) => (
+         
+            {students?.map((student) => (
+              <>
+              {student?.map((item,index)=>(
               <tr key={index} className="border-b hover:bg-gray-50">
                 {/* Student Name + Image */}
+                
                 <td className="p-3 flex items-center gap-3">
                   <img
-                    src={student.image}
+                    src={item.studentId?.avatar}
                     alt="student"
                     className="w-10 h-10 rounded-full"
                   />
-                  <p className="font-semibold">{student.name}</p>
+                  <p className="font-semibold">{item.studentId?.name}</p>
                 </td>
 
-                <td className="p-3 text-gray-600">{student.email}</td>
-                <td className="p-3">{student.course}</td>
-                <td className="p-3">{student.date}</td>
+                <td className="p-3 text-gray-600">{item.studentId?.email}</td>
+                <td className="p-3">{item.courseId?.title}</td>
+            <td className="p-3">
+  {new Date(item.enrolledAt).toLocaleString('en-IN', {
+    dateStyle: 'medium',
+    timeStyle: 'short'
+  })}
+</td>
 
                 {/* Status Badge */}
                 <td className="p-3">
                   <span
                     className={`px-3 py-1 rounded-full text-sm font-semibold ${
-                      student.status === "Active"
+                     "Active" === "Active"
                         ? "bg-green-100 text-green-600"
                         : "bg-yellow-100 text-yellow-600"
                     }`}
                   >
-                    {student.status}
+                 Active
                   </span>
                 </td>
               </tr>
+              ))}
+              </>
             ))}
           </tbody>
         </table>
