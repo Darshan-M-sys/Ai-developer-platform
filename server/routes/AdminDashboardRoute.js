@@ -9,6 +9,8 @@ const { createCourse, updateCourse, getSingleCourse, getAllCourses, deleteCourse
 const { getAllInstructors, addInstructors } = require("../controllers/adminDashboardControllers/instructorsControllers");
 const uploadVideo = require("../middlewares/videoUploadMiddleware");
 const { createLesson, updateLesson, deleteLesson, getSingleLesson, getAllLesson } = require("../controllers/adminDashboardControllers/lessonController");
+const {  getAllStudents } = require("../controllers/adminDashboardControllers/studentController");
+const { getEnrolledStudents } = require("../controllers/adminDashboardControllers/enrollmentController");
 
 adminDashboardRoute.get("/stats",isAuthenticated,isAdmin,usersStat);
 adminDashboardRoute.get("/users",isAuthenticated,isAdmin,getUsers);
@@ -30,4 +32,9 @@ adminDashboardRoute.put("/lesson/:lessonId",isAuthenticated,isAdmin,uploadVideo.
 adminDashboardRoute.delete("/lesson/:lessonId",isAuthenticated,isAdmin,deleteLesson);
 adminDashboardRoute.get("/lesson/:lessonId",isAuthenticated,isAdmin,getSingleLesson);
 adminDashboardRoute.get("/lessons/:courseId",isAuthenticated,isAdmin,getAllLesson);
+
+// enrollments
+adminDashboardRoute.get("/all/enrolled/students",isAuthenticated,isAdmin,getEnrolledStudents)
+// students
+adminDashboardRoute.get("/students",isAuthenticated,isAdmin,getAllStudents)
 module.exports=adminDashboardRoute;

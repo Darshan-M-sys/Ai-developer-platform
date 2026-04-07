@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   LineChart,
   Line,
@@ -12,11 +12,14 @@ import {
 } from "recharts";
 import AdminSidebar from "../../components/AdminDashboard.jsx/AdminSidebar";
 import Header from "../../components/home/Header";
+import axios from "axios";
+import EditUsers from "../../components/AdminDashboard.jsx/EditUsers";
 
 const StudentsPage = () => {
 
-  /* ---------------- Chart Data ---------------- */
 
+   const [openEdit,setOpenEdit]=useState(false);
+   const [userId,setUserId]=useState(null);
   const studentGrowth = [
     { month: "Jan", students: 120 },
     { month: "Feb", students: 200 },
@@ -25,25 +28,65 @@ const StudentsPage = () => {
     { month: "May", students: 600 },
     { month: "Jun", students: 780 },
   ];
-
-  const activeStudents = [
-    { name: "React", students: 150 },
-    { name: "Node", students: 110 },
-    { name: "Python", students: 180 },
-    { name: "AI", students: 140 },
-  ];
-
+const [students,setStudents]=useState([])
+const [isDeleted,setIsDeleted]=useState(false)
   /* ---------------- Table Data ---------------- */
 
-  const students = [
-    { id: 1, name: "Rahul K", email: "rahul@gmail.com", course: "React" },
-    { id: 2, name: "Priya R", email: "priya@gmail.com", course: "Node.js" },
-    { id: 3, name: "Amit S", email: "amit@gmail.com", course: "Python" },
-    { id: 4, name: "Sneha M", email: "sneha@gmail.com", course: "AI Basics" },
-  ];
 
+//   const handleGetAllEnrolledStudents=async()=>{
+//     try {
+//      const res= await axios.get('http://localhost:5000/admin/all/enrolled/students',{withCredentials:true}) ;
+//      console.log(res.data?.data)
+//     } catch (error) {
+//       console.log(error.message)
+//     }
+//   }
+
+//   useEffect(()=>{
+// handleGetAllEnrolledStudents();
+//   },[])
+
+
+  const handleGetStudents=async()=>{
+    try {
+     const res= await axios.get('http://localhost:5000/admin/students',{withCredentials:true}) ;
+    setStudents( res.data?.data || [])
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
+
+  useEffect(()=>{
+handleGetStudents();
+  },[isDeleted])
+
+  const handleEdit=(id)=>{
+ if(id){
+  setOpenEdit(true)
+  setUserId(id);
+ }
+  }
+
+   const deleteUser=async(id)=>{
+    try {
+      if(!window.confirm("Are you sure to delete this account permanently ")) return ;
+      if(id){
+       
+     const res= await axios.delete(`http://localhost:5000/admin/user/${id}`,{withCredentials:true});
+     if(res.data?.success){
+      setOpenEdit(false);
+     setIsDeleted(true);
+     }}
+    } catch (error) {
+     console.log(error.message) 
+    }
+  }
   return (
     <>
+      {openEdit && (
+      <EditUsers setOpenEdit={setOpenEdit} userId={userId} />
+    )}
+
      <Header/>
     <AdminSidebar/>
     <div className=" md:ml-[280px] md:mt-[66px] mt-[55px] bg-gray-100  p-1 md:p-6">
@@ -77,7 +120,7 @@ const StudentsPage = () => {
           <h2 className="font-semibold mb-4">Course-wise Students</h2>
 
           <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={activeStudents}>
+            <BarChart data={students}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" />
               <YAxis />
@@ -96,9 +139,9 @@ const StudentsPage = () => {
 
           <thead className="bg-gray-100">
             <tr>
+              <th className="p-4">Avatar</th>
               <th className="p-4">Name</th>
               <th className="p-4">Email</th>
-              <th className="p-4">Course</th>
               <th className="p-4">Actions</th>
             </tr>
           </thead>
@@ -106,19 +149,20 @@ const StudentsPage = () => {
           <tbody>
             {students.map((student) => (
               <tr key={student.id} className="border-t hover:bg-gray-50">
+                <td className="p-4 font-medium"><img src={student.avatar} className="w-[25px] h-[25px] rounded-full" alt="profile" /></td>
 
                 <td className="p-4 font-medium">{student.name}</td>
 
                 <td className="p-4 text-gray-600">{student.email}</td>
 
-                <td className="p-4">{student.course}</td>
+         
 
                 <td className="p-4 flex gap-3">
-                  <button className="bg-blue-600 text-white px-3 py-1 rounded-lg hover:bg-blue-700">
+                  <button onClick={()=>handleEdit(student._id)} className="bg-blue-600 text-white px-3 py-1 rounded-lg hover:bg-blue-700">
                     View
                   </button>
 
-                  <button className="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600">
+                  <button onClick={()=>deleteUser(student._id)} className="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600">
                     Remove
                   </button>
                 </td>

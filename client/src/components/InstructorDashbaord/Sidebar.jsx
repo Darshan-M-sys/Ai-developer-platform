@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from 'axios'
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   FiMenu,
@@ -14,7 +15,7 @@ import { FaBarsProgress, FaCertificate } from "react-icons/fa6";
 const Sidebar = () => {
   const [open, setOpen] = useState(false);
   const location = useLocation();
-  const navigate = useNavigate();
+  const nav=useNavigate();
 
   const menu = [
     { name: "Dashboard", path: "/instructor/dashboard", icon: <FiHome /> },
@@ -25,11 +26,16 @@ const Sidebar = () => {
     { name: "Add Course", path: "/instructor/add/course", icon: <FiPlusCircle /> },
   ];
 
-  // Logout function
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    navigate("/login");
-  };
+       const handleLogout=async()=>{
+  try {
+    const res=await axios.get("http://localhost:5000/api/auth/logout",{withCredentials:true});
+    if(res.data?.success){
+      nav("/")
+    }
+  } catch (error) {
+   console.log(error.message) 
+  }
+       }
 
   return (
     <>

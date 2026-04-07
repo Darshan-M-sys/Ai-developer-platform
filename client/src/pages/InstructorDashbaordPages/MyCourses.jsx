@@ -19,7 +19,7 @@ const [isDeleted,setIsDeleted]=useState(false)
 try {
 const res=await axios.get("http://localhost:5000/instructor/courses",{withCredentials:true});
 setCourses(res.data?.data || [])
-console.log(res.data.data);
+
 } catch (error) {
   console.log(error)
 }
@@ -40,37 +40,14 @@ setIsDeleted(true)
       console.log(error.message)
     }
   }
-  // const courses = [
-  //   {
-  //     title: "React for Beginners",
-  //     students: 120,
-  //     price: "₹999",
-  //     status: "Published",
-  //     image: "https://cdn-icons-png.flaticon.com/512/2721/2721276.png",
-  //   },
-  //   {
-  //     title: "JavaScript Mastery",
-  //     students: 95,
-  //     price: "₹799",
-  //     status: "Published",
-  //     image: "https://cdn-icons-png.flaticon.com/512/2721/2721276.png",
-  //   },
-  //   {
-  //     title: "Python Basics",
-  //     students: 60,
-  //     price: "₹699",
-  //     status: "Draft",
-  //     image: "https://cdn-icons-png.flaticon.com/512/2721/2721276.png",
-  //   },
-  // ];
-
+ 
   return (
     <> 
     <Header/>
     <div className="md:mt-[66px] mt-[55px]">
     <Sidebar/> 
     </div>
-      <div className="p-6 md:mt-[66px] mt-[55px] ml-[260px]">
+      <div className="p-6 md:mt-[66px] mt-[55px] md:ml-[260px]">
       {/* Page Title */}
       <h1 className="text-3xl font-bold mb-6">My Courses</h1>
 

@@ -7,7 +7,7 @@ const upload = require("../middlewares/uploadImageMiddleware");
 const { getLessons, getSingleLesson, createLesson, updateLesson, deleteLesson } = require("../controllers/instructorDashboard/lessonController");
 const uploadVideo = require("../middlewares/videoUploadMiddleware");
 const { allEnrolledStudents, deleteEnrollment, getStudentsProgress } = require("../controllers/instructorDashboard/studentsController");
-const { getAllCertificateIssued } = require("../controllers/instructorDashboard/certificateController");
+const { getAllCertificateIssued, deleteCertificate } = require("../controllers/instructorDashboard/certificateController");
 const instructorDashboardRoute=express.Router();
 
 
@@ -34,4 +34,5 @@ instructorDashboardRoute.get('/students',isAuthenticated,isInstructor,allEnrolle
 instructorDashboardRoute.get('/students/progress',isAuthenticated,isInstructor,getStudentsProgress);
 // certificates
 instructorDashboardRoute.get('/certificates',isAuthenticated,isInstructor,getAllCertificateIssued);
+instructorDashboardRoute.delete('/certificates/remove/:certificateId',isAuthenticated,isInstructor,deleteCertificate);
 module.exports=instructorDashboardRoute;

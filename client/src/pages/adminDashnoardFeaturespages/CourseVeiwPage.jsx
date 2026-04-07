@@ -104,7 +104,7 @@ useEffect(() => {
           <div className="bg-gray-50 border border-gray-200 rounded-xl p-4">
             <p className="text-sm text-gray-500">Students</p>
             <p className="text-lg font-semibold text-gray-800 mt-1">
-              {course.students}
+              {course.studentsCount}
             </p>
           </div>
 
@@ -153,9 +153,7 @@ useEffect(() => {
             View Lessons
           </button> </Link>
 
-          <button className="border border-gray-300 px-6 py-3 rounded-xl text-sm md:text-base font-medium hover:bg-gray-100 transition">
-            Problems
-          </button>
+      
         </div>
       </div>
     </div>

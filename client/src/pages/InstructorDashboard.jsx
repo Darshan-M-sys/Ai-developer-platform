@@ -7,12 +7,14 @@ import EnrollmentGraph from '../components/InstructorDashbaord/EnrollmentGrahp'
 import CoursesGrowth from '../components/InstructorDashbaord/CoursesGrowth'
 import StudentsTable from '../components/InstructorDashbaord/StudentsTable'
 import CoursesTable from '../components/InstructorDashbaord/CoursesTable'
-import AssignedCoursesTable from '../components/InstructorDashbaord/AssignedCoursesTable'
 import axios from 'axios'
 import { useEffect } from 'react'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const InstructorDashboard = () => {
+  const nav=useNavigate()
+  const [profileData,setProfileData]=useState([])
   const [isDeleted,setIsDeleted]=useState(false)
 const [statsData,setStatsData]=useState({})
   const handleGetStatsData=async()=>{
@@ -67,17 +69,20 @@ const [students,setStudents]=useState([])
      useEffect(()=>{
      handleGetAllEnrolledStudents();
      },[])
+
+
+
   return (
     <>
-   <Header/>
+   <Header setProfileData={setProfileData}/>
 
-    <div className="md:mt-[72px] mt-[66px]">
+    <div className="md:mt-[72px]">
 
-        <Sidebar/>
+        <Sidebar />
     </div>
     <div className="md:ml-[250px]    md:mt-[66px]">
-      <Navbar/>
-      <Stats statsData={statsData}/>
+      <Navbar profileData={profileData}/>
+      <Stats statsData={statsData} />
       <div className="flex w-full flex-col gap-2 md:flex-row ">
       <EnrollmentGraph/>
       

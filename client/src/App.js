@@ -39,7 +39,7 @@ import AddLesson from './pages/InstructorDashbaordPages/AddLesson'
 import CourseInfo from './pages/InstructorDashbaordPages/CourseInfo'
 const App = () => {
   return (
-    <div>
+    <div className="bg-gray-500">
       <Routes>
         <Route path="/" element={<Home/>}/>
         <Route path="/register" element={<Register/>}/>

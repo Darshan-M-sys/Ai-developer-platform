@@ -17,3 +17,13 @@ exports.getAllCertificateIssued=async(req,res)=>{
    res.status(500).json({message:error.message}) 
   }
 }
+
+exports.deleteCertificate=async(req,res)=>{
+  try {
+    const certificateId= req.params.certificateId;
+    await Certificate.findOneAndDelete({_id:certificateId});
+    res.status(200).json({message:"deleted",success:true})
+  } catch (error) {
+    res.status(500).json({message:error.message})
+  }
+}

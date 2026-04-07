@@ -17,29 +17,29 @@ const CompletedCertificatesPage = () => {
   const [certificates, setCertificates] = useState([]);
 
   // Convert certificates into graph data (date wise count)
-  const chartData = certificates.reduce((acc, cert) => {
-    const found = acc.find((item) => item.date === cert.date);
+const flatCertificates = certificates.flat();
+const chartData = flatCertificates.reduce((acc, cert) => {
+  const date = new Date(cert.createdAt).toLocaleDateString("en-IN",{
+    dateStyle:"medium"
+  });
 
-    if (found) {
-      found.completed += 1;
-    } else {
-      acc.push({ date: cert.date, completed: 1 });
-    }
+  const found = acc.find((item) => item.date === date);
 
-    return acc;
-  }, []);
+  if (found) {
+    found.completed += 1;
+  } else {
+    acc.push({ date, completed: 1 });
+  }
 
-  // Delete certificate
-  const handleDelete = (id) => {
-    setCertificates(certificates.filter((cert) => cert.id !== id));
-  };
+  return acc;
+}, []);
 
 
   const handleGetCertificates=async()=>{
     try {
      const res= await axios.get('http://localhost:5000/instructor/certificates',{withCredentials:true});
     setCertificates(res.data?.data)
-    console.log(res.data?.data)
+
     } catch (error) {
       console.log(error.message)
     }
@@ -47,6 +47,18 @@ const CompletedCertificatesPage = () => {
   useEffect(()=>{
 handleGetCertificates();
   },[])
+
+  const handleDeleteCertificate=async(certificateId)=>{
+    try {
+    if(!window.confirm('Are you sure to delete this certificate'))return ;
+      const res= await axios.delete(`http://localhost:5000/instructor/certificates/remove/${certificateId}`,{withCredentials:true});
+      if(res.data?.success){
+         handleGetCertificates();
+      }
+    } catch (error) {
+     console.log(error.message) 
+    }
+  }
   return (
     <>
     <Header/>
@@ -111,7 +123,7 @@ certificateUrl
                     const a=document.createElement("a");
                     a.href=window.location.href=item.
 certificateUrl;
- a.save(item.courseId.title+"certificate.pdf")
+ a.download=item.courseId.title+"certificate.pdf"
  a.click();
                   }} className="bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-600">
 
@@ -119,7 +131,7 @@ certificateUrl;
                   </button>
 
                   <button
-                    onClick={() => handleDelete(cert.id)}
+                    onClick={() => handleDeleteCertificate(item._id)}
                     className="bg-red-500 text-white px-3 py-2 rounded-lg hover:bg-red-600"
                   >
                     <FaTrash />

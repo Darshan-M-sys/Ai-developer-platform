@@ -80,7 +80,10 @@ exports.getSingleCourse=async(req,res)=>{
   try {
     const courseId=req.params.courseId;
     const coursesData= await courses.findOne({_id:courseId}).populate("instructor");
-    res.status(200).json({data:coursesData});
+    const students= await enrollment.countDocuments({courseId:courseId});
+    const dataObject=coursesData.toObject();
+    dataObject['studentsCount']=students;
+    res.status(200).json({data:dataObject});
   } catch (error) {
     res.status(500).json({message:error.message})
   }

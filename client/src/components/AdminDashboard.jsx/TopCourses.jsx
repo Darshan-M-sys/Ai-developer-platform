@@ -1,54 +1,131 @@
-import React from "react";
-
-const topCourses = [
-  { id: 1, name: "React for Beginners", students: 320, progress: 80 },
-  { id: 2, name: "Node.js Complete Guide", students: 240, progress: 65 },
-  { id: 3, name: "Python for Developers", students: 410, progress: 90 },
-  { id: 4, name: "AI Basics", students: 290, progress: 70 },
-];
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
 
 const TopCourses = () => {
+
+   const nav=useNavigate()
+  /* ---------------- Chart Data ---------------- */
+
+ const [isDeleted,setIsDeleted]=useState(false)
+  /* ---------------- Table Data ---------------- */
+
+ 
+ const [courses,setCourses]=useState([]);
+ const handleGetAllCourses=async()=>{
+  try {
+    const res= await axios.get("http://localhost:5000/admin/course",{withCredentials:true});
+    setCourses(res.data?.data || [])
+    console.log(res.data)
+  } catch (error) {
+    console.log(error)
+  }
+ }
+ useEffect(()=>{
+handleGetAllCourses();
+ },[isDeleted])
+
+   const HandleCourseDelete=async(id)=>{
+     try {
+      if(!window.confirm('Are you Sure to delete this Course?')) return;
+       const res= await axios.delete(`http://localhost:5000/admin/course/${id}`,{withCredentials:true});
+     if(res.data?.success){
+       nav("/admin/courses")
+       setIsDeleted(true)
+     }
+     } catch (error) {
+       console.log(error.message)
+     }
+   }
+
   return (
-    <div className="w-full p-6">
+    <div>
+       <div className="bg-white rounded-2xl shadow-md overflow-x-auto">
 
-      {/* Heading */}
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold">Top Courses</h1>
-        <p className="text-gray-500">
-          Most popular courses based on student enrollments.
-        </p>
+        <table className="w-full text-left">
+
+          <thead className="bg-gray-100">
+            <tr>
+              <th className="p-4">Course Name</th>
+              <th className="p-4">Instructor</th>
+              <th className="p-4">Students</th>
+              <th className="p-4">Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {courses.map((course) => (
+              <tr key={course.id} className="border-t hover:bg-gray-50">
+
+                <td className="p-4 font-medium">{course.courseData?.title}</td>
+
+                <td className="p-4 text-gray-600">{course.courseData?.instructor?.name}</td>
+
+                <td className="p-4">{course.studentCount || 0}</td>
+
+                <td className="p-4 flex gap-3">
+                  <Link to={`/admin/course/create`} state={course.courseData?._id} className="bg-yellow-500 text-white px-3 py-1 rounded-lg hover:bg-yellow-600">
+                    Edit
+                  </Link>
+
+                  <button  onClick={()=>HandleCourseDelete(course.courseData?._id)} className="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600">
+                    Delete
+                  </button>
+                </td>
+
+              </tr>
+            ))}
+          </tbody>
+
+        </table>
+
       </div>
-
-      {/* Courses List */}
-      <div className="bg-white shadow-md rounded-2xl p-6">
-
-        <div className="flex flex-col gap-6">
-
-          {topCourses.map((course) => (
-            <div key={course.id} className="border-b pb-4 last:border-none">
-
-              <div className="flex justify-between mb-2">
-                <h2 className="font-semibold">{course.name}</h2>
-                <span className="text-gray-500">{course.students} students</span>
-              </div>
-
-              {/* Progress Bar */}
-              <div className="w-full bg-gray-200 h-2 rounded-full">
-                <div
-                  className="bg-blue-600 h-2 rounded-full"
-                  style={{ width: `${course.progress}%` }}
-                ></div>
-              </div>
-
+       <div className="grid grid-cols-1 mt-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {courses.map((course) => (
+          <div
+            key={course?.courseData._id}
+            className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition"
+          >
+            {/* Image */}
+            <div className="w-full h-44 overflow-hidden">
+              <img
+                src={course.courseData?.thumbnail}
+                alt={course.title}
+                className="w-full h-full object-fit"
+              />
             </div>
-          ))}
 
-        </div>
+            {/* Content */}
+            <div className="p-4 bg-gray-100">
+              <p className="text-xs text-gray-500 mb-1">{course.courseData?.category}</p>
+             <div className="flex gap-4">
+              <h3 className="text-lg font-semibold text-gray-800 leading-snug">
+                {course.title}
+              </h3>
+               <div className="flex items-center gap-1 ">
+                <img src={course.courseData?.instructor?.avatar}  className="w-[25px] h-[25px] rounded-full" alt="profile" />
+                <p className="font-semibold text-sm text-gray-900 ">{course.courseData?.instructor?.name}</p>
+                </div>
+                </div>
+              <div className="flex items-center justify-between mt-4">
+                <span className="text-sm text-gray-600">
+                  {course.studentCount} Students
+                </span>
+                 
+                <span className="text-base font-semibold text-black">
+                  ₹{course.courseData?.price}
+                </span>
+              </div>
 
+            <Link to={`/admin/course/${course.courseData?._id}`} ><button className="w-full mt-4 bg-black text-white py-2 rounded-xl text-sm font-medium hover:bg-gray-900 transition">
+                View Course
+              </button></Link>
+            </div>
+          </div>
+        ))}
       </div>
-
     </div>
-  );
-};
+  )
+}
 
-export default TopCourses;
+export default TopCourses
