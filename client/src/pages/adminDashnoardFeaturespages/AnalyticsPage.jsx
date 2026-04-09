@@ -51,7 +51,7 @@ const AnalyticsPage = () => {
     <>
     <Header/>
     <AdminSidebar/>
-    <div className=" md:ml-[280px] bg-gray-100  md:mt-[66px] mt-[55px] md:p-6">
+    <div className=" md:ml-[280px] bg-white  md:mt-[66px] mt-[55px] md:p-6">
 
       {/* Heading */}
       

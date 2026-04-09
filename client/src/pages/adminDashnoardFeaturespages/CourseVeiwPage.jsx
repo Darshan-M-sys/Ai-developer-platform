@@ -68,7 +68,7 @@ useEffect(() => {
     <>
     <Header/>
     <AdminSidebar/>
-    <div className="md:ml-[280px] md:mt-[66px] mt-[55px] min-h-screen bg-gray-50 md:p-6">
+    <div className="md:ml-[280px] md:mt-[66px] mt-[55px] min-h-screen bg-white md:p-6">
       <div className="max-w-6xl mx-auto bg-white rounded-2xl border border-gray-200 shadow-sm p-3 md:p-8">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">

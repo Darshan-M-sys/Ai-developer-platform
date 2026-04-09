@@ -1,18 +1,22 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import FormField from "../components/FormField";
 import { Link, useNavigate } from "react-router-dom";
 import { FaGithub } from "react-icons/fa";
 import ActionDisplay from "../components/ActionDisplay";
 import Header from "../components/home/Header";
+import { AuthContext } from "../context/AuthContext";
 
 const Login = () => {
+  const {isLogged}=useContext(AuthContext);
+
   const nav= useNavigate();
  const [action,setAction]=useState({
   show:false,
   message:"",
   type:""
  })
+
   const [formData, setFormData] = useState({
     email: "",
     password: ""
@@ -67,6 +71,16 @@ const Login = () => {
     setLoading(false);
 
   };
+
+
+  useEffect(()=>{
+ if(isLogged){
+  nav("/dashboard")
+  
+ }else{
+    nav("/login")
+ }
+  },[isLogged,nav])
 
   return (
 <>

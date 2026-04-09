@@ -2,7 +2,7 @@ import React from "react";
 
 const OutputBox = ({ output }) => {
   return (
-    <div className="w-90%  p-5 mx-9  bg-black text-green-400  font-mono h-[250px] overflow-y-auto border-t">
+    <div className="  p-5 mx-9  w-full h-full bg-black text-green-400  font-mono  overflow-y-auto border-t">
       
       {/* TITLE */}
       <div className="text-gray-300 mb-3 font-semibold">

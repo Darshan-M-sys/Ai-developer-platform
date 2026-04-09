@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Video } from "lucide-react";
 import { FaBrain, FaBolt, FaCode, FaChartLine, FaUsers } from "react-icons/fa";
 import { MdOutlineTrackChanges } from "react-icons/md";
 
@@ -29,9 +30,9 @@ const features = [
     icon: <MdOutlineTrackChanges />,
   },
   {
-    title: "Community Support",
-    desc: "Learn together with developers around the world.",
-    icon: <FaUsers />,
+    title: "Interactive Learning Lessons",
+    desc: "Recorded Videos with AI text explanation",
+    icon: <Video />,
   },
 ];
 

@@ -42,26 +42,24 @@ const EnrolledCourses = () => {
       `http://localhost:5000/student/course/progress/${courseId}`,
       { withCredentials: true }
     );
-
-    let lessonId = res.data?.data?.currentLesson._id;
-
+    let lessonId =  res.data?.data?.currentLesson?._id;
     // if no progress yet, open first lesson
     if (!lessonId) {
       const lessonsRes = await axios.get(
         `http://localhost:5000/student/lessons/all/${courseId}`,
         { withCredentials: true }
       );
-
       const lessons = lessonsRes.data?.data || [];
-
       if (lessons.length > 0) {
-        lessonId = lessons[0]._id;
+          console.log(lessons[0]?._id || "not")
+        lessonId = lessons?.[0]?._id;
       }
     }
 
     if (lessonId) {
       nav(`/learner/course/${courseId}/lesson/${lessonId}`);
     }
+
   } catch (error) {
     console.log(error.message);
   }
@@ -69,11 +67,8 @@ const EnrolledCourses = () => {
 
 
 const [progressData, setProgressData] = useState([]);
-
 useEffect(() => {
-
   const formattedData = courses.map((data, index) => {
-    
     const lessons = data.lessonData.map((l) => {
       const lessonPresent = data.progressData?.lessonProgress?.find(
         (ld) => ld.lessonId === l._id
@@ -119,7 +114,7 @@ useEffect(() => {
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {courses.map((course) => {
             const courseData = course.enrollmentCourses?.courseId;
-
+            
             return (
               <div
                 key={course.enrollmentCourses?._id}
@@ -169,7 +164,7 @@ useEffect(() => {
 
                   {/* CONTINUE LEARNING BUTTON */}
                   <button
-                    onClick={() => handleContinueLearning(courseData?._id)}
+                    onClick={() => handleContinueLearning(course.enrollmentCourses?.courseId?._id)}
                     className="w-full mt-4 bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg transition"
                   >
                     Continue Learning
@@ -184,9 +179,7 @@ useEffect(() => {
         <h2 className="text-2xl font-bold mb-6">Course Progress Overview</h2>
          <div className="flex items-center justify-between mb-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-    
-          
-           {progressData.map((getCourseProgress,index)=>{
+         {progressData.map((getCourseProgress,index)=>{
               return(
                 <div>
    <ProgressBarChart getCourseProgress={getCourseProgress} />
@@ -206,7 +199,7 @@ useEffect(() => {
          </Link>
          </div>
         )
-}
+} 
     </>
   );
 };

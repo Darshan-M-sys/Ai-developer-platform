@@ -1,5 +1,5 @@
 const Snippets = require("../models/snippets");
-
+console.log
 exports.saveSnippets=async(req,res)=>{
   try {
     const userId= req.session.user.id;

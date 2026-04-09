@@ -18,6 +18,7 @@ const enrollmentRouter = require("./routes/EnrollmentRoute");
 const learnerDashboardRoute = require("./routes/LearnerDashboardRoute");
 const AiLessonActionsRoute = require("./routes/AiLessonActionRoute");
 const instructorDashboardRoute = require("./routes/InstructorDashbaordRoute");
+const verifyCertificate = require("./routes/VerifyCertificate");
 const app = express();
 // runAi()
 app.use(cors({
@@ -78,6 +79,7 @@ app.use("/student",enrollmentRouter);
 app.use("/student",learnerDashboardRoute);
 app.use("/instructor",instructorDashboardRoute);
 app.use("/ai/lesson",AiLessonActionsRoute);
+app.use("/certificate",verifyCertificate);
 
 
 // =========================

@@ -5,6 +5,8 @@ const User = require("../models/User");
 /* ===========================
    REGISTER USER
 =========================== */
+
+
 exports.registerUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -57,7 +59,7 @@ exports.updateUser=async(req,res)=>{
   await existingUser.save();
   res.status(200).json({success:true,message:"Updated"});
   } catch (error) {
-    console.log(error.message)
+
      res.status(500).json({ message: error.message });
   }
 }

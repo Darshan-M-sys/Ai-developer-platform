@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import ChatbotAnimation from "./ChatbotAnimation"; // your animation component
 import { FaRobot } from "react-icons/fa";
+import { AuthContext } from "../../context/AuthContext";
 
 const AiChatbotSection = () => {
+  const {isLogged}=useContext(AuthContext)
   return (
     <section className="relative py-20 bg-gradient-to-r from-blue-900 via-blue-700 to-blue-500 overflow-hidden">
       <div className="container mx-auto flex flex-col-reverse md:flex-row items-center justify-between px-6 md:px-12 gap-12">
@@ -15,7 +17,7 @@ const AiChatbotSection = () => {
           <p className="text-blue-100 text-lg">
             Get instant answers, generate ideas, and explore AI-powered solutions right on your DevForge page.
           </p>
-          <button className="bg-white text-blue-800 font-semibold px-6 py-3 rounded-lg hover:bg-gray-100 transition-all w-max">
+          <button onClick={()=>isLogged?window.location.href="/ai/chat":window.location.href="/login"} className="bg-white text-blue-800 font-semibold px-6 py-3 rounded-lg hover:bg-gray-100 transition-all w-max">
             Try DevForge AI Now
           </button>
         </div>

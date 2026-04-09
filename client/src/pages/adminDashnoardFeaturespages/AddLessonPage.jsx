@@ -114,7 +114,7 @@ return (
 )}
     <Header/>
     <LessonSideBar lessons={[]} open={open} setOpen={setOpen}/>
-    <div className=" md:mt-[66px] md:ml-[300px] mt-[60px] p-2 md:p-10 bg-gray-50 min-h-screen">
+    <div className=" md:mt-[66px] md:ml-[300px] mt-[60px] p-2 md:p-10 bg-white min-h-screen">
       {/* Page Title */}
       <div className="flex justify-between items-center">
       <h1 className="text-2xl md:text-3xl   font-semibold ">

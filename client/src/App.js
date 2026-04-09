@@ -37,6 +37,9 @@ import CompletedCertificatesPage from './pages/InstructorDashbaordPages/Complete
 import LessonsMainPage from './pages/InstructorDashbaordPages/LessonMainPage'
 import AddLesson from './pages/InstructorDashbaordPages/AddLesson'
 import CourseInfo from './pages/InstructorDashbaordPages/CourseInfo'
+import LiveDemo from './pages/LiveDemo'
+import Dashboard from './pages/Dashboard'
+import EnrollmentsPage from './pages/adminDashnoardFeaturespages/EnrollmentsPage'
 const App = () => {
   return (
     <div className="bg-gray-500">
@@ -46,7 +49,9 @@ const App = () => {
         <Route path="forget/password" element={<ForgetPassword/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="/admin/login" element={<AdminLogin/>}/>
-        <Route path="/dashboard" element={<LearnerDashboard/>}/>
+        <Route path="/student/dashboard" element={<LearnerDashboard/>}/>
+        <Route path="/dashboard" element={<Dashboard/>}/>
+        <Route path="/live/demo" element={<LiveDemo/>}/>
         <Route path="/learner/course/:enrollmentId" element={<ViewCourseInfo/>}/>
         <Route path="/learner/courses" element={<EnrolledCourses/>}/>
         <Route path="/learner/course/:courseId/lesson/:lessonId" element={<LearningScreenPage/>}/>
@@ -56,6 +61,7 @@ const App = () => {
         <Route path="/admin/students" element={<StudentsPage/>}/>
         <Route path="/admin/instructors" element={<InstructorPage/>}/>
         <Route path="/admin/courses" element={<CoursesPage />}/>
+        <Route path="/admin/enrollments" element={<EnrollmentsPage />}/>
         <Route path="/instructor/dashboard" element={<InstructorDashboard/>}/>
         <Route path="/instructor/courses" element={<MyCourses/>}/>
         <Route path="/instructor/students" element={<Students/>}/>

@@ -68,7 +68,7 @@ const InstructorPage = () => {
 )}
     {onOpenAddInst&&(
     <AddInstructor setOnOpenAddInst={setOnOpenAddInst} setAction={setAction}/>)}
-    <div className="md:mt-[66px] mt-[55px] md:ml-[280px] bg-gray-100 p-1  md:p-6">
+    <div className="md:mt-[66px] mt-[55px] md:ml-[280px] bg-white p-1  md:p-6">
 
       {/* Heading */}
       <div className="flex justify-between items-center">

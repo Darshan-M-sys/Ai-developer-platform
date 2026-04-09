@@ -49,9 +49,11 @@ const Header = ({ setProfileData }) => {
         <nav className="hidden bg-black/30 p-3 px-10 rounded-3xl md:flex gap-8 text-sm font-medium text-white">
           <a href="#" className="hover:text-blue-400 transition">Home</a>
           <a href="/courses" className="hover:text-blue-400 transition">Courses</a>
+          <a href="/ai/chat" className="hover:text-blue-400 transition">AIChat</a>
           <a href="#" className="hover:text-blue-400 transition">Problems</a>
           <a href="#" className="hover:text-blue-400 transition">Playground</a>
-          <Link to="/dashboard" className="hover:text-blue-400 transition">Dashboard</Link>
+          {user.email &&(
+          <Link to="/dashboard" className="hover:text-blue-400 transition">Dashboard</Link>)}
         </nav>
 
         {/* User / Auth Buttons */}
@@ -89,13 +91,14 @@ const Header = ({ setProfileData }) => {
       </div>
 
       {/* Mobile Menu */}
+
       {open && (
         <div  className="md:hidden  flex-1 transition-all duration-300 bg-black/70 backdrop-blur-md px-6 pb-6 flex flex-col gap-4 text-sm font-medium text-white rounded-b-lg">
           <a href="#" className="hover:text-blue-400 transition">Home</a>
           <a href="#" className="hover:text-blue-400 transition">Courses</a>
           <a href="#" className="hover:text-blue-400 transition">Problems</a>
           <a href="#" className="hover:text-blue-400 transition">Playground</a>
-          <Link to="/dashboard" className="hover:text-blue-400 transition">Dashboard</Link>
+         {user.email &&( <Link to="/dashboard" className="hover:text-blue-400 transition">Dashboard</Link>)}
 
           {user.email ? (
             <div className="flex flex-col gap-2">

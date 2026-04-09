@@ -63,7 +63,6 @@ code here
 \`\`\`
 4. Show output separately
 5. Keep explanations simple and beginner friendly
-don't use comment lines in code
 only code don't use extra text inside code 
 `
     };
@@ -83,7 +82,7 @@ only code don't use extra text inside code
        6. SEND TO OLLAMA
     =============================== */
     const response = await axios.post("http://localhost:11434/api/chat", {
-      model: "deepseek-coder",
+      model: "phi3:mini",
       messages: conversation,
       stream: false
     });

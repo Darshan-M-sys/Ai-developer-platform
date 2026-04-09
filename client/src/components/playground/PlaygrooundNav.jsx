@@ -1,5 +1,8 @@
 import axios from "axios";
+import { ArrowBigLeft } from "lucide-react";
 import React from "react";
+import { FaArrowRightArrowLeft, FaDownLeftAndUpRightToCenter } from "react-icons/fa6";
+import { Link } from "react-router-dom";
 
 const PlaygroundNav = ({ language,code, setLanguage,setOpenSaveSnippets,snippetId,setAction }) => {
   const handleUpdateSnippets=async()=>{
@@ -37,13 +40,15 @@ const PlaygroundNav = ({ language,code, setLanguage,setOpenSaveSnippets,snippetI
 
 
   return (
-    <nav className="w-full fixed top-15 left-0 z-50 bg-white border-b shadow-sm">
+    <nav className="w-full fixed top-0 left-0 z-50 bg-blue-500 border-b shadow-sm">
       
       <div className="max-w-7xl mx-auto flex items-center justify-between px-5 py-3">
-        
+         <Link to="/dashboard" className="absolute left-3 text-white bg-black/30 p-2 rounded-full">  <ArrowBigLeft/></Link>
         {/* LEFT - LANGUAGE SELECTOR */}
-        <div className="flex items-center gap-3">
-          <label className="font-medium text-gray-600">Language:</label>
+
+        <div className="flex items-center  gap-3">
+       
+          <label className="font-medium text-white">Language:</label>
 
           <select
   value={language}

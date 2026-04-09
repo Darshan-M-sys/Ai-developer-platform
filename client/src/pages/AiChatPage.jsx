@@ -3,14 +3,24 @@ import ChatPage from '../components/AiChatPage/Chat'
 import Sidebar from '../components/AiChatPage/Sidebar'
 import Header from "../components/home/Header"
 import ChatSettings from '../components/AiChatPage/ChatSettings'
+import { useContext } from 'react'
+import { AuthContext } from '../context/AuthContext'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const AiChatPage = () => {
+  const {isLogged}=useContext(AuthContext);
   const[close,setOnClose]=useState(false)
   const [menu, setMenu] = useState(false);
   const [chatId, setChatId] = useState(null);
   const [messages, setMessages] = useState([]);
   const [title,setTitle]=useState("");
-
+  const nav=useNavigate()
+  useEffect(()=>{
+if(!isLogged){
+  nav("/login")
+}
+  },[isLogged])
   return (
     <>
 {close  &&(
@@ -19,7 +29,7 @@ const AiChatPage = () => {
         </div>)}
       <Header/>
 
-      <div className="mt-[66px] flex">
+      <div className=" mt-[55px] md:mt-[70px] flex">
 
         {/* Mobile Sidebar */}
         <div

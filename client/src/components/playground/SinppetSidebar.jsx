@@ -47,14 +47,14 @@ const SnippetSidebar = ({  setCode,setLanguage,setSnippetId ,render}) => {
       {/* MOBILE BUTTON */}
       <button
         onClick={() => setOpen(true)}
-        className="md:hidden fixed top-40 left-[30px] z-60 bg-indigo-600 text-white p-2 rounded-lg"
+        className="md:hidden fixed top-20 left-[30px] z-60 bg-indigo-600 text-white p-2 rounded-lg"
       >
         <Menu size={20} />
       </button>
 
       {/* SIDEBAR */}
       <div
-        className={`fixed md:static top-40  z-[50] left-0 h-full w-[260px] bg-white border-r shadow-sm p-4 z-40 transition-transform duration-300
+        className={`fixed md:static top-10  z-[50] left-0 h-full w-[260px] bg-white border-r shadow-sm p-4 z-40 transition-transform duration-300
         ${open ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
       >
         {/* TITLE */}

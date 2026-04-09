@@ -10,7 +10,7 @@ exports.getAllCertificateIssued=async(req,res)=>{
       const certificates= await Certificate.find({courseId:c._id}).populate(['courseId',"userId"]);
       data.push(certificates)
     }
-  
+
     res.status(200).json({data:data})
   } catch (error) {
     console.log(error.message)

@@ -89,7 +89,7 @@ handleGetStudents();
 
      <Header/>
     <AdminSidebar/>
-    <div className=" md:ml-[280px] md:mt-[66px] mt-[55px] bg-gray-100  p-1 md:p-6">
+    <div className=" md:ml-[280px] md:mt-[66px] mt-[55px] bg-white  p-1 md:p-6">
 
       {/* Heading */}
       <div className="mb-8">

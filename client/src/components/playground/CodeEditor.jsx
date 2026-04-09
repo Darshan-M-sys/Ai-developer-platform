@@ -4,7 +4,7 @@ import Editor from "@monaco-editor/react";
 const CodeEditor = ({ language, theme, fontSize, code, setCode }) => {
   
   return (
-    <div className="h-[85vh] w-full  p-2 md:px-9  rounded-xl">
+    <div className="h-[80vh] w-full  p-2 md:px-9  rounded-xl">
       <Editor
         height="100%"
         language={language}

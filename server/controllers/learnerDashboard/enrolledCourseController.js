@@ -2,6 +2,7 @@ const enrollment = require("../../models/enrollment");
 const User= require("../../models/User")
 const progress = require("../../models/progress");
 const lesson= require("../../models/lesson")
+
 exports.getEnrolledCourses=async(req,res)=>{
   try {
    const dataObject=[];  
@@ -34,7 +35,7 @@ exports.getEnrolledSingleCourse=async(req,res)=>{
     objectData['lessonCount']=lessonCount;
     res.status(200).json({data:objectData});
   } catch (error) {
-    console.log(error.message);
+    (error.message);
     res.status(500).json({message:error.message})
   }
 }

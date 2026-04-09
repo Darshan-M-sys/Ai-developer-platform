@@ -1,5 +1,5 @@
 import axios from "axios";
-import React from "react";
+import React, { useContext } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -10,12 +10,13 @@ import Header from "../components/home/Header";
 import EnrollPopup from "../components/EnrollPopup";
 import EnrollSuccess from "../components/EnrollSuccess";
 import ViewCourseLessonList from "../components/ViewCourseLessonList";
+import { AuthContext } from "../context/AuthContext";
 
 const CourseViewPage = () => {
 
 
-  const[isOpenSuccess,setIsOpenSuccess]=useState(false)
-  const nav=useNavigate()
+ const[isOpenSuccess,setIsOpenSuccess]=useState(false)
+const nav=useNavigate()
 const [course, setCourse] = useState({});
 const { id } = useParams();
 const[isOpen,setIsOpen]=useState(false)
@@ -33,6 +34,7 @@ const handleGetCourse=async()=>{
 const handleProgressCreate=async()=>{
   try {
     const res= await axios.post(`http://localhost:5000/student/course-progress/${id}`,{},{withCredentials:true});
+
   } catch (error) {
     console.log(error.message)
   }
@@ -42,9 +44,10 @@ const onConfirm=async()=>{
 try {
   const  res= await axios.post(`http://localhost:5000/student/enrollment/${id}`,{},{withCredentials:true});
           await handleProgressCreate();
-        if(res.data.success){
+        if(res.data?.success){
           setIsOpen(false);
           setIsOpenSuccess(true);
+          console.log(res.data)
         }
 } catch (error) {
   console.log(error.response);
@@ -54,6 +57,8 @@ try {
 useEffect(()=>{
 handleGetCourse()
 },[id])
+
+const {isLogged}=useContext(AuthContext)
   return (
     <>
     <Header/>
@@ -135,7 +140,7 @@ handleGetCourse()
         </div>
 
      <div className="flex flex-col sm:flex-row gap-4 mb-8">
-        <button onClick={()=>setIsOpen(true)} className="bg-black text-white px-6 py-3 rounded-xl text-sm md:text-base font-medium hover:bg-gray-900 transition">
+        <button onClick={()=>!isLogged?window.location.href="/login":setIsOpen(true)} className="bg-black text-white px-6 py-3 rounded-xl text-sm md:text-base font-medium hover:bg-gray-900 transition">
        
             Enroll Now
           </button> 

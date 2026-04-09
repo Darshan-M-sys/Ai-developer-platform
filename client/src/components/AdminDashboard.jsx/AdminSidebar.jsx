@@ -14,6 +14,7 @@ const AdminSidebar = () => {
     { name: "Courses", path: "/admin/courses" },
     { name: "Analytics", path: "/admin/analytics" },
     { name: "Settings", path: "/admin/settings" },
+    { name: "Enrollments", path: "/admin/enrollments" },
   ];
 
   return (

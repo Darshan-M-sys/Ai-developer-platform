@@ -5,7 +5,10 @@ import ActionDisplay from "../components/ActionDisplay"
 import axios from "axios";
 import { FaPen } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 const Profile = () => {
+  const {setUserData} =useContext(AuthContext);
   const[action,setAction]=useState({
     message:"",
     show:false,
@@ -86,7 +89,8 @@ const handleLogout=async()=>{
   try {
      const res=await axios.get("http://localhost:5000/api/auth/logout",{withCredentials:true});
      if(res.data.success){
-     nav("/") }
+     nav("/")
+    setUserData(null) }
   } catch (error) {
     console.log(error)
   }

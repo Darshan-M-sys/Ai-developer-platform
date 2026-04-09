@@ -125,7 +125,7 @@ setFormData((prev)=>({...prev,[e.target.name]:e.target.value}))
     )}
     <Header/>
     <AdminSidebar/>
-    <div className=" md:ml-[280px] min-h-screen md:mt-[66px] bg-gray-50 mt-[55px] flex justify-center items-start p-1 md:p-6">
+    <div className=" md:ml-[280px] min-h-screen md:mt-[66px] bg-white mt-[55px] flex justify-center items-start p-1 md:p-6">
       <div className="w-full max-w-4xl bg-white rounded-2xl shadow-sm border border-gray-200 p-6 md:p-8">
         {/* Header */}
         <div className="mb-6">

@@ -1,21 +1,35 @@
 import React, { useState } from "react";
+import axios from 'axios'
 import { motion } from "framer-motion";
 import {
   AiOutlineCheckCircle,
   AiOutlineCloseCircle,
 } from "react-icons/ai";
-
+import {Link} from "react-router-dom"
 const CertificateVerification = () => {
   const [certId, setCertId] = useState("");
+
   const [status, setStatus] = useState(null);
 
-  const handleVerify = () => {
-    if (certId.trim().toLowerCase() === "devforge123") {
-      setStatus("valid");
-    } else {
-      setStatus("invalid");
+
+ const [data,setData]=useState({})
+  const handleVerify=async()=>{
+    try {
+      if(!certId){
+        return ;
+      }
+      const res= await axios.post("http://localhost:5000/certificate/verify",{certificateId:certId});
+      if(res.data?.success){
+       setData(res.data?.data || {})
+       setStatus("valid")
+
+      }else{
+       setStatus('invalid') 
+      }
+    } catch (error) {
+      console.log(error.message)
     }
-  };
+  }
 
   return (
     <section className="relative py-24 px-6 bg-gradient-to-b from-black via-gray-900 to-black text-white overflow-hidden">
@@ -44,7 +58,7 @@ const CertificateVerification = () => {
           <div className="bg-white/10 backdrop-blur-lg border border-white/20 p-6 rounded-2xl shadow-lg">
             <input
               type="text"
-              value={certId}
+              value={certId.toUpperCase()}
               onChange={(e) => setCertId(e.target.value)}
               placeholder="Enter Certificate ID (try: devforge123)"
               className="w-full px-4 py-3 rounded-lg bg-black/40 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -83,6 +97,7 @@ const CertificateVerification = () => {
         </motion.div>
 
         {/* RIGHT SIDE VISUAL */}
+        {data.certificateId && (
         <motion.div
           initial={{ opacity: 0, x: 40 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -92,18 +107,27 @@ const CertificateVerification = () => {
           <div className="relative w-[300px] h-[200px] bg-gradient-to-br from-blue-500/20 to-purple-500/20 border border-white/20 rounded-2xl backdrop-blur-lg shadow-xl p-6">
             
             <h3 className="text-lg font-semibold mb-2">DevForge Certificate</h3>
-            <p className="text-sm text-gray-300">Full Stack Developer</p>
+            <p className="text-sm text-gray-300">{data.courseId?.title}</p>
 
             <div className="mt-6 text-xs text-gray-400">
-              ID: DEVFORGE123
+              {data.userId?.name}
             </div>
+
+            <div className=" text-xs text-gray-400">
+              {data.certificateId}
+            </div>
+            <div className="  text-xs text-blue-400">
+              <Link to={data.certificateUrl}>
+              View</Link>
+            </div>
+
 
             {/* Glow Badge */}
             <div className="absolute top-3 right-3 px-3 py-1 text-xs bg-green-500/20 text-green-400 rounded-full border border-green-400/30">
               Verified
             </div>
           </div>
-        </motion.div>
+        </motion.div>)}
       </div>
     </section>
   );

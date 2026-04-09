@@ -75,7 +75,7 @@ getUsers();
       <EditUsers setOpenEdit={setOpenEdit} userId={userId} setAction={setAction}/>
     )}
  
-    <div className="md:w-[83%] w-full bg-gray-100 min-h-screen md:ml-[280px] md:mt-[66px] mt-[55px] p-6">
+    <div className="md:w-[83%] w-full bg-white min-h-screen md:ml-[280px] md:mt-[66px] mt-[55px] p-6">
 
       {/* Heading */}
       <div className="mb-6">

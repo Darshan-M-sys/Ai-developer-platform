@@ -14,12 +14,11 @@ const AdminDashboard = () => {
     <>
     <Header setProfileData={setProfileData} />
     <AdminSidebar/>
- <div className="md:ml-[270px] md:mt-[80px] mt-[70px]">
+ <div className="md:ml-[250px] md:mt-[80px] bg-white mt-[70px]">
   <Navbar profileData={profileData}/>
   <AdminStats/>
   <AdminCharts/>
   <UsersTable/>
-
   <TopCourses/>
 
  </div>

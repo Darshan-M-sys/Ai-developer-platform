@@ -11,8 +11,18 @@ import { useEffect } from "react";
 import axios from 'axios'
 import OutputBox from "../components/playground/OutputBox";
 import AiResponseLayout from "../components/playground/AiResponseLayout";
-
+import devForge from "../components/assets/devforge.png"
+import { Link, useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 const Playground = () => {
+  const {isLogged}=useContext(AuthContext);
+  const nav=useNavigate()
+  useEffect(()=>{
+    if(!isLogged){
+  nav("/login")
+    }
+  },[isLogged])
   const [action,setAction]=useState({
     show:false,
     message:"",
@@ -153,10 +163,6 @@ This is a Markdown boilerplate.
 try {
   const res= await axios.post("http://localhost:5000/code/run",{code,language});
   setOutput(res.data?.output);
-    const a=  document.createElement("a");
-     a.href="#output";
-     a.click();
-
 } catch (error) {
  console.log(error.message)  
 }
@@ -176,6 +182,12 @@ try {
      console.log(error)
   }
  }
+
+ const handleClickAi=()=>{
+    const a =document.createElement("a");
+        a.href="#ai";
+        a.click();
+ }
   return (
     <>
      {action.show && (
@@ -188,7 +200,7 @@ try {
     {openSaveSnippets && 
   <SaveSnippets onClose={setOpenSaveSnippets} setRender={setRender} render={render} setAction={setAction} language={language} code={code}/>
     }
-    <Header/>
+  
     <div className="mt-[70px]">
       <PlaygroundNav
       setOpenSaveSnippets={setOpenSaveSnippets}
@@ -204,16 +216,16 @@ try {
 
       {/* SETTINGS PANEL */}
       
-        <div className="fixed top-[120px] ">
+        <div className="fixed top-[50px] ">
           <SnippetSidebar  render={render} setCode={setCode} setLanguage={setLanguage} setSnippetId={setSnippetId}/> 
         </div>
         
-      <div className="pt-16 md:ml-[260px]  px-6 relative   items-center bg-gray-100 border-b py-3">
+      <div className=" md:ml-[260px]  px-6 relative   items-center bg-gray-100 border-b py-3">
 
          
-         <div className="p-2 bg-white shadow rounded-xl">
+         <div className=" bg-black shadow rounded-xl">
         {showEditorSettings &&(
-       <div className="flex bg-white flex-col z-[40] gap-10 p-4 shadow right-[60px] rounded top-[110px] absolute">
+       <div className="flex bg-white flex-col z-[40] gap-10 p-4 shadow right-[60px] rounded top-[100px] absolute">
         <select
           value={theme}
           onChange={(e) => setTheme(e.target.value)}
@@ -238,29 +250,38 @@ try {
 
       </div>)}
       
-        <div className="flex  items-end justify-end gap-20  mr-20  ">
+        <div className="flex bg-white w-full p-2  items-end  gap-20  mr-20  ">
+        <img onClick={handleClickAi} src={devForge} className="w-[50px]  h-[50px] rounded-xl" alt="devforge" />
           {snippetId && (
-          <button onClick={handleDeleteSnippets} className="p-2  bg-red-600  font-[600] text-white shadow rounded-lg px-10"> Delete Snippet</button>)}
-          <div className="flex gap-10">
-          <button onClick={()=>setAiResponses(null)} className="p-2  font-[600] text-black shadow rounded-lg w-[100px]"> Run</button>
+          <button onClick={handleDeleteSnippets} className="p-2  bg-red-600 w-fit font-[600] text-white shadow rounded-lg px-10"> Delete Snippet</button>)}
+          <div className="flex justify-end w-full gap-10">
+          <button onClick={handleCodeRun } className="p-2  font-[600] bg-blue-500  text-white shadow rounded-lg w-[100px]"> Run</button>
           
-          <p onClick={()=>setShowEditorSettings(!showEditorSettings)} className="bg-white shadow p-2 rounded-full mt-2">{!showEditorSettings?(<Settings/>) :(<Settings2/>)}</p></div>
+          <p onClick={()=>setShowEditorSettings(!showEditorSettings)} className="bg-white shadow p-2 rounded-full mt-2">{!showEditorSettings?(<Settings/>) :(<Settings2/>)}</p>
+      
+          </div>
           </div>
       {/* MONACO EDITOR */}
-     
+     <div className="flex ">
+      <div className="w-[70%]">
       <CodeEditor
         language={language}
         theme={theme}
         fontSize={fontSize}
         code={code}
         setCode={setCode}
-      />
+      /></div>
       <div id="output">
+           <div className="30%">
       <OutputBox output={output}/>
       </div>
       </div>
+      </div>
+      </div>
+      <div id="ai">
       <AIActions  setAiResponses={setAiResponses} code={code} setAiReply={setAiReply} language={language}/>
       <AiResponseLayout   setAiResponses={setAiResponses} aiResponses={aiResponses} aiResponse={aiReply}/>
+      </div>
       </div>
       
       

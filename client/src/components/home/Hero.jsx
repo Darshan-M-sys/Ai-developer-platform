@@ -56,11 +56,11 @@ const Hero = () => {
             transition={{ delay: 0.8 }}
             className="mt-8 flex flex-col sm:flex-row gap-4 justify-center md:justify-start"
           >
-            <button className="px-6 py-3 bg-blue-500 rounded-lg hover:bg-blue-600">
+            <button  onClick={()=>window.location.href="/courses"} className="px-6 py-3 bg-blue-500 rounded-lg hover:bg-blue-600">
               Get Started
             </button>
 
-            <button className="px-6 py-3 border border-gray-400 rounded-lg hover:bg-gray-700">
+            <button onClick={()=>window.location.href="/live/demo"} className="px-6 py-3 border border-gray-400 rounded-lg hover:bg-gray-700">
               Live Demo
             </button>
           </motion.div>

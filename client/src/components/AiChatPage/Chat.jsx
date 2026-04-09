@@ -7,7 +7,7 @@ import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { FaArrowUp } from "react-icons/fa6";
 import videoAi from "../assets/videoAI.mp4";
 import LoadingChatAnimate from "../LoadingChatAnimate";
-
+import devForge from "../assets/devforge.png"
 
 const ChatPage = ({
   messages = [],
@@ -115,13 +115,16 @@ const typing = setInterval(() => {
 
   return (
     <>
-    <div className="flex flex-col  md:ml-[270px] h-[90vh] w-full bg-[#f1f5f9]">
+    <div className="flex flex-col   md:ml-[270px] h-[90vh] w-full bg-[#f1f5f9]">
       {/* HEADER */}
-      <div className="p-4 bg-white shadow-sm flex items-center justify-between">
-        <h2 className="font-semibold text-lg text-gray-800">
-          DevForge AI Assistant 🤖
+      <div className="p-4 bg-gradient-to-r from-blue-500 to-blue-600 shadow-sm flex items-center justify-between">
+        <div className="flex gap-5 items-center">
+          <img src={devForge} className="h-[50px] rounded-full" alt="devforge"/>
+        <h2 className="font-semibold p-2 text-xl text-white">
+          DevForge AI Assistant 
         </h2>
 
+     </div>
         <button
           onClick={() => setMenu(!menu)}
           className="text-xl md:hidden text-gray-700"
@@ -189,10 +192,10 @@ const typing = setInterval(() => {
                 ) : (
                   <div>
                     <div
-                      className={`px-5 py-3 text-sm rounded-2xl shadow-sm ${
+                      className={`px-5 py-3  text-sm rounded-2xl shadow-sm ${
                         msg.role === "user"
-                          ? "bg-blue-600 text-white rounded-br-none"
-                          : "bg-white text-gray-800 rounded-bl-none"
+                          ? "bg-blue-600 text-white  rounded-br-none"
+                          : "bg-white text-gray-800 prose rounded-bl-none"
                       }`}
                     >
                       <ReactMarkdown>
@@ -224,9 +227,9 @@ const typing = setInterval(() => {
       </div>
 
       {/* INPUT BOX */}
-      <div className="bg-white fixed w-full bottom-0 border-t md:px-6 py-4">
+      <div className="bg-blue-500 fixed w-full bottom-0 border-t md:px-6 py-4">
         <div className="flex gap-3 max-w-[800px] mx-auto">
-          <div className="shadow border rounded-[40px] w-full items-end flex gap-3 p-3">
+          <div className="shadow border rounded-[40px] bg-white w-full items-end flex gap-3 p-3">
             <textarea
               value={input}
               onChange={handleInput}
