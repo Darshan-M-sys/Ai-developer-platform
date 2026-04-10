@@ -37,7 +37,7 @@ const Header = ({ setProfileData }) => {
   };
 
   return (
-    <header className="w-full fixed top-0 z-[40] backdrop-blur-md bg-white/20 shadow-lg border-b border-white/10">
+    <header className="w-full  fixed top-0 z-[40] backdrop-blur-md bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white shadow-lg border-b border-white/10">
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
 
         {/* Logo */}
@@ -47,11 +47,11 @@ const Header = ({ setProfileData }) => {
 
         {/* Desktop Menu */}
         <nav className="hidden bg-black/30 p-3 px-10 rounded-3xl md:flex gap-8 text-sm font-medium text-white">
-          <a href="#" className="hover:text-blue-400 transition">Home</a>
+          <a href="/" className="hover:text-blue-400 transition">Home</a>
           <a href="/courses" className="hover:text-blue-400 transition">Courses</a>
           <a href="/ai/chat" className="hover:text-blue-400 transition">AIChat</a>
-          <a href="#" className="hover:text-blue-400 transition">Problems</a>
-          <a href="#" className="hover:text-blue-400 transition">Playground</a>
+           <a href="/help"  className="hover:text-blue-400 transition">Help</a>
+          <a href="/playground" className="hover:text-blue-400 transition">Playground</a>
           {user.email &&(
           <Link to="/dashboard" className="hover:text-blue-400 transition">Dashboard</Link>)}
         </nav>
@@ -94,10 +94,10 @@ const Header = ({ setProfileData }) => {
 
       {open && (
         <div  className="md:hidden  flex-1 transition-all duration-300 bg-black/70 backdrop-blur-md px-6 pb-6 flex flex-col gap-4 text-sm font-medium text-white rounded-b-lg">
-          <a href="#" className="hover:text-blue-400 transition">Home</a>
-          <a href="#" className="hover:text-blue-400 transition">Courses</a>
-          <a href="#" className="hover:text-blue-400 transition">Problems</a>
-          <a href="#" className="hover:text-blue-400 transition">Playground</a>
+          <a href="/" className="hover:text-blue-400 transition">Home</a>
+          <a href="/courses" className="hover:text-blue-400 transition">Courses</a>
+          <a href="Help" className="hover:text-blue-400 transition">Help</a>
+          <a href="/playground" className="hover:text-blue-400 transition">Playground</a>
          {user.email &&( <Link to="/dashboard" className="hover:text-blue-400 transition">Dashboard</Link>)}
 
           {user.email ? (

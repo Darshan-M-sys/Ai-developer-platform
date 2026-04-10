@@ -40,6 +40,8 @@ import CourseInfo from './pages/InstructorDashbaordPages/CourseInfo'
 import LiveDemo from './pages/LiveDemo'
 import Dashboard from './pages/Dashboard'
 import EnrollmentsPage from './pages/adminDashnoardFeaturespages/EnrollmentsPage'
+import CertificatesIssued from './pages/adminDashnoardFeaturespages/CertificatesIssued'
+import HelpPage from './pages/HelpPage'
 const App = () => {
   return (
     <div className="bg-gray-500">
@@ -60,6 +62,7 @@ const App = () => {
         <Route path="/admin/course/create" element={<CreateCourse/>}/>
         <Route path="/admin/students" element={<StudentsPage/>}/>
         <Route path="/admin/instructors" element={<InstructorPage/>}/>
+        <Route path="/admin/certificates" element={<CertificatesIssued />}/>
         <Route path="/admin/courses" element={<CoursesPage />}/>
         <Route path="/admin/enrollments" element={<EnrollmentsPage />}/>
         <Route path="/instructor/dashboard" element={<InstructorDashboard/>}/>
@@ -84,6 +87,7 @@ const App = () => {
         <Route path="/ai/chat" element={<AIChatPage/>}/>
         <Route path="/problem" element={<ProblemPage/>}/>
         <Route path="/profile" element={<Profile/>}/>
+        <Route path="/help" element={<HelpPage/>}/>
       </Routes>
     </div>
   )

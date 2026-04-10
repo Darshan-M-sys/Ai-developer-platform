@@ -8,12 +8,12 @@ import WelcomeCard from "../components/learnerDashboard/WelcomeCard";
 import StatsCards from "../components/learnerDashboard/StatsCards";
 import CourseCard from "../components/learnerDashboard/CourseCard";
 import PlaygroundCard from "../components/learnerDashboard/PlaygroundCard";
-import DailyChallenge from "../components/learnerDashboard/DailyChallenge";
-import RecentActivity from "../components/learnerDashboard/RecentActivity";
+
 import Sidebar from "../components/learnerDashboard/SideBar";
 import Header from "../components/home/Header";
 import axios from "axios";
 import ProgressBarChart from "./LearnerDashboardPages/ProgressBarChart";
+import AiChat from "../components/learnerDashboard/AiChat";
 
 const LearnerDashboard = () => {
   const [menuShow,setMenuShow]=useState(false);
@@ -142,9 +142,9 @@ useEffect(() => {
 
         <PlaygroundCard />
 
-        <DailyChallenge />
+        <AiChat />
 
-        <RecentActivity />
+   
 
       </div>
 

@@ -1,20 +1,20 @@
 import React from "react";
 
-const DailyChallenge = () => {
+const AiChat = () => {
   return (
 
     <div className="bg-white p-6 rounded-xl shadow">
 
       <h3 className="font-bold text-lg">
-        Daily Coding Challenge
+       Practice coding with AI
       </h3>
 
       <p className="text-gray-600">
-        Reverse a string using JavaScript
+       Explain Concepts in simple 
       </p>
 
       <button className="mt-3 bg-green-600 text-white px-4 py-2 rounded">
-        Solve Now
+        DevForge AI
       </button>
 
     </div>
@@ -22,4 +22,4 @@ const DailyChallenge = () => {
   );
 };
 
-export default DailyChallenge;
+export default AiChat;

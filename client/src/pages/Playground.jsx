@@ -16,13 +16,16 @@ import { Link, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 const Playground = () => {
-  const {isLogged}=useContext(AuthContext);
+  const {isLogged,loading}=useContext(AuthContext);
   const nav=useNavigate()
+
   useEffect(()=>{
-    if(!isLogged){
+    if(!isLogged && !loading){
   nav("/login")
     }
-  },[isLogged])
+
+  },[isLogged,nav,loading])
+
   const [action,setAction]=useState({
     show:false,
     message:"",

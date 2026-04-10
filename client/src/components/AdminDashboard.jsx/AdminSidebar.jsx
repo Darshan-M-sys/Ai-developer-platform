@@ -13,8 +13,8 @@ const AdminSidebar = () => {
     { name: "Instructors", path: "/admin/instructors" },
     { name: "Courses", path: "/admin/courses" },
     { name: "Analytics", path: "/admin/analytics" },
-    { name: "Settings", path: "/admin/settings" },
     { name: "Enrollments", path: "/admin/enrollments" },
+    { name: "Certificates", path: "/admin/certificates" },
   ];
 
   return (
@@ -48,7 +48,7 @@ const AdminSidebar = () => {
         </div>
 
         {/* Menu */}
-        <nav className="flex flex-col gap-4">
+        <nav className="flex flex-col overflow-auto min-h-[50vh]">
           {menuItems.map((item, index) => (
             <Link
               key={index}

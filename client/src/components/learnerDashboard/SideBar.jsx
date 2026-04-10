@@ -14,6 +14,7 @@ import {
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Header from "../home/Header";
 import axios from "axios";
+import { FaAirFreshener } from "react-icons/fa";
 
 const Sidebar = ({ menuShow, setMenuShow }) => {
   const path=useLocation();
@@ -61,7 +62,7 @@ const Sidebar = ({ menuShow, setMenuShow }) => {
 
         {/* Desktop Header */}
         <div className="hidden md:block p-6 border-b border-gray-700">
-          <h1 className="text-2xl font-bold text-blue-400">DevLearn AI</h1>
+          <h1 className="text-2xl font-bold text-blue-400">DevForge AI</h1>
           <p className="text-sm text-gray-400 mt-1">Student Dashboard</p>
         </div>
 
@@ -80,19 +81,19 @@ const Sidebar = ({ menuShow, setMenuShow }) => {
               <span className="text-lg">My Courses</span>
             </li>
 </Link>
-            <li className="flex items-center gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-800 transition">
+             <Link to="/playground">  <li className="flex items-center gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-800 transition">
               <Code size={20} />
               <span className="text-lg">Playground</span>
-            </li>
+            </li></Link>
 
-            <li className="flex items-center gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-800 transition">
-              <Brain size={20} />
-              <span className="text-lg">Practice</span>
+      <Link to="/ai/chat">   <li className="flex items-center gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-800 transition">
+              <FaAirFreshener size={20} />
+              <span className="text-lg">AI Chat</span>
             </li>
-
+   </Link> 
             <li className="flex items-center gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-800 transition">
               <FolderKanban size={20} />
-              <span className="text-lg">Projects</span>
+              <span className="text-lg">Next Course</span>
             </li>
 
         <Link to='/learner/certificate'>    <li className={`flex  ${path.pathname==="/learner/certificate"?"bg-blue-500":""} items-center gap-3 p-3 rounded-lg cursor-pointer hover:bg-gray-800 transition`}>

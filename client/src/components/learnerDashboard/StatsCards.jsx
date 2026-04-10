@@ -1,5 +1,6 @@
 import { Book } from "lucide-react";
 import React from "react";
+import { FaCertificate } from "react-icons/fa6";
 
 const StatsCards = ({statsData}) => {
   return (
@@ -18,10 +19,10 @@ const StatsCards = ({statsData}) => {
 
       <div className=" p-4 transition-all duration-300 bg-gradient-to-r  from-blue-500 to-blue-600 rounded-xl shadow hover:shadow-xl hover:shadow-blue-500">
       <div className="flex  items-center gap-2">
-    <p className="text-3xl">🧠</p>
-    <p className="text-white">Problem Solved</p>
+    <p className="text-3xl"><FaCertificate/></p>
+    <p className="text-white">Certificates</p>
   </div>
-        <h3 className="text-3xl  font-bold mt-3">{statsData.problemSolved|| 0}</h3>
+        <h3 className="text-3xl  font-bold mt-3">{statsData.certificates|| 0}</h3>
       </div>
       <div className=" p-4 transition-all duration-300 bg-gradient-to-r  from-orange-500 to-orange-600 rounded-xl shadow hover:shadow-xl hover:shadow-orange-500">
       <div className="flex  items-center gap-2">

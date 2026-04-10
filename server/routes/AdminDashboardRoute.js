@@ -10,7 +10,8 @@ const { getAllInstructors, addInstructors } = require("../controllers/adminDashb
 const uploadVideo = require("../middlewares/videoUploadMiddleware");
 const { createLesson, updateLesson, deleteLesson, getSingleLesson, getAllLesson } = require("../controllers/adminDashboardControllers/lessonController");
 const {  getAllStudents } = require("../controllers/adminDashboardControllers/studentController");
-const { getEnrolledStudents } = require("../controllers/adminDashboardControllers/enrollmentController");
+const { getEnrolledStudents, enrollmentDelete } = require("../controllers/adminDashboardControllers/enrollmentController");
+const { getAllCertificateIssued, deleteCertificate } = require("../controllers/adminDashboardControllers/certificateController");
 
 adminDashboardRoute.get("/stats",isAuthenticated,isAdmin,usersStat);
 adminDashboardRoute.get("/users",isAuthenticated,isAdmin,getUsers);
@@ -34,7 +35,11 @@ adminDashboardRoute.get("/lesson/:lessonId",isAuthenticated,isAdmin,getSingleLes
 adminDashboardRoute.get("/lessons/:courseId",isAuthenticated,isAdmin,getAllLesson);
 
 // enrollments
-adminDashboardRoute.get("/all/enrolled/students",isAuthenticated,isAdmin,getEnrolledStudents)
+adminDashboardRoute.get("/all/enrolled/students",isAuthenticated,isAdmin,getEnrolledStudents);
+adminDashboardRoute.delete("/delete/:enrollmentId",isAuthenticated,isAdmin,enrollmentDelete);
+// certificates
+adminDashboardRoute.get("/certificates",isAuthenticated,isAdmin,getAllCertificateIssued);
+adminDashboardRoute.delete("/:certificateId",isAuthenticated,isAdmin,deleteCertificate);
 // students
 adminDashboardRoute.get("/students",isAuthenticated,isAdmin,getAllStudents)
 module.exports=adminDashboardRoute;
