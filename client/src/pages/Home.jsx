@@ -8,6 +8,7 @@ import CodePlayground from '../components/home/CodePlayground'
 import CertificateVerification from '../components/home/CertificateVerification'
 import HowItWorks from '../components/home/HowItWorks'
 import FakeCourses from '../components/home/FakeCourses'
+import Roadmap from '../components/home/Roadmap'
 
 const Home = () => {
   return (
@@ -17,6 +18,7 @@ const Home = () => {
       <Hero/>
       <Features/>
       <AiChatbotSection/>
+      <Roadmap/>
       <FakeCourses/>
       <CodePlayground/>
       <CertificateVerification/>

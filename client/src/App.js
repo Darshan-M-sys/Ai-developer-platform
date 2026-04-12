@@ -6,7 +6,7 @@ import Login from './pages/Login'
 import ForgetPassword from './pages/ForgetPassword'
 import LearnerDashboard from './pages/LearnerDashboard'
 import Courses from './pages/Courses'
-import CoursePlayer from './pages/CoursePlayer'
+
 import AIChatPage from './pages/AiChatPage'
 import ProblemPage from './pages/ProblemPage'
 import Profile from './pages/Profile'
@@ -42,6 +42,8 @@ import Dashboard from './pages/Dashboard'
 import EnrollmentsPage from './pages/adminDashnoardFeaturespages/EnrollmentsPage'
 import CertificatesIssued from './pages/adminDashnoardFeaturespages/CertificatesIssued'
 import HelpPage from './pages/HelpPage'
+
+import AiRoadmaps from './pages/AiRoadmaps'
 const App = () => {
   return (
     <div className="bg-gray-500">
@@ -58,12 +60,13 @@ const App = () => {
         <Route path="/learner/courses" element={<EnrolledCourses/>}/>
         <Route path="/learner/course/:courseId/lesson/:lessonId" element={<LearningScreenPage/>}/>
         <Route path="/admin/dashboard" element={<AdminDashboard/>}/>
+        <Route path="/ai/roadmap" element={<AiRoadmaps/>}/>
         <Route path="/admin/users" element={<ManageUsers/>}/>
         <Route path="/admin/course/create" element={<CreateCourse/>}/>
         <Route path="/admin/students" element={<StudentsPage/>}/>
         <Route path="/admin/instructors" element={<InstructorPage/>}/>
         <Route path="/admin/certificates" element={<CertificatesIssued />}/>
-        <Route path="/admin/courses" element={<CoursesPage />}/>
+        <Route path="/admin/courses" element={<CoursesPage/>}/>
         <Route path="/admin/enrollments" element={<EnrollmentsPage />}/>
         <Route path="/instructor/dashboard" element={<InstructorDashboard/>}/>
         <Route path="/instructor/courses" element={<MyCourses/>}/>
@@ -82,7 +85,6 @@ const App = () => {
         <Route path="/admin/analytics" element={<AnalyticsPage />}/>
         <Route path="/courses" element={<Courses/>}/>
         <Route path="/course/:id" element={<CourseViewPage/>}/>
-        <Route path="/course/player" element={<CoursePlayer/>}/>
         <Route path="/playground" element={<Playground/>}/>
         <Route path="/ai/chat" element={<AIChatPage/>}/>
         <Route path="/problem" element={<ProblemPage/>}/>

@@ -62,7 +62,6 @@ const AiChatPage = () => {
             setOnClose={setOnClose}
           />
         </div>
-
         {/* Desktop Sidebar */}
         <div className="hidden md:block fixed top-0 left-0">
           <Sidebar
@@ -73,7 +72,6 @@ const AiChatPage = () => {
             setOnClose={setOnClose}
           />
         </div>
-
         {/* Chat Page */}
         <ChatPage
           messages={messages}

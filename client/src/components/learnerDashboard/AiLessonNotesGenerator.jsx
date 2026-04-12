@@ -3,63 +3,10 @@ import ReactMarkdown from "react-markdown";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
-const AiLessonNotesGenerator = () => {
+const AiLessonNotesGenerator = ({ aiExplanationNotes }) => {
   const notesRef = useRef();
 
-  const notes = `
-# 📚 AI Generated Notes
-
-## What is Python?
-
-Python is a **high-level programming language** that is easy to learn and powerful.
-
-It is used in:
-
-- Web Development
-- Artificial Intelligence
-- Data Science
-- Automation
-- Game Development
-
----
-
-## Key Points
-
-- Python syntax is simple
-- Python is beginner-friendly
-- Python supports OOP
-- Python has a huge community
-
----
-
-## Example
-
-\`\`\`python
-print("Hello Python")
-\`\`\`
-
----
-
-## More Notes
-
-Python is widely used in real-world applications such as:
-
-- AI tools
-- Chatbots
-- Web apps
-- Automation scripts
-- Data analysis projects
-- Machine learning systems
-- Cloud applications
-- APIs
-
----
-
-## Summary
-
-Python is one of the best programming languages for beginners and professionals.
-`;
-
+  
   const downloadPDF = async () => {
     const element = notesRef.current;
 
@@ -94,7 +41,7 @@ Python is one of the best programming languages for beginners and professionals.
   };
 
   return (
-    <div className="bg-white p-6 rounded-xl shadow-sm space-y-5">
+    <div className="bg-white p-6 rounded-xl shadow-sm  w-full">
 
       {/* Title */}
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
@@ -109,8 +56,8 @@ Python is one of the best programming languages for beginners and professionals.
       </div>
 
       {/* Notes Content */}
-      <div ref={notesRef} className="prose max-w-none bg-gray-50 p-5 rounded-lg">
-        <ReactMarkdown>{notes}</ReactMarkdown>
+      <div ref={notesRef} className="prose  max-w-5xl bg-gray-50 p-5 rounded-lg">
+        <ReactMarkdown>{aiExplanationNotes}</ReactMarkdown>
       </div>
     </div>
   );

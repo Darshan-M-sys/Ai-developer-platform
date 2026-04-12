@@ -15,7 +15,8 @@ const Courses = () => {
     }
     useEffect(()=>{
       handleGetCourses();
-    },[])
+    },[]);
+    
   // const courses = [
   //   {
   //     id: 1,
@@ -70,7 +71,6 @@ const Courses = () => {
     <>
     <Header/>
     <div className=" p-1 md:p-6 md:mt-[66px] mt-[55px]  bg-gray-50 min-h-screen">
-
       {/* Header */}
       <div className="mb-6">
         <h1 className="text-3xl font-bold text-gray-800">
@@ -80,7 +80,6 @@ const Courses = () => {
           Learn and upgrade your skills with top courses
         </p>
       </div>
-
       {/* Grid */}
       <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {courses.map(course => (

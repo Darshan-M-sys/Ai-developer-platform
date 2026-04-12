@@ -19,8 +19,10 @@ const learnerDashboardRoute = require("./routes/LearnerDashboardRoute");
 const AiLessonActionsRoute = require("./routes/AiLessonActionRoute");
 const instructorDashboardRoute = require("./routes/InstructorDashbaordRoute");
 const verifyCertificate = require("./routes/VerifyCertificate");
+const roadMapGenerator = require("./routes/AiRoadmapRoute");
+
 const app = express();
-// runAi()
+// runAi();
 app.use(cors({
   origin:"http://localhost:3000",
   credentials:true
@@ -80,13 +82,14 @@ app.use("/student",learnerDashboardRoute);
 app.use("/instructor",instructorDashboardRoute);
 app.use("/ai/lesson",AiLessonActionsRoute);
 app.use("/certificate",verifyCertificate);
+app.use("/ai/roadmap",roadMapGenerator);
 
 
 // =========================
 // SERVER START
 // =========================
-const port = process.env.PORT || 5000;
 
+const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
 });

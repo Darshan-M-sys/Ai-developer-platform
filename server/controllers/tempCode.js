@@ -1,6 +1,1 @@
-// JavaScript Boilerplate
-function main() {
-  console.log("Hello, World!");
-}
-
-main();
+console.log("hello coders")

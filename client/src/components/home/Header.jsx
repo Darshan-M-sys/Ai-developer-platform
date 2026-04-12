@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import deveForge from "../assets/devforge.png";
 const Header = ({ setProfileData }) => {
   const [open, setOpen] = useState(false);
   const [user, setUser] = useState({});
@@ -40,16 +40,22 @@ const Header = ({ setProfileData }) => {
     <header className="w-full  fixed top-0 z-[40] backdrop-blur-md bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white shadow-lg border-b border-white/10">
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
 
-        {/* Logo */}
-        <h1 className="text-2xl font-bold text-blue-500">
-          DevForge
-        </h1>
+        <div className="flex items-center items-center gap-2">
+   <Link to="/">  <img src={deveForge} className="w-[50px] h-[50px] rounded-2xl" alt="logo" />
+          </Link> 
+          <Link to="/">
+          <h1 className="text-2xl font-bold text-blue-500">
+            DevForge
+          </h1>
+          </Link>
+        </div>
 
         {/* Desktop Menu */}
         <nav className="hidden bg-black/30 p-3 px-10 rounded-3xl md:flex gap-8 text-sm font-medium text-white">
           <a href="/" className="hover:text-blue-400 transition">Home</a>
           <a href="/courses" className="hover:text-blue-400 transition">Courses</a>
           <a href="/ai/chat" className="hover:text-blue-400 transition">AIChat</a>
+          <a href="/ai/roadmap" className="hover:text-blue-400 transition">AIRoadmaps</a>
            <a href="/help"  className="hover:text-blue-400 transition">Help</a>
           <a href="/playground" className="hover:text-blue-400 transition">Playground</a>
           {user.email &&(
@@ -98,6 +104,7 @@ const Header = ({ setProfileData }) => {
           <a href="/courses" className="hover:text-blue-400 transition">Courses</a>
           <a href="Help" className="hover:text-blue-400 transition">Help</a>
           <a href="/playground" className="hover:text-blue-400 transition">Playground</a>
+          <a href="/ai/roadmap" className="hover:text-blue-400 transition">AIRoadmaps</a>
          {user.email &&( <Link to="/dashboard" className="hover:text-blue-400 transition">Dashboard</Link>)}
 
           {user.email ? (

@@ -3,7 +3,7 @@ import video from "../assets/video.mp4";
 import LessonDescription from "./LessonDescription";
 import AiActionsInLessonPage from "./AiActionsInLessonPage";
 import AiLessonExplain from "./AiLessonExplain";
-import AiLessonQuiz from "./AiLessonQuiz";
+
 import AiLessonNotesGenerator from "./AiLessonNotesGenerator";
 import { useEffect } from "react";
 import axios from "axios";
@@ -154,6 +154,37 @@ useEffect(() => {
   useEffect(()=>{
     handleSetCurrentLesson();
   },[lessonId]);
+const [aiExplanation, setAiExplanation] = useState("");
+const [aiExplanationNotes, setAiExplanationNotes] = useState("");
+const [aiExplainLoading,setAiExplainLoading]=useState(false)
+const [aiExplanationNotesLoading,setAiExplanationNotesLoading]=useState(false)
+
+const handleAiExplanation=async()=>{
+ try {
+  setAiExplainLoading(true)
+  const res= await axios.post(`http://localhost:5000/ai/lesson/explain/${courseId}/${lessonId}`,{question: `Explain this lesson.${lessonData.title}` },{withCredentials:true});
+  if(res.data?.success){
+  setAiExplanation(res.data?.data || "No explanation available.");
+setAiExplainLoading(false)
+  }
+    } catch (error) {
+      console.log(error.message);
+ }  
+}
+const handleAiExplanationNotes=async()=>{
+ try {
+  setAiExplanationNotesLoading(true)
+  const res= await axios.post(`http://localhost:5000/ai/lesson/notes/${courseId}/${lessonId}`,{question: `Explain this lesson.${lessonData.title}` },{withCredentials:true});
+  if(res.data?.success){
+    setAiExplanationNotes(res.data?.data || "No explanation available.");
+setAiExplanationNotesLoading(false)
+  }
+    } catch (error) {
+      console.log(error.message);
+ }  
+}
+
+
   return (
     <div className="bg-white shadow-lg relative z-0  rounded-b-xl p-6 w-full space-y-4">
       {/* Lesson Name */}
@@ -257,26 +288,19 @@ useEffect(() => {
       {/* Future Tabs can be added here */}
       {activeTab === "ai-tools" && (
         <div>
-          <p className="text-gray-600 mb-4">AI Tools for this lesson</p>
-           <AiActionsInLessonPage setActiveAiToolTab={setActiveAiToolTab} />
+          <p className="text-gray-600 mb-4 w-full">AI Tools for this lesson</p>
+           <AiActionsInLessonPage setActiveAiToolTab={setActiveAiToolTab} aiExplainLoading={aiExplainLoading}  handleAiExplanation={handleAiExplanation} aiExplanationNotesLoading={aiExplanationNotesLoading} handleAiExplanationNotes={handleAiExplanationNotes} />
            {
             activeAiToolTab === "explain" && (
               <div>
-               <AiLessonExplain/>
-              </div>
-            )
-           }
-           {
-            activeAiToolTab === "quiz" && (
-              <div>
-               <AiLessonQuiz/>
+               <AiLessonExplain aiExplanation={aiExplanation} />
               </div>
             )
            }
            {
             activeAiToolTab === "notes" && (
               <div>
-               <AiLessonNotesGenerator/>
+               <AiLessonNotesGenerator aiExplanationNotes={aiExplanationNotes} />
               </div>
             )
            }

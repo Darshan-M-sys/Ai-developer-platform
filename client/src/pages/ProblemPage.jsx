@@ -25,9 +25,9 @@ const ProblemPage = () => {
         <div onClick={()=>setMenu(!menu)} className="fixed top-10 p-2 md:hidden rounded-full bg-white shadow text-xl">
           <TfiMenu/>
         </div>
-          <div className={`w-1/5  fixed top-0 transition-all duration-300 z-40 bg-white ${menu?"left-0":"left-[-327px]"} w-full h-full border-r overflow-y-auto`}>
+          {/* <div className={`w-1/5  fixed top-0 transition-all duration-300 z-40 bg-white ${menu?"left-0":"left-[-327px]"} w-full h-full border-r overflow-y-auto`}>
           <Sidebar  setMenu={setMenu}/>
-        </div>
+        </div> */}
         {/* Problem + Editor */}
         <div className="flex flex-col w-full md:w-4/5">
 

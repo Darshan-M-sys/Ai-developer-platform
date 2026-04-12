@@ -22,12 +22,10 @@ const AuthProvider = ({ children }) => {
       setLoading(false); // ✅ stop loading
     }
   };
-
   useEffect(() => {
     fetchUser();
   }, []);
-
-  // ✅ Better auth check
+ // ✅ Better auth check
   const isLogged = useMemo(() => {
     return !!user; // true if user exists
   }, [user]);

@@ -89,7 +89,7 @@ const ChatSidebar = ({ setChatId, setMessages ,setMenu,setTitle,setOnClose}) => 
   className="p-3 rounded-lg flex justify-between cursor-pointer hover:bg-[#1e293b] transition"
 >
   
-  <h1  className="inline-block break-words">
+  <h1  className="inline-block break-words capitalize">
     {chat.title.length > 27
       ? chat.title.substring(0, 27) + "..."
       : chat.title}

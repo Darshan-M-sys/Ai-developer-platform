@@ -6,12 +6,14 @@ const Chat = require("../models/Chat");
    1. SEND MESSAGE TO AI
 ========================================= */
 
+
 exports.sendMessage = async (req, res) => {
   try {
-      
+    /* ===============================
+       1. GET USER DATA
+    =============================== */
     const userId = req.session.user.id;
     const { message, chatId } = req.body;
-
 
     if (!message) {
       return res.status(400).json({ error: "Message is required" });
@@ -20,14 +22,15 @@ exports.sendMessage = async (req, res) => {
     let chat;
 
     /* ===============================
-       1. GET EXISTING CHAT
+       2. GET EXISTING CHAT (SECURE)
     =============================== */
     if (chatId) {
-      chat = await Chat.findById(chatId);
+      // ✅ Only fetch chat that belongs to this user
+      chat = await Chat.findOne({ _id: chatId, userId });
     }
 
     /* ===============================
-       2. CREATE NEW CHAT IF NOT EXIST
+       3. CREATE NEW CHAT IF NOT FOUND
     =============================== */
     if (!chat) {
       chat = new Chat({
@@ -38,7 +41,7 @@ exports.sendMessage = async (req, res) => {
     }
 
     /* ===============================
-       3. SAVE USER MESSAGE
+       4. SAVE USER MESSAGE
     =============================== */
     chat.messages.push({
       role: "user",
@@ -46,51 +49,70 @@ exports.sendMessage = async (req, res) => {
     });
 
     /* ===============================
-       4. SYSTEM PROMPT (IMPORTANT)
+       5. SYSTEM PROMPT (AI BEHAVIOR)
     =============================== */
     const systemPrompt = {
       role: "system",
       content: `
-You are a helpful AI coding assistant.
+You are a helpful AI coding tutor for beginners.
 
-Always respond in clean Markdown format using this structure:
+Rules:
+- Always use Markdown format
+- Use ## headings
+- Explain step-by-step
+- Always include code examples
+- Use proper code blocks (javascript, python, etc.)
+- Show output separately
+- Keep explanation simple
 
-1. Use headings (## Title)
-2. Use step-by-step explanation
-3. Use proper code blocks like:
-\`\`\`javascript
-code here
-\`\`\`
-4. Show output separately
-5. Keep explanations simple and beginner friendly
-only code don't use extra text inside code 
+Important:
+- Do NOT write explanation inside code blocks
+- Only pure code inside code blocks
 `
     };
 
     /* ===============================
-       5. PREPARE CONVERSATION MEMORY
+       6. LIMIT CHAT MEMORY (OPTIMIZATION)
     =============================== */
+    const lastMessages = chat.messages.slice(-10); // only last 10 messages
+
     const conversation = [
       systemPrompt,
-      ...chat.messages.map((msg) => ({
+      ...lastMessages.map((msg) => ({
         role: msg.role,
         content: msg.content
       }))
     ];
 
     /* ===============================
-       6. SEND TO OLLAMA
+       7. CALL AI API (OPENROUTER)
     =============================== */
-    const response = await axios.post("http://localhost:11434/api/chat", {
-      model: "phi3:mini",
-      messages: conversation,
-      stream: false
-    });
-
-    const aiReply = response.data.message.content;
+    const response = await axios.post(
+      "https://openrouter.ai/api/v1/chat/completions",
+      {
+        model: "openai/gpt-4o-mini", // ✅ fast + cheap model
+        messages: conversation,
+        temperature: 0.5,
+        max_tokens: 500 // ✅ control response size
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
+          "HTTP-Referer": "http://localhost:5173", // your frontend URL
+          "X-Title": "My AI App",
+          "Content-Type": "application/json"
+        }
+      }
+    );
 
     /* ===============================
-       7. SAVE AI MESSAGE
+       8. EXTRACT AI RESPONSE (FIXED)
+    =============================== */
+    const aiReply =
+      response.data.choices?.[0]?.message?.content || "No response";
+
+    /* ===============================
+       9. SAVE AI MESSAGE
     =============================== */
     chat.messages.push({
       role: "assistant",
@@ -100,7 +122,7 @@ only code don't use extra text inside code
     await chat.save();
 
     /* ===============================
-       8. SEND RESPONSE TO FRONTEND
+       10. SEND RESPONSE TO FRONTEND
     =============================== */
     res.json({
       reply: aiReply,
@@ -108,15 +130,29 @@ only code don't use extra text inside code
       title: chat.title
     });
 
+    /* ===============================
+       🔥 OPTIONAL: OLLAMA (LOCAL AI)
+       Uncomment below to use Ollama instead of OpenRouter
+    =============================== */
+
+    /*
+    const ollamaResponse = await axios.post("http://localhost:11434/api/chat", {
+      model: "phi3:mini", // or llama3, mistral
+      messages: conversation,
+      stream: false
+    });
+
+    const aiReply = ollamaResponse.data.message.content;
+    */
+
   } catch (error) {
-    console.log("AI ERROR:", error.message);
+    console.log("AI ERROR:", error.response?.data || error.message);
 
     res.status(500).json({
       error: "AI server error"
     });
   }
 };
-
 /* =========================================
    2. GET ALL CHATS (sidebar)
 ========================================= */
