@@ -27,15 +27,7 @@ const LiveDemo = () => {
           Build real-world projects faster and smarter.
         </p>
 
-        <div className="flex gap-4 mt-8">
-          <button className="bg-blue-500 px-6 py-3 rounded-lg font-semibold hover:bg-blue-600 transition">
-            Get Started
-          </button>
-
-          <button className="border border-gray-500 px-6 py-3 rounded-lg hover:bg-gray-700 transition">
-            Live Demo
-          </button>
-        </div>
+      
       </section>
 
       {/* ⚡ FEATURES */}
