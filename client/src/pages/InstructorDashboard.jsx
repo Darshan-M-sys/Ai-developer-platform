@@ -80,7 +80,7 @@ const [students,setStudents]=useState([])
 
         <Sidebar />
     </div>
-    <div className="md:ml-[250px]    md:mt-[66px]">
+    <div className="md:ml-[250px]  bg-white md:mt-[66px]">
       <Navbar profileData={profileData}/>
       <Stats statsData={statsData} />
       <div className="flex w-full flex-col gap-2 md:flex-row ">

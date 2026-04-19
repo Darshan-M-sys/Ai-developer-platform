@@ -65,7 +65,7 @@ handleGetCertificates();
     <div className=" md:mt-[66px] mt-[55px]">
       <Sidebar/>
     </div>
-    <div className="p-6 md:ml-[250px] mt-[66px] mt-[55px] space-y-8">
+    <div className="p-6 bg-white md:ml-[250px] mt-[66px] mt-[55px] space-y-8">
       {/* Title */}
       <h1 className="text-3xl font-bold">Completed Certificates Issued</h1>
 

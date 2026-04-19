@@ -46,7 +46,7 @@ console.log(error.message)
     <div className="md:mt-[66px] mt-[55px]">
  <Sidebar/>
     </div>
-    <div className="p-6 md:ml-[250px] md:mt-[66px] mt-[55px]">
+    <div className="p-6 bg-white md:ml-[250px] md:mt-[66px] mt-[55px]">
 
       {/* Page Title */}
       <h1 className="text-3xl font-bold mb-6">My Students</h1>

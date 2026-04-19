@@ -67,7 +67,7 @@ getStudentsProgress();
     <div className='md:mt-[66px] mt-[55px]'>
     <Sidebar/>
     </div>
-    <div className="md:p-6 p-1 md:ml-[250px] md:mt-[66px] mt-[55px] space-y-8">
+    <div className="md:p-6 p-1 bg-white md:ml-[250px] md:mt-[66px] mt-[55px] space-y-8">
       {/* Title */}
       <h1 className="text-3xl font-bold">Student Progress</h1>
 

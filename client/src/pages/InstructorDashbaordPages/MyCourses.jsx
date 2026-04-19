@@ -47,7 +47,7 @@ setIsDeleted(true)
     <div className="md:mt-[66px] mt-[55px]">
     <Sidebar/> 
     </div>
-      <div className="p-6 md:mt-[66px] mt-[55px] md:ml-[260px]">
+      <div className="p-6 md:mt-[66px]  bg-white mt-[55px] md:ml-[260px]">
       {/* Page Title */}
       <h1 className="text-3xl font-bold mb-6">My Courses</h1>
 
