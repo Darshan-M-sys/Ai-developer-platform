@@ -91,11 +91,11 @@ getCertificateData();
     <>
     <Header/>
     <Sidebar/>
-    <div className="min-h-screen md:ml-[280px] md:mt-[66px] mt-[55px]  bg-gray-100 md:p-8">
+    <div className="min-h-screen md:ml-[280px] md:mt-[66px] mt-[55px]   bg-white md:p-8">
   
-     {completedCourses.length>0 &&(     <h1 className="text-3xl font-bold text-green-600 text-center">
+     {completedCourses.length>0 ? (     <h1 className="text-3xl font-bold text-green-600 text-center">
         🎉 Congratulations! You completed these courses
-      </h1>)}
+      </h1>):<div className="flex min-h-[calc(100vh-66px)] justify-center items-center"> Certificates Not Found</div>}
       {/* Course List */}
       <div className="mt-8 grid gap-6 max-w-4xl mx-auto">
 

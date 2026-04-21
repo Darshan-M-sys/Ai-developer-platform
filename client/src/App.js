@@ -46,7 +46,7 @@ import HelpPage from './pages/HelpPage'
 import AiRoadmaps from './pages/AiRoadmaps'
 const App = () => {
   return (
-    <div className="bg-gray-500">
+    <div className="bg-white">
       <Routes>
         <Route path="/" element={<Home/>}/>
         <Route path="/register" element={<Register/>}/>
