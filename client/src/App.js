@@ -44,12 +44,14 @@ import CertificatesIssued from './pages/adminDashnoardFeaturespages/Certificates
 import HelpPage from './pages/HelpPage'
 
 import AiRoadmaps from './pages/AiRoadmaps'
+import ResetPassword from './pages/ResetPassword'
 const App = () => {
   return (
     <div className="bg-white">
       <Routes>
         <Route path="/" element={<Home/>}/>
         <Route path="/register" element={<Register/>}/>
+        <Route path="/reset/password" element={<ResetPassword/>}/>
         <Route path="forget/password" element={<ForgetPassword/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="/admin/login" element={<AdminLogin/>}/>

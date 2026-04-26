@@ -145,7 +145,7 @@ const Login = () => {
               />
 
         
-            <Link to="/forget/password" className="text-sm text-blue-500 cursor-pointer font-[600]">Forget Password</Link>
+            <Link to="/reset/password" className="text-sm text-blue-500 cursor-pointer font-[600]">Reset Password</Link>
             {/* LOGIN BUTTON */}
 
             <button

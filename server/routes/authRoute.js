@@ -13,6 +13,7 @@ const {
 } = require("../controllers/authController");
 const isAuthenticated = require("../middlewares/authMiddleware");
 const upload = require("../middlewares/uploadImageMiddleware");
+const { resetPassword } = require("../controllers/resetPasswordController");
 
 const authRouter = express.Router();
 
@@ -27,6 +28,7 @@ authRouter.post("/register", registerUser);
 authRouter.put("/update",isAuthenticated,upload.single("image"), updateUser);
 // login
 authRouter.post("/login", loginUser);
+authRouter.post("/reset/password", resetPassword);
 // admin login
 authRouter.post("/admin/login", adminLogin);
 
