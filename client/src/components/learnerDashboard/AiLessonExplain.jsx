@@ -6,7 +6,7 @@ const AiLessonExplain = ({ aiExplanation }) => {
 
 
   return (
-    <div className="bg-white p-2 md:p-6 rounded-xl shadow-sm space-y-4">
+    <div className="bg-white p-2 md:p-6 rounded-xl shadow-sm ">
 
       <h2 className="text-xl font-bold">AI Lesson Explanation</h2>
 

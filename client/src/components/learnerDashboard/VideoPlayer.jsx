@@ -288,7 +288,7 @@ setAiExplanationNotesLoading(false)
       {/* Future Tabs can be added here */}
       {activeTab === "ai-tools" && (
         <div>
-          <p className="text-gray-600 mb-4 w-full">AI Tools for this lesson</p>
+          <p className="text-gray-600  w-full">AI Tools for this lesson</p>
            <AiActionsInLessonPage setActiveAiToolTab={setActiveAiToolTab} aiExplainLoading={aiExplainLoading}  handleAiExplanation={handleAiExplanation} aiExplanationNotesLoading={aiExplanationNotesLoading} handleAiExplanationNotes={handleAiExplanationNotes} />
            {
             activeAiToolTab === "explain" && (

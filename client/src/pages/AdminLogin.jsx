@@ -58,7 +58,7 @@ withCredentials:true
         
      }else{
       setAction({
-          message:"OOps Error",
+          message:err.response.data?.message,
           show:true,
           type:"error"
         })
@@ -129,10 +129,6 @@ withCredentials:true
                 label="password"
                 onChange={handleChange}
               />
-
-        
-            <Link to="/forget/password" className="text-sm text-blue-500 cursor-pointer font-[600]">Forget Password</Link>
-            {/* LOGIN BUTTON */}
 
             <button
               type="submit"

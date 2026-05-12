@@ -47,7 +47,7 @@ import AiRoadmaps from './pages/AiRoadmaps'
 import ResetPassword from './pages/ResetPassword'
 const App = () => {
   return (
-    <div className="bg-white">
+    <div className="bg-white ">
       <Routes>
         <Route path="/" element={<Home/>}/>
         <Route path="/register" element={<Register/>}/>

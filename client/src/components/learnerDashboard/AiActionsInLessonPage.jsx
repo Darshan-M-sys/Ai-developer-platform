@@ -16,7 +16,7 @@ const AiActionsInLessonPage = ({
     <div className="w-full bg-white p-4 sm:p-6 rounded-xl shadow-sm">
 
       {/* Title */}
-      <h3 className="text-lg sm:text-xl font-semibold mb-4">
+      <h3 className="text-lg sm:text-xl font-semibold">
         AI Learning Tools
       </h3>
 
@@ -54,8 +54,8 @@ const AiActionsInLessonPage = ({
           OUTPUT SECTION (ReactMarkdown)
       =============================== */}
 
-      <div className="mt-6 bg-gray-50 p-4 rounded-lg min-h-[150px]">
-
+      <div className=" bg-gray-50 p-4 rounded-lg">
+     
         {/* Explain Output */}
         {activeAiToolTab === "explain" && (
           <>

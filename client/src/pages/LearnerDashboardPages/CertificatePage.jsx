@@ -92,14 +92,12 @@ getCertificateData();
     <Header/>
     <Sidebar/>
     <div className="min-h-screen md:ml-[280px] md:mt-[66px] mt-[55px]   bg-white md:p-8">
-  
-     {completedCourses.length>0 ? (     <h1 className="text-3xl font-bold text-green-600 text-center">
+       
+     {completedCourses.length > 0 && ( 
+      <><h1 className="text-3xl font-bold text-green-600 text-center">
         🎉 Congratulations! You completed these courses
-      </h1>):<div className="flex min-h-[calc(100vh-66px)] justify-center items-center"> Certificates Not Found</div>}
-      {/* Course List */}
+      </h1>
       <div className="mt-8 grid gap-6 max-w-4xl mx-auto">
-
-
         {completedCourses.map((course, index) => (
           <div
             key={index}
@@ -124,6 +122,15 @@ getCertificateData();
           </div>
         ))}
       </div>
+      </>
+    )}
+      {myCertificate.length === 0  && completedCourses.length === 0 && (
+        <h1 className="text-3xl font-bold text-gray-600 text-center">
+        You haven't completed any courses yet. Keep learning and come back for your certificates!
+      </h1>
+      )}
+      {/* Course List */}
+      
 
       {/* Hidden Certificate for Image + PDF */}
       {selectedCourse && (

@@ -41,7 +41,8 @@ const Header = ({ setProfileData }) => {
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
 
         <div className="flex items-center items-center gap-2">
-   <Link to="/">  <img src={deveForge} className="w-[50px] h-[50px] rounded-2xl" alt="logo" />
+   <Link to="/"> 
+    <img src={deveForge} className="md:w-[50px] md:h-[50px] w-[35px] h-[35px] rounded-2xl" alt="logo" />
           </Link> 
           <Link to="/">
           <h1 className="text-2xl font-bold text-blue-500">
@@ -99,7 +100,7 @@ const Header = ({ setProfileData }) => {
       {/* Mobile Menu */}
 
       {open && (
-        <div  className="md:hidden  flex-1 transition-all duration-300 bg-black/70 backdrop-blur-md px-6 pb-6 flex flex-col gap-4 text-sm font-medium text-white rounded-b-lg">
+        <div  className="md:hidden  flex-1 transition-all duration-300 bg-black/70 backdrop-blur-md px-6 pb-2 flex flex-col gap-4 text-sm font-medium text-white rounded-b-lg">
           <a href="/" className="hover:text-blue-400 transition">Home</a>
           <a href="/courses" className="hover:text-blue-400 transition">Courses</a>
           <a href="Help" className="hover:text-blue-400 transition">Help</a>
