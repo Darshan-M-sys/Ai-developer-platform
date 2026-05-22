@@ -1,5 +1,5 @@
 import { Copy, CopyCheck } from "lucide-react";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, use } from "react";
 import { TfiClose, TfiMenu } from "react-icons/tfi";
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
@@ -112,6 +112,14 @@ const typing = setInterval(() => {
       setCopied(false);
     }, 2000);
   };
+
+
+const handleKeyDown = (e) => {
+  if (e.key === "Enter") {
+    e.preventDefault(); // prevents new line
+    sendMessage();
+  }
+};
 
   return (
     <>
@@ -235,6 +243,7 @@ const typing = setInterval(() => {
               onChange={handleInput}
               placeholder="Ask DevForge AI anything about coding..."
               rows={1}
+              onKeyDown={handleKeyDown}
               className="flex-1 max-h-[200px] scrollBar  overflow-y-auto px-4 py-3 rounded-xl outline-none resize-none"
             />
 

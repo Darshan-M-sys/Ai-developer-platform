@@ -7,7 +7,10 @@ const SnippetSidebar = ({  setCode,setLanguage,setSnippetId ,render}) => {
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState(false);
   const [snippets,setSnippets]=useState([]);
-  
+  const [languageExtension,setLanguageExtension]=useState({
+    javascript:"js",
+    python:"py"
+  });
   const filteredSnippets = snippets.filter((s) =>
     s.title.toLowerCase().includes(search.toLowerCase())
   );
@@ -72,18 +75,26 @@ const SnippetSidebar = ({  setCode,setLanguage,setSnippetId ,render}) => {
           className="w-full border px-3 py-2 rounded-lg mb-4 outline-none focus:ring-2 focus:ring-indigo-500"
         />
 
-        {/* SNIPPET LIST */}
-        <div className="flex flex-col gap-2 overflow-y-auto h-[75vh]">
-          {filteredSnippets.map((snippet) => (
-            <button
-              key={snippet._id}
-              onClick={() =>(handleGetSingleSnippets(snippet._id),setSnippetId(snippet._id))}
-              className="text-left px-3 py-2 rounded-lg hover:bg-indigo-50 transition"
-            >
-              {snippet.title}
-            </button>
-          ))}
-        </div>
+{/* SNIPPET LIST */}
+<div className="flex flex-col gap-2 overflow-y-auto h-[75vh]">
+  {filteredSnippets.map((snippet) => (
+    <button
+      key={snippet._id}
+      onClick={() => (
+        handleGetSingleSnippets(snippet._id),
+        setSnippetId(snippet._id)
+      )}
+      className="text-left px-3 flex gap-1 py-2 rounded-lg hover:bg-indigo-50 transition"
+    >
+      <span className="block w-[150px] scrollBar m-r-1  overflow-x-auto whitespace-nowrap">
+        {snippet.title}
+      </span>
+
+       .{snippet.language &&
+        `${languageExtension[snippet.language] || snippet.language}`}
+    </button>
+  ))}
+</div>
       </div>
 
       {/* OVERLAY (mobile) */}

@@ -48,10 +48,10 @@ const AiLessonNotesGenerator = ({ aiExplanationNotes }) => {
         <h2 className="text-xl font-bold">📚 AI Lesson Notes</h2>
 
         <button
-          onClick={downloadPDF}
+          onClick={downloadPDF} disabled={!aiExplanationNotes}
           className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
         >
-          Export as PDF
+         {aiExplanationNotes ? "Export as PDF" : "No notes to export"}
         </button>
       </div>
 

@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import PlaygroundNav from "../components/playground/PlaygrooundNav";
 import CodeEditor from "../components/playground/CodeEditor";
 import Header from "../components/home/Header";
-import { Settings, Settings2 } from "lucide-react";
+import { MdDelete } from "react-icons/md";
+import {  Settings, Settings2 } from "lucide-react";
 import SnippetSidebar from "../components/playground/SinppetSidebar";
 import AIActions from "../components/playground/AiActions";
 import SaveSnippets from "../components/playground/SaveSnippets";
@@ -64,9 +65,9 @@ if __name__ == "__main__":
  useEffect(()=>{
   if(language==="python" || language==="javascript"){
     setCode(boilerplates[language])
-    console.log(boilerplates[language])
+
   }
- },[language,code])
+ },[language])
 
  const handleCodeRun=async()=>{
 try {
@@ -82,8 +83,8 @@ try {
      if(!window.confirm("Are yor sure to delete this code Snippet"))return ;
       const  res= await axios.delete(`http://localhost:5000/snippets/delete/${snippetId}`,{withCredentials:true});
       if(res.data?.success){
-        setCode("//select language")
-        setLanguage("")
+        setCode(language==="python"?boilerplates.python:boilerplates.javascript)
+        setLanguage("python")
         setRender(!render)
         setSnippetId(null)
       }
@@ -162,7 +163,7 @@ try {
         <div className="flex bg-white w-full p-2  items-end  gap-20  mr-20  ">
         <img onClick={handleClickAi} src={devForge} className="w-[50px]  h-[50px] rounded-xl" alt="devforge" />
           {snippetId && (
-          <button onClick={handleDeleteSnippets} className="p-2  bg-red-600 w-fit font-[600] text-white shadow rounded-lg px-10"> Delete Snippet</button>)}
+          <button title="delete current snippets" onClick={handleDeleteSnippets} className="p-2  bg-red-600  font-[600] text-white shadow rounded-lg "> <MdDelete  /></button>)}
           <div className="flex justify-end w-full gap-10">
           <button onClick={handleCodeRun } className="p-2  font-[600] bg-blue-500  text-white shadow rounded-lg w-[100px]"> Run</button>
           

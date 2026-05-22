@@ -8,6 +8,7 @@ const [isExplain,setIsExplain]=useState(false)
 const[isExplainLoading,setIsExplainLoading]=useState(false);
 const[isDebugLoading,setIsDebugLoading]=useState(false);
 const[isOptimizeLoading,setIsOptimizeLoading]=useState(false);
+const [copySuccess,setCopySuccess]=useState(false)
   const handleExplain = async () => {
     setAiResponses(null)
     try{
@@ -50,6 +51,8 @@ const[isOptimizeLoading,setIsOptimizeLoading]=useState(false);
 
   const handleCopy = () => {
     navigator.clipboard.writeText(code);
+    setCopySuccess(true);
+    setTimeout(() => setCopySuccess(false), 2000);
   };
 
   return (
@@ -103,8 +106,9 @@ const[isOptimizeLoading,setIsOptimizeLoading]=useState(false);
         onClick={handleCopy}
         className="flex items-center gap-2 border px-4 py-2 rounded-lg hover:bg-gray-100"
       >
-        <Copy size={18} />
-        Copy Code
+        {copySuccess ? "Copied!" : <Copy size={18} />}
+         {!copySuccess ? "Copy Code" : ""}
+     
       </button>
 
     </div>
