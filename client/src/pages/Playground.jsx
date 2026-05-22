@@ -33,7 +33,7 @@ const Playground = () => {
   })
  const [aiResponses, setAiResponses] = useState("");
   const [snippetId,setSnippetId]=useState("")
-  const [language, setLanguage] = useState("");
+  const [language, setLanguage] = useState("python");
   const [aiReply,setAiReply]=useState("")
   const [theme, setTheme] = useState("vs-dark");
   const [fontSize, setFontSize] = useState(14);
@@ -50,12 +50,6 @@ function main() {
 
 main();`,
 
-  typescript: `// TypeScript Boilerplate
-function main(): void {
-  console.log("Hello, World!");
-}
-
-main();`,
 
   python: `# Python Boilerplate
 def main():
@@ -64,99 +58,11 @@ def main():
 if __name__ == "__main__":
     main()`,
 
-  java: `// Java Boilerplate
-public class Main {
-  public static void main(String[] args) {
-    System.out.println("Hello, World!");
-  }
-}`,
 
-  c: `// C Boilerplate
-#include <stdio.h>
-
-int main() {
-  printf("Hello, World!\\n");
-  return 0;
-}`,
-
-  cpp: `// C++ Boilerplate
-#include <iostream>
-using namespace std;
-
-int main() {
-  cout << "Hello, World!" << endl;
-  return 0;
-}`,
-
-  csharp: `// C# Boilerplate
-using System;
-
-class Program {
-  static void Main() {
-    Console.WriteLine("Hello, World!");
-  }
-}`,
-
-  go: `// Go Boilerplate
-package main
-
-import "fmt"
-
-func main() {
-  fmt.Println("Hello, World!")
-}`,
-
-  php: `<?php
-// PHP Boilerplate
-echo "Hello, World!";
-?>`,
-
-  rust: `// Rust Boilerplate
-fn main() {
-  println!("Hello, World!");
-}`,
-
-  swift: `// Swift Boilerplate
-print("Hello, World!")`,
-
-  kotlin: `// Kotlin Boilerplate
-fun main() {
-  println("Hello, World!")
-}`,
-
-  html: `<!-- HTML Boilerplate -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Hello World</title>
-</head>
-<body>
-  <h1>Hello, World!</h1>
-</body>
-</html>`,
-
- 
-
-  json: `{
-  "message": "Hello, World!"
-}`,
-
-  sql: `-- SQL Boilerplate
-CREATE TABLE users (
-  id INT PRIMARY KEY,
-  name VARCHAR(100),
-  email VARCHAR(100)
-);`,
-
-  markdown: `# Hello World
-
-This is a Markdown boilerplate.
-`,
 };
 
  useEffect(()=>{
-  if(language && code==="//select language"){
+  if(language==="python" || language==="javascript"){
     setCode(boilerplates[language])
     console.log(boilerplates[language])
   }

@@ -21,21 +21,8 @@ const PlaygroundNav = ({ language,code, setLanguage,setOpenSaveSnippets,snippetI
   const languages = [
   { label: "Select", value: "" },
   { label: "JavaScript", value: "javascript" },
-  { label: "TypeScript", value: "typescript" },
   { label: "Python", value: "python" },
-  { label: "Java", value: "java" },
-  { label: "C", value: "c" },
-  { label: "C++", value: "cpp" },
-  { label: "C#", value: "csharp" },
-  { label: "Go", value: "go" },
-  { label: "PHP", value: "php" },
-  { label: "Rust", value: "rust" },
-  { label: "Swift", value: "swift" },
-  { label: "Kotlin", value: "kotlin" },
-  { label: "HTML", value: "html" },
-  { label: "JSON", value: "json" },
-  { label: "SQL", value: "sql" },
-  { label: "Markdown", value: "markdown" },
+
 ];
 
 
