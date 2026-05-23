@@ -6,13 +6,13 @@ const Roadmap = require("../../models/roadmap");
 exports.generateRoadmap = async (req, res) => {
   try {
     const userId = req.session.user.id;
-    const { skill, level, goal } = req.body;
+    const { skill, level, goal, title } = req.body;
 
     // 🔥 CHECK EXISTING ROADMAP
     const existingRoadmap = await Roadmap.findOne({
       userId,
       skill,
-      level
+      level,
     });
     if (existingRoadmap) {
       return res.status(200).json({
@@ -22,13 +22,16 @@ exports.generateRoadmap = async (req, res) => {
     }
 
 const prompt = `
-You are an expert developer mentor.
-
-Generate a structured learning roadmap.
+You are an expert roadmap generator.
 
 STRICT RULES:
 - Output ONLY valid JSON
-- No markdown, no explanation
+- No markdown
+- No explanation
+- Generate MANY topic cards
+- Each phase must contain 8-15 topics
+- Topic names should be short
+- Topic descriptions should be 1 sentence
 
 FORMAT:
 {
@@ -38,12 +41,11 @@ FORMAT:
       "duration": "",
       "description": "",
       "topics": [
-        { "name": "", "description": "" }
-      ],
-      "projects": [
-        { "name": "", "description": "" }
-      ],
-      "resources": []
+        {
+          "name": "",
+          "description": ""
+        }
+      ]
     }
   ]
 }
@@ -127,7 +129,6 @@ exports.getAllRoadmaps = async (req, res) => {
   try {
     const userId = req.session.user.id;
     const roadmaps = await Roadmap.find({ userId });
-
     return res.status(200).json({ 
       success: true,
       roadmaps
