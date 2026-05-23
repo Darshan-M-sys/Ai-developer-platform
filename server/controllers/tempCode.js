@@ -1,7 +1,5 @@
-// JavaScript Boilerplate
-function main() {
-  console.log("Hello, World!");
-  console.log("Hello coding lovers")
+function greet() {
+    console.log("Hello, World!");
+    console.log("Hello, mam!");
 }
-
-main();
+greet(); // Calls the function and prints "Hello, World!"

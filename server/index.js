@@ -24,7 +24,7 @@ const roadMapGenerator = require("./routes/AiRoadmapRoute");
 const app = express();
 // runAi();
 app.use(cors({
-  origin:"http://127.0.0.1:3000",
+  origin:"http://localhost:3000",
   credentials:true
 }))
     
