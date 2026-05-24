@@ -4,7 +4,7 @@ import React from "react";
 import { FaArrowRightArrowLeft, FaDownLeftAndUpRightToCenter } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 
-const PlaygroundNav = ({ language,code, setLanguage,setOpenSaveSnippets,snippetId,setAction }) => {
+const PlaygroundNav = ({ language,code, handleLanguageChange,setLanguage,setOpenSaveSnippets,snippetId,setAction }) => {
   const handleUpdateSnippets=async()=>{
      try {
        const res= await axios.put(`http://localhost:5000/snippets/update/${snippetId}`,{code},{withCredentials:true})
@@ -39,7 +39,7 @@ const PlaygroundNav = ({ language,code, setLanguage,setOpenSaveSnippets,snippetI
 
           <select
   value={language}
-  onChange={(e) => setLanguage(e.target.value)}
+  onChange={(e) => handleLanguageChange(e.target.value)}
   className="border px-3 py-2 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500"
 >
   {languages.map((lang) => (

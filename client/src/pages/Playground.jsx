@@ -62,12 +62,24 @@ if __name__ == "__main__":
 
 };
 
- useEffect(()=>{
-  if(language==="python" || language==="javascript"){
-    setCode(boilerplates[language])
+//  useEffect(()=>{
+//   if(language==="python" || language==="javascript"){
+//     setCode(boilerplates[language])
 
+//   }
+//  },[language])
+
+ const handleLanguageChange = (lang) => {
+  setLanguage(lang);
+
+  if (lang === "python" || lang === "javascript") {
+    setCode(boilerplates[lang]);
   }
- },[language])
+};
+useEffect(()=>{
+ 
+handleLanguageChange(language)
+},[])
 
  const handleCodeRun=async()=>{
 try {
@@ -84,7 +96,7 @@ try {
       const  res= await axios.delete(`http://localhost:5000/snippets/delete/${snippetId}`,{withCredentials:true});
       if(res.data?.success){
         setCode(language==="python"?boilerplates.python:boilerplates.javascript)
-        setLanguage("python")
+        handleLanguageChange(language)
         setRender(!render)
         setSnippetId(null)
       }
@@ -113,6 +125,7 @@ try {
   
     <div className="mt-[70px]">
       <PlaygroundNav
+        handleLanguageChange={handleLanguageChange}
       setOpenSaveSnippets={setOpenSaveSnippets}
         language={language}
         setLanguage={setLanguage} 
