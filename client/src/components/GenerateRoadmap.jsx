@@ -79,8 +79,9 @@ const GenerateRoadmap = ({ isOpen, onClose, onSuccess,setOnSelect }) => {
           <FormField
             label="Level"
             name="level"
+            type="select"
+            select={true}
             required={true}
-           select={true}
               options={[
                 { value: "Beginner", label: "Beginner" },
                 { value: "Intermediate", label: "Intermediate" },
@@ -93,7 +94,8 @@ const GenerateRoadmap = ({ isOpen, onClose, onSuccess,setOnSelect }) => {
           <FormField
             label="Goal"
             name="goal"
-             equired={true}
+            type="textarea"
+            required={true}
          
             value={formData.goal}
             onChange={(e) => handleChange("goal", e.target.value)}
